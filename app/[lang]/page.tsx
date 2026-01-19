@@ -6,11 +6,7 @@ const copy = {
 
 type Locale = keyof typeof copy;
 
-export default async function LangHome({
-  params,
-}: {
-  params: Promise<{ lang: Locale }>;
-}) {
+export default async function LangHome({ params }: { params: Promise<{ lang: Locale }> }) {
   const { lang } = await params;
   const t = copy[lang] ?? copy.ru;
 
