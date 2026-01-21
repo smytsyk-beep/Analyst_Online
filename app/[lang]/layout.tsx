@@ -10,6 +10,8 @@ export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
 }
 
+export const dynamicParams = false;
+
 export default async function LangLayout({
   children,
   params,
@@ -25,7 +27,7 @@ export default async function LangLayout({
   return (
     <div className="min-h-dvh flex flex-col">
       <Header lang={locale} />
-      <main className="flex-1">{children}</main>
+      <main className="page flex-1">{children}</main>
       <Footer />
     </div>
   );
