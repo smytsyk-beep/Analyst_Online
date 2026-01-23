@@ -3,25 +3,26 @@ import nextCoreVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import prettier from 'eslint-config-prettier';
 
-const eslintConfig = defineConfig([
-  // Next.js recommended (Core Web Vitals)
-  ...nextCoreVitals,
-
-  // Next.js TypeScript rules
-  ...nextTs,
-
-  // Ignores
+export default defineConfig([
+  // СНАЧАЛА игноры (в т.ч. конфиги tailwind/postcss/next)
   globalIgnores([
-    // Next default ignores + extra
     '.next/**',
     'out/**',
     'build/**',
     'node_modules/**',
     'next-env.d.ts',
+
+    'tailwind.config.*',
+    'postcss.config.*',
+    'next.config.*',
+    'components.json',
   ]),
 
-  // IMPORTANT: must be last — disables rules that conflict with Prettier
+  // Next.js recommended
+  ...nextCoreVitals,
+
+  ...nextTs,
+
+  // ПОСЛЕДНИМ prettier
   prettier,
 ]);
-
-export default eslintConfig;
