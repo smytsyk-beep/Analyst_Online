@@ -4,25 +4,18 @@ import nextTs from 'eslint-config-next/typescript';
 import prettier from 'eslint-config-prettier';
 
 export default defineConfig([
-  // СНАЧАЛА игноры (в т.ч. конфиги tailwind/postcss/next)
-  globalIgnores([
-    '.next/**',
-    'out/**',
-    'build/**',
-    'node_modules/**',
-    'next-env.d.ts',
+  // глобальные игноры
+  globalIgnores(['.next/**', 'out/**', 'build/**', 'node_modules/**', 'next-env.d.ts']),
 
-    'tailwind.config.*',
-    'postcss.config.*',
-    'next.config.*',
-    'components.json',
-  ]),
+  // игнорим конфиги/генераторы (там часто CJS/require и др.)
+  {
+    ignores: ['tailwind.config.*', 'postcss.config.*', 'next.config.*', 'components.json'],
+  },
 
-  // Next.js recommended
+  // Next правила
   ...nextCoreVitals,
-
   ...nextTs,
 
-  // ПОСЛЕДНИМ prettier
+  // всегда последним
   prettier,
 ]);
