@@ -7,6 +7,8 @@ import Header from '@/components/site/header';
 import Footer from '@/components/site/footer';
 import { COUNTRY_COOKIE, getI18nPolicy, isLocale, type Locale } from '@/lib/i18n';
 
+export const dynamicParams = false;
+
 export default async function LangLayout({
   children,
   params,

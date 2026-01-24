@@ -4,6 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import type { Locale } from '@/lib/i18n';
 import { homeCopy } from '@/content/home.copy';
 
+export const dynamicParams = false;
+
 export default async function LangHome({ params }: { params: Promise<{ lang: Locale }> }) {
   const { lang } = await params;
 
