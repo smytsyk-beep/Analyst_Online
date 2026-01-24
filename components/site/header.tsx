@@ -1,17 +1,17 @@
+// components/site/header.tsx
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import type { I18nPolicy, Locale } from '@/lib/i18n';
 
-const LOCALES = ['ua', 'ru', 'ro'] as const;
-type Locale = (typeof LOCALES)[number];
-
-export default function Header({ lang }: { lang: Locale }) {
+export default function Header({ lang, policy }: { lang: Locale; policy: I18nPolicy }) {
   return (
-    <header className="border-b">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <Link href={`/${lang}`} className="font-semibold">
+    <header className="w-full border-b border-white/10">
+      <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
+        <Link href={`/${lang}`} className="font-semibold tracking-wide">
           Analyst Online
         </Link>
 
-        <nav className="flex items-center gap-4 text-sm">
+        <nav className="flex items-center gap-6 text-sm">
           <Link href={`/${lang}#services`} className="opacity-80 hover:opacity-100">
             Services
           </Link>
@@ -22,19 +22,15 @@ export default function Header({ lang }: { lang: Locale }) {
             Contact
           </Link>
 
-          <div className="ml-4 flex gap-2">
-            {LOCALES.map((l) => (
-              <Link
-                key={l}
-                href={`/${l}`}
-                className={`rounded-md border px-2 py-1 ${
-                  l === lang ? 'opacity-100' : 'opacity-60 hover:opacity-100'
-                }`}
-              >
-                {l.toUpperCase()}
-              </Link>
-            ))}
-          </div>
+          {policy.showSwitcher && (
+            <div className="flex items-center gap-2 pl-4">
+              {policy.allowedLocales.map((l) => (
+                <Button key={l} asChild variant={l === lang ? 'secondary' : 'outline'} size="sm">
+                  <Link href={`/${l}`}>{l.toUpperCase()}</Link>
+                </Button>
+              ))}
+            </div>
+          )}
         </nav>
       </div>
     </header>
