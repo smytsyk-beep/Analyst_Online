@@ -37,7 +37,7 @@ export type HomeCopy = {
 export const homeCopy: Record<Locale, HomeCopy> = {
   ru: {
     localeBadge: 'Locale: RU',
-    heroTitle: 'Аналитика для бизнеса',
+    heroTitle: 'Аналитика для бизнеса и не только',
     heroSubtitle: 'Автоматизация, отчеты, дашборды, обучение.',
     ctaPrimary: 'Обсудить задачу',
     ctaSecondary: 'Посмотреть кейсы',
