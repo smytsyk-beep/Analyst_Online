@@ -1,3 +1,4 @@
+// components/site/header.tsx
 import Link from 'next/link';
 import { LOCALES, type Locale, type I18nPolicy } from '@/lib/i18n';
 
