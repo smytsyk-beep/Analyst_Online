@@ -1,4 +1,4 @@
-name: lint-and-build
+name: build
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
     branches: [main, dev]
 
 jobs:
-  lint-and-build:
+  build:
     runs-on: ubuntu-latest
 
     env:
