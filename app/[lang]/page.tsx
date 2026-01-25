@@ -33,7 +33,7 @@ export default async function LangHome({ params }: { params: Promise<{ lang: Loc
 
               <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm opacity-80">
                 {t.bullets.map((b) => (
-                  <li key={b} className="list-disc ml-4">
+                  <li key={b} className="ml-4 list-disc">
                     {b}
                   </li>
                 ))}
@@ -75,7 +75,7 @@ export default async function LangHome({ params }: { params: Promise<{ lang: Loc
                 <div className="text-xl font-semibold">{s.title}</div>
                 <ul className="mt-4 space-y-2 opacity-90">
                   {s.bullets.map((b) => (
-                    <li key={b} className="list-disc ml-4">
+                    <li key={b} className="ml-4 list-disc">
                       {b}
                     </li>
                   ))}
