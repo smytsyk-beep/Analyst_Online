@@ -3,11 +3,11 @@ name: ci
 on:
   pull_request:
     branches:
-      - main        # CI на каждый PR, который мержится в main
+      - main # CI на каждый PR, который мержится в main
   push:
     branches:
       - main
-      - dev        # можно оставить dev, чтобы видеть статус прямо при пуше
+      - dev # можно оставить dev, чтобы видеть статус прямо при пуше
 
 jobs:
   lint-and-build:
