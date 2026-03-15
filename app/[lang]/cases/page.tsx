@@ -8,9 +8,7 @@ export default async function CasesPage({ params }: { params: Promise<{ lang: Lo
   return (
     <div className="page">
       <h1 className="text-4xl font-semibold">Cases</h1>
-      <p className="mt-4 opacity-80">
-        [{lang}] — Real cases coming soon.
-      </p>
+      <p className="mt-4 opacity-80">[{lang}] — Real cases coming soon.</p>
     </div>
   );
 }

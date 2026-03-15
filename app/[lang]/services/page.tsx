@@ -8,9 +8,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
   return (
     <div className="page">
       <h1 className="text-4xl font-semibold">Services</h1>
-      <p className="mt-4 opacity-80">
-        [{lang}] — Services catalog. Coming in Sprint 3.
-      </p>
+      <p className="mt-4 opacity-80">[{lang}] — Services catalog. Coming in Sprint 3.</p>
     </div>
   );
 }

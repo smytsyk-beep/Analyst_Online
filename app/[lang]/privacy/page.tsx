@@ -8,9 +8,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ lang: 
   return (
     <div className="page">
       <h1 className="text-4xl font-semibold">Privacy Policy</h1>
-      <p className="mt-4 opacity-80">
-        [{lang}] — Privacy policy. Coming in Sprint 4.
-      </p>
+      <p className="mt-4 opacity-80">[{lang}] — Privacy policy. Coming in Sprint 4.</p>
     </div>
   );
 }

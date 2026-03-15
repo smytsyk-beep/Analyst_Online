@@ -8,9 +8,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
   return (
     <div className="page">
       <h1 className="text-4xl font-semibold">Contact</h1>
-      <p className="mt-4 opacity-80">
-        [{lang}] — Contact page with form. Coming in Sprint 3.
-      </p>
+      <p className="mt-4 opacity-80">[{lang}] — Contact page with form. Coming in Sprint 3.</p>
     </div>
   );
 }

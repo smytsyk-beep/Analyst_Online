@@ -8,9 +8,7 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: Loc
   return (
     <div className="page">
       <h1 className="text-4xl font-semibold">Blog</h1>
-      <p className="mt-4 opacity-80">
-        [{lang}] — Blog coming soon.
-      </p>
+      <p className="mt-4 opacity-80">[{lang}] — Blog coming soon.</p>
     </div>
   );
 }

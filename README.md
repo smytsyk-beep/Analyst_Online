@@ -1,9 +1,9 @@
 # Analyst Online
 
-Multi-language landing for data & analytics services (UA / RU / RO), 
+Multi-language landing for data & analytics services (UA / RU / RO),
 built on Next.js 16 (App Router) with Tailwind CSS and shadcn/ui.
 
-Production: https://analyst-online.vercel.app/ru  
+Production: https://analyst-online.vercel.app/ru
 
 > Tech sprint S0: project bootstrap, base layout, i18n and CI/CD.
 
@@ -35,3 +35,4 @@ npm install
 # или
 npm ci
 
+```
