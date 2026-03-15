@@ -10,9 +10,6 @@ export type HomeCopy = {
   ctaSecondary: string;
   bullets: readonly string[];
 
-  shadcnTitle: string;
-  shadcnSubtitle: string;
-
   servicesTitle: string;
   servicesSubtitle: string;
   services: readonly {
@@ -42,9 +39,6 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     ctaPrimary: 'Обсудить задачу',
     ctaSecondary: 'Посмотреть кейсы',
     bullets: ['3–7 дней до первого результата', 'End-to-end', 'Объясню просто'],
-
-    shadcnTitle: 'shadcn/ui работает ✅',
-    shadcnSubtitle: 'Button + Card подключены',
 
     servicesTitle: 'Services',
     servicesSubtitle: 'Что делаю чаще всего — и как это выглядит на практике.',
@@ -92,9 +86,6 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     ctaSecondary: 'Подивитись кейси',
     bullets: ['3–7 днів до першого результату', 'End-to-end', 'Поясню просто'],
 
-    shadcnTitle: 'shadcn/ui працює ✅',
-    shadcnSubtitle: 'Button + Card підключені',
-
     servicesTitle: 'Services',
     servicesSubtitle: 'Що роблю найчастіше — і як це виглядає на практиці.',
     services: [
@@ -140,9 +131,6 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     ctaPrimary: 'Discută o sarcină',
     ctaSecondary: 'Vezi cazuri',
     bullets: ['3–7 zile până la primul rezultat', 'End-to-end', 'Explic simplu'],
-
-    shadcnTitle: 'shadcn/ui funcționează ✅',
-    shadcnSubtitle: 'Button + Card sunt conectate',
 
     servicesTitle: 'Services',
     servicesSubtitle: 'Ce fac cel mai des — și cum arată în practică.',

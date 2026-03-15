@@ -27,8 +27,14 @@ export default async function LangHome({ params }: { params: Promise<{ lang: Loc
               <p className="mt-4 text-lg opacity-80">{t.heroSubtitle}</p>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <Button>{t.ctaPrimary}</Button>
-                <Button variant="secondary">{t.ctaSecondary}</Button>
+                <Button asChild>
+                  <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
+                    {t.ctaPrimary}
+                  </a>
+                </Button>
+                <Button variant="secondary" asChild>
+                  <a href="mailto:s.mytsyk@gmail.com">{t.ctaSecondary}</a>
+                </Button>
               </div>
 
               <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm opacity-80">
@@ -39,24 +45,6 @@ export default async function LangHome({ params }: { params: Promise<{ lang: Loc
                 ))}
               </ul>
             </div>
-
-            {/* shadcn/ui demo card */}
-            <Card className="rounded-2xl border bg-neutral-950/50">
-              <CardContent className="p-6">
-                <div className="text-sm font-semibold">{t.shadcnTitle}</div>
-                <div className="mt-1 text-sm opacity-80">{t.shadcnSubtitle}</div>
-
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Button size="sm">Primary</Button>
-                  <Button size="sm" variant="secondary">
-                    Secondary
-                  </Button>
-                  <Button size="sm" variant="outline">
-                    Outline
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </CardContent>
       </Card>
@@ -116,8 +104,14 @@ export default async function LangHome({ params }: { params: Promise<{ lang: Loc
             <p className="mt-2 opacity-80">{t.contactSubtitle}</p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button>{t.contactCtaTelegram}</Button>
-              <Button variant="secondary">{t.contactCtaEmail}</Button>
+              <Button asChild>
+                <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
+                  {t.contactCtaTelegram}
+                </a>
+              </Button>
+              <Button variant="secondary" asChild>
+                <a href="mailto:s.mytsyk@gmail.com">{t.contactCtaEmail}</a>
+              </Button>
             </div>
           </CardContent>
         </Card>

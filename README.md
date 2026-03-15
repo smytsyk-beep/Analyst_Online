@@ -1,25 +1,37 @@
 # Analyst Online
 
-Мультиязычный лендинг услуг аналитики (UA / RU / RO) на Next.js.
+Multi-language landing for data & analytics services (UA / RU / RO), 
+built on Next.js 16 (App Router) with Tailwind CSS and shadcn/ui.
 
-## Tech stack
+Production: https://analyst-online.vercel.app/ru  
 
-- Next.js (App Router) + TypeScript
-- TailwindCSS
-- shadcn/ui
-- ESLint + Prettier
+> Tech sprint S0: project bootstrap, base layout, i18n and CI/CD.
 
 ---
 
-## Setup
+## Tech stack
 
-### Requirements
+- **Framework:** Next.js 16 (App Router, TypeScript)
+- **UI:** Tailwind CSS, shadcn/ui
+- **Routing & i18n:**
+  - Dynamic segment `/[lang]` with locales: `ua`, `ru`, `ro`
+  - Simple i18n policy based on Geo/IP + cookie
+- **Tooling:**
+  - ESLint (flat config)
+  - Prettier 3
+  - GitHub Actions (lint + build on PR)
+- **Deploy:** Vercel
+  - `main` → production
+  - PR branches → preview deployments
 
-- Node.js 20+ (рекомендуется)
-- npm 9+
+---
 
-### Install
+## Getting started
+
+### 1. Install dependencies
 
 ```bash
+npm install
+# или
 npm ci
-```
+
