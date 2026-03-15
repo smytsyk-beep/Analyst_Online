@@ -1,4 +1,4 @@
-// proxy.ts
+// proxy.ts — Next.js 16 uses proxy.ts instead of middleware.ts
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import {
@@ -14,7 +14,7 @@ function getLocaleFromPathname(pathname: string) {
   return isLocale(seg) ? seg : null;
 }
 
-export default function proxy(req: NextRequest) {
+export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // пропускаем next/static, файлы и api
@@ -44,7 +44,7 @@ export default function proxy(req: NextRequest) {
 
     if (currentLocale !== forced) {
       const url = req.nextUrl.clone();
-      const rest = currentLocale ? pathname.slice(currentLocale.length + 1) : pathname; // "/ru/abc" -> "/abc"
+      const rest = currentLocale ? pathname.slice(currentLocale.length + 1) : pathname;
       url.pathname = `/${forced}${rest === '/' ? '' : rest}`;
       return withCookie(NextResponse.redirect(url));
     }

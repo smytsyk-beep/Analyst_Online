@@ -1,6 +1,7 @@
 // components/site/header.tsx
 import Link from 'next/link';
 import { LOCALES, type Locale, type I18nPolicy } from '@/lib/i18n';
+import MobileNav from '@/components/site/mobile-nav';
 
 export type HeaderProps = {
   lang: Locale;
@@ -14,10 +15,11 @@ export type HeaderProps = {
 
 const NAV = [
   { id: 'home', label: 'Home', href: '' },
-  { id: 'services', label: 'Services', href: '#services' },
-  { id: 'cases', label: 'Cases', href: '#cases' },
-  { id: 'blog', label: 'Blog', href: '#blog' }, // пока заглушка
-  { id: 'contact', label: 'Contact', href: '#contact' },
+  { id: 'omnidash', label: 'OmniDash', href: '/omnidash' },
+  { id: 'services', label: 'Services', href: '/services' },
+  { id: 'cases', label: 'Cases', href: '/cases' },
+  { id: 'blog', label: 'Blog', href: '/blog' },
+  { id: 'contact', label: 'Contact', href: '/contact' },
 ];
 
 export default function Header({ lang, policy }: HeaderProps) {
@@ -33,7 +35,7 @@ export default function Header({ lang, policy }: HeaderProps) {
         </Link>
 
         {/* Главное меню */}
-        <nav className="flex items-center gap-4">
+        <nav className="hidden items-center gap-4 md:flex">
           {NAV.map((item) => {
             if (item.id === 'home') {
               return (
@@ -43,12 +45,15 @@ export default function Header({ lang, policy }: HeaderProps) {
               );
             }
 
-            // Blog пока можно оставить как текст-заглушку
-            if (item.id === 'blog') {
+            if (item.id === 'omnidash') {
               return (
-                <span key={item.id} className="opacity-40">
+                <Link
+                  key={item.id}
+                  href={`/${lang}${item.href}`}
+                  className="font-semibold text-white hover:opacity-90"
+                >
                   {item.label}
-                </span>
+                </Link>
               );
             }
 
@@ -64,19 +69,25 @@ export default function Header({ lang, policy }: HeaderProps) {
           })}
         </nav>
 
-        {/* Переключатель языков */}
-        <div className="flex gap-1">
-          {localesToShow.map((l) => (
-            <Link
-              key={l}
-              href={`/${l}`}
-              className={`rounded-md border border-white/20 px-2 py-1 text-xs ${
-                l === lang ? 'bg-white text-black' : 'text-white/70 hover:text-white'
-              }`}
-            >
-              {l.toUpperCase()}
-            </Link>
-          ))}
+        {/* Правая часть: lang switcher + mobile burger */}
+        <div className="flex items-center gap-2">
+          {/* Переключатель языков */}
+          <div className="flex gap-1">
+            {localesToShow.map((l) => (
+              <Link
+                key={l}
+                href={`/${l}`}
+                className={`rounded-md border border-white/20 px-2 py-1 text-xs ${
+                  l === lang ? 'bg-white text-black' : 'text-white/70 hover:text-white'
+                }`}
+              >
+                {l.toUpperCase()}
+              </Link>
+            ))}
+          </div>
+
+          {/* Мобильное меню */}
+          <MobileNav lang={lang} nav={NAV} />
         </div>
       </div>
     </header>
