@@ -13,11 +13,12 @@ const vars = {
 
 Object.entries(vars).forEach(([key, value]) => {
   if (value) {
-    const displayValue = key === 'GOOGLE_PRIVATE_KEY' 
-      ? `${value.substring(0, 50)}...` 
-      : key.includes('TOKEN') 
-        ? `${value.substring(0, 10)}...`
-        : value;
+    const displayValue =
+      key === 'GOOGLE_PRIVATE_KEY'
+        ? `${value.substring(0, 50)}...`
+        : key.includes('TOKEN')
+          ? `${value.substring(0, 10)}...`
+          : value;
     console.log(`✅ ${key}: ${displayValue}`);
   } else {
     console.log(`❌ ${key}: NOT SET`);
