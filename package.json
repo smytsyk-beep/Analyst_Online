@@ -9,7 +9,8 @@
     "lint": "eslint . --max-warnings=0",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "init-sheet": "tsx scripts/init-sheet.ts"
+    "init-sheet": "dotenv -e .env.local -- tsx scripts/init-sheet.ts",
+    "test-env": "dotenv -e .env.local -- tsx scripts/test-env.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
@@ -32,6 +33,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.23",
+    "dotenv": "^17.3.1",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.3",
     "eslint-config-prettier": "^10.1.8",

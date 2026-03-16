@@ -16,12 +16,14 @@ npm run init-sheet
 ```
 
 Expected output:
+
 ```
 Initializing Google Sheet...
 ✅ Sheet initialized successfully
 ```
 
 This will create the following headers in your sheet:
+
 - Timestamp
 - Name
 - Email
@@ -48,26 +50,31 @@ npm run dev
 ## Step 4: Verify Results
 
 ### Check Telegram
+
 - Open your Telegram chat
 - You should receive a message from your bot with the lead details
 
 ### Check Google Sheet
+
 - Open your Google Sheet: https://docs.google.com/spreadsheets/d/13K8W2nCEst3HVY8RW-wxEdc6vqR-ct2zQ7u0LNNb8lQ/edit
 - You should see a new row with the lead data
 
 ## Troubleshooting
 
 ### Form doesn't submit
+
 - Check browser console for errors
 - Check terminal for server errors
 - Verify `.env.local` variables are correct
 
 ### No Telegram notification
+
 - Verify `TELEGRAM_BOT_TOKEN` is correct
 - Verify `TELEGRAM_CHAT_ID` is correct
 - Check that you sent `/start` to your bot
 
 ### No Google Sheet entry
+
 - Verify `GOOGLE_SHEET_ID` is correct
 - Verify `GOOGLE_SERVICE_ACCOUNT_EMAIL` is correct
 - Verify `GOOGLE_PRIVATE_KEY` is correct (with `\n` preserved)
@@ -75,6 +82,7 @@ npm run dev
 - Run `npm run init-sheet` again
 
 ### "Failed to process your request"
+
 - This means both Telegram and Google Sheets failed
 - Check server logs for detailed error messages
 - Verify all environment variables
@@ -82,6 +90,7 @@ npm run dev
 ## Testing Different Locales
 
 Test the form on all locales:
+
 - http://localhost:3000/ru/contact (Russian)
 - http://localhost:3000/ua/contact (Ukrainian)
 - http://localhost:3000/ro/contact (Romanian)

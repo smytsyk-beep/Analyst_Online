@@ -1,9 +1,10 @@
 // scripts/init-sheet.ts
 /**
  * Script to initialize Google Sheet with headers
- * Run: npx tsx scripts/init-sheet.ts
+ * Run: npm run init-sheet
  */
 
+import 'dotenv/config';
 import { initializeSheet } from '../lib/google-sheets';
 
 async function main() {
