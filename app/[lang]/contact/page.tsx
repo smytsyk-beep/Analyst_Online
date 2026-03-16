@@ -1,12 +1,12 @@
 // app/[lang]/contact/page.tsx
 import type { Metadata } from 'next';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, MessageCircle, Linkedin } from 'lucide-react';
 import type { Locale } from '@/lib/i18n';
 import { contactCopy } from '@/content/contact.copy';
 import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
+import ContactForm from '@/components/contact/contact-form';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
@@ -96,55 +96,26 @@ export default async function ContactPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Form placeholder */}
-      <div>
-        <h2 className="text-2xl font-semibold">{t.formTitle}</h2>
-        <p className="mt-2 opacity-80">{t.formSubtitle}</p>
-
-        <Card className="mt-6 rounded-2xl border border-white/10 bg-neutral-950/30">
-          <CardContent className="p-6 md:p-8">
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium opacity-80">{t.formNameLabel}</label>
-                <input
-                  type="text"
-                  placeholder={t.formNamePlaceholder}
-                  disabled
-                  className="mt-1.5 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm opacity-50"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium opacity-80">{t.formEmailLabel}</label>
-                <input
-                  type="email"
-                  placeholder={t.formEmailPlaceholder}
-                  disabled
-                  className="mt-1.5 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm opacity-50"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium opacity-80">{t.formMessageLabel}</label>
-                <textarea
-                  placeholder={t.formMessagePlaceholder}
-                  disabled
-                  rows={5}
-                  className="mt-1.5 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm opacity-50"
-                />
-              </div>
-
-              <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-4">
-                <p className="text-sm text-amber-200/80">{t.formNote}</p>
-              </div>
-
-              <Button disabled className="w-full opacity-50 sm:w-auto">
-                {t.formSubmit}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Contact Form */}
+      <ContactForm
+        lang={lang}
+        labels={{
+          title: t.formTitle,
+          subtitle: t.formSubtitle,
+          nameLabel: t.formNameLabel,
+          namePlaceholder: t.formNamePlaceholder,
+          emailLabel: t.formEmailLabel,
+          emailPlaceholder: t.formEmailPlaceholder,
+          messageLabel: t.formMessageLabel,
+          messagePlaceholder: t.formMessagePlaceholder,
+          submit: t.formSubmit,
+          sending: t.formSending,
+          successTitle: t.formSuccessTitle,
+          successMessage: t.formSuccessMessage,
+          errorTitle: t.formErrorTitle,
+          errorMessage: t.formErrorMessage,
+        }}
+      />
     </div>
   );
 }
