@@ -2,171 +2,198 @@
 import type { Locale } from '@/lib/i18n';
 
 export type HomeCopy = {
-  localeBadge: string;
-
+  // Hero
   heroTitle: string;
   heroSubtitle: string;
   ctaPrimary: string;
   ctaSecondary: string;
-  bullets: readonly string[];
 
+  // Flagship product (OmniDash)
+  flagshipBadge: string;
+  flagshipTitle: string;
+  flagshipSubtitle: string;
+  flagshipBullets: readonly string[];
+  flagshipCta: string;
+
+  // Services preview
   servicesTitle: string;
   servicesSubtitle: string;
+  servicesLinkAll: string;
   services: readonly {
     title: string;
-    bullets: readonly string[];
+    description: string;
   }[];
 
-  casesTitle: string;
-  casesSubtitle: string;
-  cases: readonly {
-    title: string;
-    text: string;
-    badge: string;
-  }[];
+  // Social proof placeholder
+  socialProofTitle: string;
+  socialProofSubtitle: string;
+  socialProofNote: string;
 
-  contactTitle: string;
-  contactSubtitle: string;
-  contactCtaTelegram: string;
-  contactCtaEmail: string;
+  // CTA section
+  ctaTitle: string;
+  ctaSubtitle: string;
+  ctaTelegram: string;
+  ctaEmail: string;
+  ctaOmniDash: string;
 };
 
 export const homeCopy: Record<Locale, HomeCopy> = {
   ru: {
-    localeBadge: 'Locale: RU',
-    heroTitle: 'Аналитика для бизнеса и не только',
-    heroSubtitle: 'Автоматизация, отчеты, дашборды, обучение.',
+    heroTitle: 'Аналитика, дашборды и автоматизация для бизнеса',
+    heroSubtitle:
+      'Помогаю малому и среднему бизнесу видеть данные, принимать решения и экономить время на аналитике.',
     ctaPrimary: 'Обсудить задачу',
-    ctaSecondary: 'Посмотреть кейсы',
-    bullets: ['3–7 дней до первого результата', 'End-to-end', 'Объясню просто'],
+    ctaSecondary: 'Смотреть услуги',
 
-    servicesTitle: 'Services',
-    servicesSubtitle: 'Что делаю чаще всего — и как это выглядит на практике.',
+    flagshipBadge: 'Flagship продукт',
+    flagshipTitle: 'OmniDash — готовая аналитика для e-commerce',
+    flagshipSubtitle:
+      'Реклама, продажи и расходы в одном дашборде. Видите не только выручку, но и реальную прибыль.',
+    flagshipBullets: [
+      'Настройка от €99, подписка от €49/мес',
+      'Запуск за 1–2 недели',
+      'Looker Studio + интеграции',
+      'Модель чистой прибыли',
+    ],
+    flagshipCta: 'Узнать подробнее',
+
+    servicesTitle: 'Другие услуги',
+    servicesSubtitle: 'Дашборды, автоматизация, консалтинг и обучение.',
+    servicesLinkAll: 'Все услуги →',
     services: [
       {
-        title: 'Снижаю ручной труд',
-        bullets: ['Google Sheets / Apps Script', 'ETL / интеграции', 'PDF-отчеты в Telegram'],
+        title: 'Аналитический аудит',
+        description: 'Разбираю текущую аналитику и показываю, где теряете деньги.',
       },
       {
-        title: 'Ясность для решений',
-        bullets: ['Power BI / Looker', 'KPI / funnel', 'Cohort / LTV'],
+        title: 'Автоматизация отчётов',
+        description: 'Избавляю от ручной работы: отчёты в Telegram, PDF, Google Sheets.',
       },
       {
-        title: 'AI-помощники',
-        bullets: ['Telegram bots', 'RAG / поиск', 'Проверки / алерты'],
+        title: 'Дашборды на заказ',
+        description: 'Собираю кастомные дашборды: Power BI, Looker Studio, Tableau.',
+      },
+      {
+        title: 'Консалтинг и обучение',
+        description: 'Помогаю разобраться в аналитике или обучить команду.',
       },
     ],
 
-    casesTitle: 'Cases',
-    casesSubtitle: 'Пара типовых кейсов (с фокусом на результат).',
-    cases: [
-      {
-        title: 'Отчеты в Telegram',
-        text: 'Collect → process → PDF → Telegram.',
-        badge: 'KPI: −70% ручной работы',
-      },
-      {
-        title: 'Дашборд для менеджмента',
-        text: 'KPI, тренды, зоны риска.',
-        badge: 'KPI: + решения быстрее',
-      },
-    ],
+    socialProofTitle: 'Кейсы и результаты',
+    socialProofSubtitle: 'Реальные примеры работы появятся здесь в ближайшее время.',
+    socialProofNote:
+      'Сейчас собираю кейсы и скриншоты. Если хотите увидеть примеры работы — напишите, покажу в личке.',
 
-    contactTitle: 'Contact',
-    contactSubtitle: 'Напиши: ниша, источник данных, проблема — отвечу планом.',
-    contactCtaTelegram: 'Написать в Telegram',
-    contactCtaEmail: 'Email',
+    ctaTitle: 'Готовы обсудить задачу?',
+    ctaSubtitle: 'Напишите — разберём вашу ситуацию и найдём решение.',
+    ctaTelegram: 'Написать в Telegram',
+    ctaEmail: 'Написать на Email',
+    ctaOmniDash: 'Узнать про OmniDash',
   },
 
   ua: {
-    localeBadge: 'Locale: UA',
-    heroTitle: 'Аналітика для бізнесу',
-    heroSubtitle: 'Автоматизація, звіти, дашборди, навчання.',
+    heroTitle: 'Аналітика, дашборди та автоматизація для бізнесу',
+    heroSubtitle:
+      'Допомагаю малому та середньому бізнесу бачити дані, ухвалювати рішення та економити час на аналітиці.',
     ctaPrimary: 'Обговорити задачу',
-    ctaSecondary: 'Подивитись кейси',
-    bullets: ['3–7 днів до першого результату', 'End-to-end', 'Поясню просто'],
+    ctaSecondary: 'Дивитись послуги',
 
-    servicesTitle: 'Services',
-    servicesSubtitle: 'Що роблю найчастіше — і як це виглядає на практиці.',
+    flagshipBadge: 'Flagship продукт',
+    flagshipTitle: 'OmniDash — готова аналітика для e-commerce',
+    flagshipSubtitle:
+      'Реклама, продажі та витрати в одному дашборді. Бачите не лише виручку, а й реальний прибуток.',
+    flagshipBullets: [
+      'Налаштування від €99, підписка від €49/міс',
+      'Запуск за 1–2 тижні',
+      'Looker Studio + інтеграції',
+      'Модель чистого прибутку',
+    ],
+    flagshipCta: 'Дізнатися більше',
+
+    servicesTitle: 'Інші послуги',
+    servicesSubtitle: 'Дашборди, автоматизація, консалтинг і навчання.',
+    servicesLinkAll: 'Всі послуги →',
     services: [
       {
-        title: 'Зменшую ручну роботу',
-        bullets: ['Google Sheets / Apps Script', 'ETL / інтеграції', 'PDF-звіти в Telegram'],
+        title: 'Аналітичний аудит',
+        description: 'Розбираю поточну аналітику і показую, де втрачаєте гроші.',
       },
       {
-        title: 'Ясність для рішень',
-        bullets: ['Power BI / Looker', 'KPI / funnel', 'Cohort / LTV'],
+        title: 'Автоматизація звітів',
+        description: 'Позбавляю від ручної роботи: звіти в Telegram, PDF, Google Sheets.',
       },
       {
-        title: 'AI-помічники',
-        bullets: ['Telegram bots', 'RAG / пошук', 'Перевірки / алерти'],
+        title: 'Дашборди на замовлення',
+        description: 'Збираю кастомні дашборди: Power BI, Looker Studio, Tableau.',
+      },
+      {
+        title: 'Консалтинг і навчання',
+        description: 'Допомагаю розібратися в аналітиці або навчити команду.',
       },
     ],
 
-    casesTitle: 'Cases',
-    casesSubtitle: 'Кілька типових кейсів (фокус на результат).',
-    cases: [
-      {
-        title: 'Звіти в Telegram',
-        text: 'Collect → process → PDF → Telegram.',
-        badge: 'KPI: −70% ручної роботи',
-      },
-      {
-        title: 'Дашборд для менеджменту',
-        text: 'KPI, тренди, зони ризику.',
-        badge: 'KPI: + рішення швидше',
-      },
-    ],
+    socialProofTitle: 'Кейси та результати',
+    socialProofSubtitle: "Реальні приклади роботи з'являться тут найближчим часом.",
+    socialProofNote:
+      'Зараз збираю кейси та скріншоти. Якщо хочете побачити приклади роботи — напишіть, покажу в особистих повідомленнях.',
 
-    contactTitle: 'Contact',
-    contactSubtitle: 'Напиши: ніша, джерело даних, проблема — відповім планом.',
-    contactCtaTelegram: 'Написати в Telegram',
-    contactCtaEmail: 'Email',
+    ctaTitle: 'Готові обговорити задачу?',
+    ctaSubtitle: 'Напишіть — розберемо вашу ситуацію і знайдемо рішення.',
+    ctaTelegram: 'Написати в Telegram',
+    ctaEmail: 'Написати на Email',
+    ctaOmniDash: 'Дізнатися про OmniDash',
   },
 
   ro: {
-    localeBadge: 'Locale: RO',
-    heroTitle: 'Analitică pentru afaceri',
-    heroSubtitle: 'Automatizare, rapoarte, dashboard-uri, training.',
-    ctaPrimary: 'Discută o sarcină',
-    ctaSecondary: 'Vezi cazuri',
-    bullets: ['3–7 zile până la primul rezultat', 'End-to-end', 'Explic simplu'],
+    heroTitle: 'Analytics, dashboard-uri și automatizare pentru business',
+    heroSubtitle:
+      'Ajut business-urile mici și medii să vadă datele, să ia decizii și să economisească timp pe analytics.',
+    ctaPrimary: 'Discută sarcina',
+    ctaSecondary: 'Vezi servicii',
 
-    servicesTitle: 'Services',
-    servicesSubtitle: 'Ce fac cel mai des — și cum arată în practică.',
+    flagshipBadge: 'Produs flagship',
+    flagshipTitle: 'OmniDash — analytics gata pentru e-commerce',
+    flagshipSubtitle:
+      'Reclama, vânzările și cheltuielile într-un singur dashboard. Vezi nu doar venitul, ci și profitul real.',
+    flagshipBullets: [
+      'Configurare de la €99, abonament de la €49/lună',
+      'Lansare în 1–2 săptămâni',
+      'Looker Studio + integrări',
+      'Model de profit net',
+    ],
+    flagshipCta: 'Află mai multe',
+
+    servicesTitle: 'Alte servicii',
+    servicesSubtitle: 'Dashboard-uri, automatizare, consultanță și training.',
+    servicesLinkAll: 'Toate serviciile →',
     services: [
       {
-        title: 'Reduc munca manuală',
-        bullets: ['Google Sheets / Apps Script', 'ETL / integrări', 'Rapoarte PDF în Telegram'],
+        title: 'Audit analitic',
+        description: 'Analizez analytics-ul curent și arăt unde pierzi bani.',
       },
       {
-        title: 'Claritate pentru decizii',
-        bullets: ['Power BI / Looker', 'KPI / funnel', 'Cohort / LTV'],
+        title: 'Automatizarea rapoartelor',
+        description: 'Te scap de munca manuală: rapoarte în Telegram, PDF, Google Sheets.',
       },
       {
-        title: 'Asistenți AI',
-        bullets: ['Telegram bots', 'RAG / căutare', 'Verificări / alerte'],
+        title: 'Dashboard-uri personalizate',
+        description: 'Construiesc dashboard-uri custom: Power BI, Looker Studio, Tableau.',
+      },
+      {
+        title: 'Consultanță și training',
+        description: 'Te ajut să înțelegi analytics-ul sau să instruiești echipa.',
       },
     ],
 
-    casesTitle: 'Cases',
-    casesSubtitle: 'Câteva exemple tipice (focus pe rezultat).',
-    cases: [
-      {
-        title: 'Rapoarte în Telegram',
-        text: 'Collect → process → PDF → Telegram.',
-        badge: 'KPI: −70% muncă manuală',
-      },
-      {
-        title: 'Dashboard pentru management',
-        text: 'KPI, trenduri, zone de risc.',
-        badge: 'KPI: + decizii mai rapide',
-      },
-    ],
+    socialProofTitle: 'Cazuri și rezultate',
+    socialProofSubtitle: 'Exemple reale de lucru vor apărea aici în curând.',
+    socialProofNote:
+      'Acum colectez cazuri și screenshot-uri. Dacă vrei să vezi exemple de lucru — scrie, îți arăt în privat.',
 
-    contactTitle: 'Contact',
-    contactSubtitle: 'Scrie: nișă, sursa datelor, problema — îți răspund cu un plan.',
-    contactCtaTelegram: 'Scrie pe Telegram',
-    contactCtaEmail: 'Email',
+    ctaTitle: 'Gata să discutăm sarcina?',
+    ctaSubtitle: 'Scrie — analizăm situația ta și găsim o soluție.',
+    ctaTelegram: 'Scrie pe Telegram',
+    ctaEmail: 'Scrie pe Email',
+    ctaOmniDash: 'Află despre OmniDash',
   },
 };
