@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { LOCALES, type Locale, type I18nPolicy } from '@/lib/i18n';
 import MobileNav from '@/components/site/mobile-nav';
+import LanguageSwitcher from '@/components/site/language-switcher';
 
 export type HeaderProps = {
   lang: Locale;
@@ -72,19 +73,7 @@ export default function Header({ lang, policy }: HeaderProps) {
         {/* Правая часть: lang switcher + mobile burger */}
         <div className="flex items-center gap-2">
           {/* Переключатель языков */}
-          <div className="flex gap-1">
-            {localesToShow.map((l) => (
-              <Link
-                key={l}
-                href={`/${l}`}
-                className={`rounded-md border border-white/20 px-2 py-1 text-xs ${
-                  l === lang ? 'bg-white text-black' : 'text-white/70 hover:text-white'
-                }`}
-              >
-                {l.toUpperCase()}
-              </Link>
-            ))}
-          </div>
+          <LanguageSwitcher currentLang={lang} availableLocales={localesToShow} />
 
           {/* Мобильное меню */}
           <MobileNav lang={lang} nav={NAV} />

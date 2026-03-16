@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import { omniDashCopy } from '@/content/omnidash.copy';
 
+import JsonLd from '@/components/seo/json-ld';
+import { productSchema, breadcrumbSchema } from '@/lib/schema';
 import OmniDashHero from '@/components/omnidash/hero';
 import OmniDashPainPoints from '@/components/omnidash/pain-points';
 import OmniDashFeatures from '@/components/omnidash/features';
@@ -32,6 +34,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: titles[lang],
     description: descriptions[lang],
+    alternates: {
+      canonical: `https://analyst-online.com/${lang}/omnidash`,
+      languages: {
+        uk: '/ua/omnidash',
+        ru: '/ru/omnidash',
+        ro: '/ro/omnidash',
+      },
+    },
     openGraph: {
       title: titles[lang],
       description: t.heroSubtitle,
@@ -46,6 +56,13 @@ export default async function OmniDashPage({ params }: Props) {
 
   return (
     <div className="bg-black">
+      <JsonLd data={productSchema(lang)} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: 'Analyst Online', href: `/${lang}` },
+          { name: 'OmniDash', href: `/${lang}/omnidash` },
+        ])}
+      />
       <OmniDashHero t={t} lang={lang} />
       <OmniDashPainPoints t={t} />
       <OmniDashFeatures t={t} />
