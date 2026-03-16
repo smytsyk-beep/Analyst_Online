@@ -16,7 +16,6 @@ export type ContactCopy = {
   channels: ContactChannel[];
   formTitle: string;
   formSubtitle: string;
-  formNote: string;
   formNameLabel: string;
   formNamePlaceholder: string;
   formEmailLabel: string;
@@ -24,6 +23,11 @@ export type ContactCopy = {
   formMessageLabel: string;
   formMessagePlaceholder: string;
   formSubmit: string;
+  formSending: string;
+  formSuccessTitle: string;
+  formSuccessMessage: string;
+  formErrorTitle: string;
+  formErrorMessage: string;
 };
 
 export const contactCopy: Record<Locale, ContactCopy> = {
@@ -56,7 +60,7 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     ],
     formTitle: 'Или оставьте сообщение',
     formSubtitle: 'Опишите задачу — отвечу в течение 24 часов.',
-    formNote: 'Форма пока в разработке. Используйте Telegram или Email для связи.',
+
     formNameLabel: 'Имя',
     formNamePlaceholder: 'Как к вам обращаться',
     formEmailLabel: 'Email',
@@ -64,6 +68,12 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     formMessageLabel: 'Сообщение',
     formMessagePlaceholder: 'Опишите вашу задачу или вопрос...',
     formSubmit: 'Отправить',
+    formSending: 'Отправляю...',
+    formSuccessTitle: 'Спасибо!',
+    formSuccessMessage: 'Ваше сообщение отправлено. Отвечу в течение 24 часов.',
+    formErrorTitle: 'Ошибка',
+    formErrorMessage:
+      'Не удалось отправить сообщение. Попробуйте ещё раз или напишите напрямую в Telegram.',
   },
 
   ua: {
@@ -95,7 +105,7 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     ],
     formTitle: 'Або залиште повідомлення',
     formSubtitle: 'Опишіть задачу — відповім протягом 24 годин.',
-    formNote: "Форма поки в розробці. Використовуйте Telegram або Email для зв'язку.",
+
     formNameLabel: "Ім'я",
     formNamePlaceholder: 'Як до вас звертатися',
     formEmailLabel: 'Email',
@@ -103,6 +113,12 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     formMessageLabel: 'Повідомлення',
     formMessagePlaceholder: 'Опишіть вашу задачу або питання...',
     formSubmit: 'Надіслати',
+    formSending: 'Надсилаю...',
+    formSuccessTitle: 'Дякую!',
+    formSuccessMessage: 'Ваше повідомлення надіслано. Відповім протягом 24 годин.',
+    formErrorTitle: 'Помилка',
+    formErrorMessage:
+      'Не вдалося надіслати повідомлення. Спробуйте ще раз або напишіть безпосередньо в Telegram.',
   },
 
   ro: {
@@ -134,7 +150,7 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     ],
     formTitle: 'Sau lasă un mesaj',
     formSubtitle: 'Descrie sarcina — răspund în 24 de ore.',
-    formNote: 'Formularul este în dezvoltare. Folosește Telegram sau Email pentru contact.',
+
     formNameLabel: 'Nume',
     formNamePlaceholder: 'Cum să te adresez',
     formEmailLabel: 'Email',
@@ -142,5 +158,10 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     formMessageLabel: 'Mesaj',
     formMessagePlaceholder: 'Descrie sarcina sau întrebarea ta...',
     formSubmit: 'Trimite',
+    formSending: 'Trimit...',
+    formSuccessTitle: 'Mulțumesc!',
+    formSuccessMessage: 'Mesajul tău a fost trimis. Răspund în 24 de ore.',
+    formErrorTitle: 'Eroare',
+    formErrorMessage: 'Nu am putut trimite mesajul. Încearcă din nou sau scrie direct pe Telegram.',
   },
 };
