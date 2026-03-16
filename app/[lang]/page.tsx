@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import { homeCopy } from '@/content/home.copy';
 
+import JsonLd from '@/components/seo/json-ld';
+import { organizationSchema } from '@/lib/schema';
 import HomeHero from '@/components/home/hero';
 import HomeFlagship from '@/components/home/flagship';
 import HomeServicesPreview from '@/components/home/services-preview';
@@ -24,6 +26,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: titles[lang],
     description: t.heroSubtitle,
+    alternates: {
+      canonical: `https://analyst-online.com/${lang}`,
+      languages: {
+        uk: '/ua',
+        ru: '/ru',
+        ro: '/ro',
+      },
+    },
   };
 }
 
@@ -33,6 +43,7 @@ export default async function LangHome({ params }: Props) {
 
   return (
     <div>
+      <JsonLd data={organizationSchema()} />
       <HomeHero t={t} lang={lang} />
       <HomeFlagship t={t} lang={lang} />
       <HomeServicesPreview t={t} lang={lang} />

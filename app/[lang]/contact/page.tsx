@@ -5,6 +5,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Mail, MessageCircle, Linkedin } from 'lucide-react';
 import type { Locale } from '@/lib/i18n';
 import { contactCopy } from '@/content/contact.copy';
+import JsonLd from '@/components/seo/json-ld';
+import { breadcrumbSchema } from '@/lib/schema';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
@@ -21,6 +23,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: titles[lang],
     description: t.pageSubtitle,
+    alternates: {
+      canonical: `https://analyst-online.com/${lang}/contact`,
+      languages: {
+        uk: '/ua/contact',
+        ru: '/ru/contact',
+        ro: '/ro/contact',
+      },
+    },
   };
 }
 
@@ -35,7 +45,14 @@ export default async function ContactPage({ params }: Props) {
   const t = contactCopy[lang];
 
   return (
-    <div className="page space-y-16">
+    <div className="page space-y-16 py-12">
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: 'Analyst Online', href: `/${lang}` },
+          { name: t.pageTitle, href: `/${lang}/contact` },
+        ])}
+      />
+
       {/* Header */}
       <div className="max-w-2xl">
         <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">{t.pageTitle}</h1>

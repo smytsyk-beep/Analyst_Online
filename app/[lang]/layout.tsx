@@ -27,7 +27,7 @@ export default async function LangLayout({
     <div className="min-h-dvh flex flex-col">
       <Header lang={lang as Locale} policy={policy} />
       <main className="flex-1">{children}</main>
-      <Footer />
+      <Footer lang={lang as Locale} />
     </div>
   );
 }
