@@ -1,4 +1,4 @@
-# Testing Contact Form
+npm run init-sheet# Testing Contact Form
 
 ## Prerequisites
 
