@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: 'Analyst Online',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://analyst-online.vercel.app/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Analyst Online - Analytics, dashboards & automation',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/og-image.png'],
+    images: ['https://analyst-online.vercel.app/og-image.png'],
   },
 };
 
