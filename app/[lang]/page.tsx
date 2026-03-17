@@ -37,7 +37,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: titles[lang],
       description: t.heroSubtitle,
-      images: ['/og-image.png'],
+      images: [
+        {
+          url: 'https://analyst-online.vercel.app/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: 'Analyst Online',
+        },
+      ],
       locale: lang === 'ua' ? 'uk_UA' : lang === 'ro' ? 'ro_RO' : 'ru_RU',
     },
   };
