@@ -8,7 +8,7 @@ type Props = { t: HomeCopy };
 export default function HomeSocialProof({ t }: Props) {
   return (
     <section className="py-16">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <h2 className="text-3xl font-semibold">{t.socialProofTitle}</h2>
         <p className="mt-2 opacity-80">{t.socialProofSubtitle}</p>
 

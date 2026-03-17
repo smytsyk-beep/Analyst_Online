@@ -30,7 +30,7 @@ export default function Header({ lang, policy }: HeaderProps) {
 
   return (
     <header className="border-b border-white/10 bg-black/80 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4 text-sm">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 text-sm sm:px-6">
         {/* Логотип / бренд */}
         <Link href={`/${lang}`} className="flex items-center gap-2">
           <Image
@@ -40,7 +40,9 @@ export default function Header({ lang, policy }: HeaderProps) {
             height={32}
             className="h-8 w-8"
           />
-          <span className="font-semibold tracking-tight">Analyst Online</span>
+          <span className="hidden font-semibold tracking-tight xs:inline sm:inline">
+            Analyst Online
+          </span>
         </Link>
 
         {/* Главное меню */}

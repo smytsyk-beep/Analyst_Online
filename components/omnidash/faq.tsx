@@ -12,7 +12,7 @@ export default function OmniDashFaq({ t }: Props) {
 
   return (
     <section className="py-20">
-      <div className="mx-auto max-w-3xl px-6">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <h2 className="text-3xl font-semibold text-white">{t.faqTitle}</h2>
 
         <div className="mt-10 space-y-2">

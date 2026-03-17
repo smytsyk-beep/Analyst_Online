@@ -7,7 +7,7 @@ type Props = { t: OmniDashCopy };
 export default function OmniDashCtaBottom({ t }: Props) {
   return (
     <section className="py-20">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="relative overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-600/15 via-blue-500/5 to-transparent p-10 md:p-16 text-center">
           {/* Glow */}
           <div className="pointer-events-none absolute inset-0 -z-10">

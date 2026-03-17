@@ -14,14 +14,14 @@ export default function OmniDashHero({ t, lang }: Props) {
         <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-blue-600/10 blur-3xl" />
       </div>
 
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Badge */}
         <div className="inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs text-blue-400">
           {t.heroBadge}
         </div>
 
         {/* Title */}
-        <h1 className="mt-6 max-w-3xl text-4xl font-semibold tracking-tight text-white md:text-6xl">
+        <h1 className="mt-6 max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-6xl">
           {t.heroTitle}
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-white/70">{t.heroSubtitle}</p>

@@ -9,7 +9,7 @@ type Props = { t: HomeCopy; lang: string };
 export default function HomeServicesPreview({ t, lang }: Props) {
   return (
     <section className="py-16">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex items-end justify-between">
           <div>
             <h2 className="text-3xl font-semibold">{t.servicesTitle}</h2>

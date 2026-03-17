@@ -8,7 +8,7 @@ type Props = { t: OmniDashCopy };
 export default function OmniDashFeatures({ t }: Props) {
   return (
     <section className="py-20">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Header */}
         <div className="max-w-2xl">
           <h2 className="text-3xl font-semibold text-white">{t.featuresTitle}</h2>
