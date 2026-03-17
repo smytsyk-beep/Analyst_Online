@@ -47,22 +47,26 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
       locale: lang,
     };
 
-    const result = await submitContactForm(data);
+    try {
+      const result = await submitContactForm(data);
 
-    if (result.success) {
-      setState('success');
-      setFormData({ name: '', email: '', message: '' });
-    } else {
-      setState('error');
-      if (result.fieldErrors) {
-        const fieldErrors: Record<string, string> = {};
-        Object.entries(result.fieldErrors).forEach(([key, messages]) => {
-          if (messages && messages.length > 0) {
-            fieldErrors[key] = messages[0];
-          }
-        });
-        setErrors(fieldErrors);
+      if (result.success) {
+        setState('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setState('error');
+        if (result.fieldErrors) {
+          const fieldErrors: Record<string, string> = {};
+          Object.entries(result.fieldErrors).forEach(([key, messages]) => {
+            if (messages && messages.length > 0) {
+              fieldErrors[key] = messages[0];
+            }
+          });
+          setErrors(fieldErrors);
+        }
       }
+    } catch {
+      setState('error');
     }
   };
 
