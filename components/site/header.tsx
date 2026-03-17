@@ -1,5 +1,6 @@
 // components/site/header.tsx
 import Link from 'next/link';
+import Image from 'next/image';
 import { LOCALES, type Locale, type I18nPolicy } from '@/lib/i18n';
 import MobileNav from '@/components/site/mobile-nav';
 import LanguageSwitcher from '@/components/site/language-switcher';
@@ -31,8 +32,15 @@ export default function Header({ lang, policy }: HeaderProps) {
     <header className="border-b border-white/10 bg-black/80 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4 text-sm">
         {/* Логотип / бренд */}
-        <Link href={`/${lang}`} className="font-semibold tracking-tight">
-          Analyst Online
+        <Link href={`/${lang}`} className="flex items-center gap-2">
+          <Image
+            src="/logo/icon.png"
+            alt="Analyst Online"
+            width={32}
+            height={32}
+            className="h-8 w-8"
+          />
+          <span className="font-semibold tracking-tight">Analyst Online</span>
         </Link>
 
         {/* Главное меню */}

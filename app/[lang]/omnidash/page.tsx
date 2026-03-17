@@ -45,7 +45,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: titles[lang],
       description: t.heroSubtitle,
-      images: ['/images/omnidash/mockup-1.png'],
+      images: ['/og-image.png'],
+      locale: lang === 'ua' ? 'uk_UA' : lang === 'ro' ? 'ro_RO' : 'ru_RU',
     },
   };
 }
