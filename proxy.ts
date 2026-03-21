@@ -17,8 +17,13 @@ function getLocaleFromPathname(pathname: string) {
 export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // пропускаем next/static, файлы и api
-  if (pathname.startsWith('/_next') || pathname.startsWith('/api') || pathname.includes('.')) {
+  // пропускаем next/static, файлы, api и studio
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/studio') ||
+    pathname.includes('.')
+  ) {
     return NextResponse.next();
   }
 
@@ -66,5 +71,5 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|studio).*)'],
 };

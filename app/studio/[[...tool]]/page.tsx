@@ -4,8 +4,33 @@
 import { NextStudio } from 'next-sanity/studio';
 import config from '@/sanity.config';
 import { isSanityConfigured } from '@/sanity/config';
+import { useEffect, useState } from 'react';
 
 export default function StudioPage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
+  // Get config status on client side
+  const projectId =
+    typeof window !== 'undefined'
+      ? process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'not set'
+      : 'not set';
+  const dataset =
+    typeof window !== 'undefined' ? process.env.NEXT_PUBLIC_SANITY_DATASET || 'not set' : 'not set';
+  const isConfigured = mounted && isSanityConfigured();
+
+  if (!mounted) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-neutral-950">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
   if (!isSanityConfigured()) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-neutral-950 p-6">
@@ -14,6 +39,13 @@ export default function StudioPage() {
             <span className="text-4xl">⚙️</span>
           </div>
           <h1 className="text-3xl font-semibold text-white">Sanity Studio Not Configured</h1>
+          <div className="rounded-lg bg-neutral-900 p-4 text-left text-sm">
+            <div className="font-mono">
+              <div>Project ID: {projectId}</div>
+              <div>Dataset: {dataset}</div>
+              <div>Is Configured: {String(isConfigured)}</div>
+            </div>
+          </div>
           <div className="space-y-4 text-left text-neutral-300">
             <p>Sanity CMS is not configured yet. To enable Studio, follow these steps:</p>
             <ol className="list-decimal space-y-2 pl-6">
