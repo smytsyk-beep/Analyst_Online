@@ -20,7 +20,7 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
 
   return (
     <footer className="border-t border-white/10 bg-black">
-      <div className="mx-auto max-w-5xl px-6 py-10">
+      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
         {/* Top: nav + contacts */}
         <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
           {/* Navigation */}

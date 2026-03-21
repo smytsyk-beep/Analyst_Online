@@ -11,7 +11,7 @@ type Props = { t: HomeCopy; lang: string };
 export default function HomeFlagship({ t, lang }: Props) {
   return (
     <section className="py-16">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <Card className="overflow-hidden rounded-3xl border border-blue-500/30 bg-gradient-to-br from-blue-600/10 via-blue-500/5 to-transparent">
           <CardContent className="p-0">
             <div className="grid gap-8 md:grid-cols-2 md:items-center">

@@ -9,7 +9,7 @@ type Props = { t: HomeCopy; lang: string };
 export default function HomeCtaSection({ t, lang }: Props) {
   return (
     <section className="py-16">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <Card className="rounded-3xl border border-white/10 bg-neutral-950/30">
           <CardContent className="p-8 text-center md:p-12">
             <h2 className="text-3xl font-semibold">{t.ctaTitle}</h2>
