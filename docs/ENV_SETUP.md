@@ -1,18 +1,23 @@
 # Environment Variables Setup
 
-## Required variables for Sprint 5 (Lead Capture)
+## Required variables
 
 Create `.env.local` file in the root of the project with the following variables:
 
 ```bash
-# Telegram Bot Configuration
+# Telegram Bot Configuration (Sprint 5)
 TELEGRAM_BOT_TOKEN=your_bot_token_here
 TELEGRAM_CHAT_ID=380436858
 
-# Google Sheets Configuration
+# Google Sheets Configuration (Sprint 5)
 GOOGLE_SHEET_ID=13K8W2nCEst3HVY8RW-wxEdc6vqR-ct2zQ7u0LNNb8lQ
 GOOGLE_SERVICE_ACCOUNT_EMAIL=analyst-online-leads@omnidash-490418.iam.gserviceaccount.com
 GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+
+# Sanity CMS Configuration (Sprint 6)
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_TOKEN=your_api_token_here
 ```
 
 ## How to get values
@@ -39,6 +44,17 @@ Your chat ID: `380436858`
 
 From the URL: `https://docs.google.com/spreadsheets/d/13K8W2nCEst3HVY8RW-wxEdc6vqR-ct2zQ7u0LNNb8lQ/edit`
 The ID is: `13K8W2nCEst3HVY8RW-wxEdc6vqR-ct2zQ7u0LNNb8lQ`
+
+### Sanity CMS
+
+1. Create a free account at https://sanity.io
+2. Create a new project
+3. Copy the Project ID → use as `NEXT_PUBLIC_SANITY_PROJECT_ID`
+4. Use `production` as dataset → `NEXT_PUBLIC_SANITY_DATASET`
+5. Generate an API token with Editor permissions → use as `SANITY_API_TOKEN`
+   - Go to https://sanity.io/manage
+   - Select your project → API → Tokens → Add API token
+   - Name: "Next.js Server", Permissions: Editor
 
 ## Security Notes
 
