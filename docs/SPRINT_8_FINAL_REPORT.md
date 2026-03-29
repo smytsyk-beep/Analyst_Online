@@ -12,6 +12,7 @@
 **Файл:** `sanity/schemas/blogPost.ts`
 
 Schema уже создана в Sprint 6 и включает:
+
 - `title`, `slug`, `locale`
 - `excerpt` — краткое описание
 - `coverImage` — обложка статьи
@@ -64,12 +65,14 @@ export const allBlogPostsForSitemapQuery = groq`
 **Файл:** `app/[lang]/blog/page.tsx`
 
 **Функциональность:**
+
 - Fetch blog posts из CMS с проверкой `isSanityConfigured()`
 - Если есть статьи → показывает grid карточек (2 колонки на tablet, 3 на desktop)
 - Если нет статей → показывает placeholder с текстом "Статьи появятся здесь в ближайшее время"
 - Graceful degradation если CMS недоступен
 
 **Локализация:**
+
 - Заголовок и subtitle на 3 языках
 - Placeholder текст на 3 языках
 
@@ -82,6 +85,7 @@ export const allBlogPostsForSitemapQuery = groq`
 **Файл:** `app/[lang]/blog/[slug]/page.tsx`
 
 **Функциональность:**
+
 - Fetch статьи по slug + locale
 - Рендер Portable Text через `BlogPortableText` компонент
 - Breadcrumbs: Home → Blog → Статья
@@ -98,6 +102,7 @@ export const allBlogPostsForSitemapQuery = groq`
 **Файл:** `components/blog/portable-text.tsx`
 
 **Кастомные компоненты:**
+
 - **Заголовки:** h2, h3, h4 с правильной типографикой
 - **Параграфы:** с leading-relaxed
 - **Списки:** bullet и numbered с правильным spacing
@@ -118,6 +123,7 @@ plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')];
 ```
 
 **Использование:**
+
 ```tsx
 <article className="prose prose-invert prose-lg max-w-none">
   <BlogPortableText value={post.body} />
@@ -224,6 +230,7 @@ export async function generateStaticParams() {
 ### ✅ 11. Responsive на всех breakpoints
 
 **Проверено:**
+
 - ✅ Mobile (320px, 375px) — карточки в 1 колонку
 - ✅ Tablet (768px) — карточки в 2 колонки
 - ✅ Desktop (1024px+) — карточки в 3 колонки
@@ -243,6 +250,7 @@ npm run build
 **Результат:** ✅ Успешно
 
 **Все роуты собраны:**
+
 - ✅ `/[lang]/blog` — Blog list (dynamic)
 - ✅ `/[lang]/blog/[slug]` — Blog post (SSG)
 - ✅ Blog posts добавлены в sitemap
@@ -291,10 +299,10 @@ tailwind.config.js            # Добавлен: @tailwindcss/typography plugin
 
 ## Новые зависимости
 
-| Пакет                     | Версия | Назначение                  |
-| ------------------------- | ------ | --------------------------- |
-| `@portabletext/react`     | latest | Рендер Portable Text        |
-| `@tailwindcss/typography` | latest | Типографика для статей      |
+| Пакет                     | Версия | Назначение             |
+| ------------------------- | ------ | ---------------------- |
+| `@portabletext/react`     | latest | Рендер Portable Text   |
+| `@tailwindcss/typography` | latest | Типографика для статей |
 
 ---
 
@@ -305,6 +313,7 @@ tailwind.config.js            # Добавлен: @tailwindcss/typography plugin
 **Назначение:** Карточка статьи для списка
 
 **Функции:**
+
 - Cover image с hover эффектом
 - Title с transition на hover
 - Excerpt (2 строки max)
@@ -319,6 +328,7 @@ tailwind.config.js            # Добавлен: @tailwindcss/typography plugin
 **Назначение:** Шапка статьи
 
 **Функции:**
+
 - Title (h1)
 - Дата публикации (локализованная)
 - Теги (badges)
@@ -331,6 +341,7 @@ tailwind.config.js            # Добавлен: @tailwindcss/typography plugin
 **Назначение:** Рендер Portable Text с кастомными стилями
 
 **Поддерживаемые элементы:**
+
 - Заголовки (h2, h3, h4)
 - Параграфы
 - Списки (bullet, numbered)
@@ -346,12 +357,11 @@ tailwind.config.js            # Добавлен: @tailwindcss/typography plugin
 ### Prose classes
 
 ```tsx
-<article className="prose prose-invert prose-lg max-w-none">
-  {/* content */}
-</article>
+<article className="prose prose-invert prose-lg max-w-none">{/* content */}</article>
 ```
 
 **Настройки:**
+
 - `prose` — базовая типографика
 - `prose-invert` — тёмная тема
 - `prose-lg` — увеличенный размер текста
@@ -463,6 +473,7 @@ npm run build
 **Результат:** ✅ Успешно
 
 **Новые роуты:**
+
 - ✅ `/[lang]/blog` — Blog list (dynamic)
 - ✅ `/[lang]/blog/[slug]` — Blog post (SSG with generateStaticParams)
 
@@ -475,14 +486,17 @@ npm run build
 ### Файлы созданы: 4
 
 **Components:**
+
 - `components/blog/post-card.tsx`
 - `components/blog/post-header.tsx`
 - `components/blog/portable-text.tsx`
 
 **Pages:**
+
 - `app/[lang]/blog/[slug]/page.tsx`
 
 **Documentation:**
+
 - `docs/SPRINT_8_FINAL_REPORT.md`
 
 ### Файлы обновлены: 4
@@ -585,6 +599,7 @@ git push origin main
 ### Sprint 9 — Cases
 
 После успешного деплоя Sprint 8, можно начинать Sprint 9:
+
 - Реальные кейсы с детальными страницами
 - Featured кейсы на Home page
 - Metrics grid и gallery компоненты

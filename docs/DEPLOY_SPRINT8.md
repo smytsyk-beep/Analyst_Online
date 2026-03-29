@@ -8,6 +8,7 @@
 ## Что деплоим
 
 Sprint 8 — Blog Infrastructure:
+
 - ✅ Portable Text rendering
 - ✅ Blog list page (CMS-driven)
 - ✅ Blog post page (SSG)
@@ -24,6 +25,7 @@ npm run build
 ```
 
 **Ожидаемый результат:**
+
 ```
 ✓ Compiled successfully
 ✓ Running TypeScript
@@ -145,6 +147,7 @@ git push origin main
 Откройте https://analyst-online.vercel.app/sitemap.xml
 
 Должна быть запись:
+
 ```xml
 <url>
   <loc>https://analyst-online.com/ru/blog/testovaya-statya</loc>
@@ -221,6 +224,7 @@ git push origin main
 ```
 
 Или откатиться через Vercel Dashboard:
+
 1. Deployments → Previous deployment → Promote to Production
 
 ---
