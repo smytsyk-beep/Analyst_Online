@@ -19,7 +19,8 @@ export async function GET(request: NextRequest) {
   const draft = await draftMode();
   draft.enable();
 
-  // Redirect to the path from the fetched post
-  // We don't redirect to searchParams.slug as that might lead to open redirect vulnerabilities
-  redirect(slug || '/');
+  // Validate slug to prevent open redirect vulnerabilities
+  // Only allow internal paths starting with /
+  const safePath = slug && slug.startsWith('/') ? slug : '/';
+  redirect(safePath);
 }

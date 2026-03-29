@@ -13,15 +13,15 @@
 
 Созданы GROQ queries для всех типов контента:
 
-| Категория | Queries | Статус |
-|-----------|---------|--------|
-| **Pages** | `homePageQuery`, `privacyPageQuery`, `contactPageQuery`, `casesPageQuery` | ✅ |
-| **Services** | `servicesQuery`, `serviceBySlugQuery` | ✅ |
-| **OmniDash** | `omnidashBlocksQuery` | ✅ |
-| **FAQ** | `faqQuery`, `allFaqQuery` | ✅ |
-| **Case Studies** | `caseStudiesListQuery`, `featuredCasesQuery`, `caseStudyQuery` | ✅ |
-| **Blog** | `blogListQuery`, `blogPostQuery` | ✅ |
-| **Sitemap** | queries для всех типов | ✅ |
+| Категория        | Queries                                                                   | Статус |
+| ---------------- | ------------------------------------------------------------------------- | ------ |
+| **Pages**        | `homePageQuery`, `privacyPageQuery`, `contactPageQuery`, `casesPageQuery` | ✅     |
+| **Services**     | `servicesQuery`, `serviceBySlugQuery`                                     | ✅     |
+| **OmniDash**     | `omnidashBlocksQuery`                                                     | ✅     |
+| **FAQ**          | `faqQuery`, `allFaqQuery`                                                 | ✅     |
+| **Case Studies** | `caseStudiesListQuery`, `featuredCasesQuery`, `caseStudyQuery`            | ✅     |
+| **Blog**         | `blogListQuery`, `blogPostQuery`                                          | ✅     |
+| **Sitemap**      | queries для всех типов                                                    | ✅     |
 
 **Статус:** ✅ Завершено
 
@@ -32,18 +32,19 @@
 **Migration script:** `sanity/migrate.ts`
 
 **Команда:**
+
 ```bash
 npm run migrate-content
 ```
 
 **Результат миграции:**
 
-| Тип документа | Количество | Детали |
-|---------------|------------|--------|
-| **page** | 12 | home, privacy, contact, cases × 3 локали |
-| **service** | 18 | 6 услуг × 3 локали |
-| **omnidashBlock** | 18 | 6 блоков × 3 локали |
-| **faq** | 25 | 8 вопросов × 3 локали + 1 тестовый |
+| Тип документа     | Количество | Детали                                   |
+| ----------------- | ---------- | ---------------------------------------- |
+| **page**          | 12         | home, privacy, contact, cases × 3 локали |
+| **service**       | 18         | 6 услуг × 3 локали                       |
+| **omnidashBlock** | 18         | 6 блоков × 3 локали                      |
+| **faq**           | 25         | 8 вопросов × 3 локали + 1 тестовый       |
 
 **Всего:** 73 документа
 
@@ -55,21 +56,17 @@ npm run migrate-content
 
 **Обновлённые страницы:**
 
-| Страница | Файл | CMS Query | Fallback | Статус |
-|----------|------|-----------|----------|--------|
-| **Home** | `app/[lang]/page.tsx` | `homePageQuery` | `homeCopy` | ✅ |
-| **Services** | `app/[lang]/services/page.tsx` | `servicesQuery` | `servicesCopy` | ✅ |
-| **OmniDash** | `app/[lang]/omnidash/page.tsx` | `omnidashBlocksQuery` + `faqQuery` | `omniDashCopy` | ✅ |
+| Страница     | Файл                           | CMS Query                          | Fallback       | Статус |
+| ------------ | ------------------------------ | ---------------------------------- | -------------- | ------ |
+| **Home**     | `app/[lang]/page.tsx`          | `homePageQuery`                    | `homeCopy`     | ✅     |
+| **Services** | `app/[lang]/services/page.tsx` | `servicesQuery`                    | `servicesCopy` | ✅     |
+| **OmniDash** | `app/[lang]/omnidash/page.tsx` | `omnidashBlocksQuery` + `faqQuery` | `omniDashCopy` | ✅     |
 
 **Паттерн интеграции:**
 
 ```typescript
 // Fetch from CMS with fallback
-const cmsData = await sanityClient.fetch(
-  query,
-  { locale: lang },
-  { next: { tags: ['type'] } }
-);
+const cmsData = await sanityClient.fetch(query, { locale: lang }, { next: { tags: ['type'] } });
 
 // Use CMS data if available, otherwise fallback
 const t = cmsData ?? fallbackCopy[lang];
@@ -97,9 +94,9 @@ const t = cmsData ?? fallbackCopy[lang];
 
 **Созданные API routes:**
 
-| Route | Файл | Назначение |
-|-------|------|------------|
-| `/api/draft` | `app/api/draft/route.ts` | Включение preview mode |
+| Route                | Файл                             | Назначение              |
+| -------------------- | -------------------------------- | ----------------------- |
+| `/api/draft`         | `app/api/draft/route.ts`         | Включение preview mode  |
 | `/api/disable-draft` | `app/api/disable-draft/route.ts` | Выключение preview mode |
 
 **Использование:**
@@ -109,6 +106,7 @@ https://analyst-online.vercel.app/api/draft?secret=YOUR_SECRET&slug=/ru/services
 ```
 
 **Preview client:**
+
 - Создан в `sanity/client.ts`
 - Использует `perspective: 'previewDrafts'`
 - Требует `SANITY_API_TOKEN`
@@ -124,11 +122,13 @@ https://analyst-online.vercel.app/api/draft?secret=YOUR_SECRET&slug=/ru/services
 **API route:** `app/api/revalidate/route.ts`
 
 **Webhook URL:**
+
 ```
 https://analyst-online.vercel.app/api/revalidate?secret=YOUR_SECRET
 ```
 
 **Механизм:**
+
 1. Sanity отправляет webhook при изменении документа
 2. Route проверяет `SANITY_REVALIDATE_SECRET`
 3. Парсит webhook body через `parseBody()`
@@ -165,6 +165,7 @@ npm run build
 **Результат:** ✅ Успешно
 
 **Все роуты собраны:**
+
 - ✅ `/[lang]` — Home (CMS-driven)
 - ✅ `/[lang]/services` — Services (CMS-driven)
 - ✅ `/[lang]/omnidash` — OmniDash (CMS-driven)
@@ -223,11 +224,11 @@ package.json                    # Добавлен npm script: migrate-content
 
 ## Новые env-переменные
 
-| Переменная | Назначение | Как получить |
-|------------|------------|--------------|
-| `SANITY_PREVIEW_SECRET` | Аутентификация preview mode | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
-| `SANITY_REVALIDATE_SECRET` | Аутентификация webhook | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
-| `SANITY_WEBHOOK_SECRET` | Валидация webhook signature (опционально) | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+| Переменная                 | Назначение                                | Как получить                                                               |
+| -------------------------- | ----------------------------------------- | -------------------------------------------------------------------------- |
+| `SANITY_PREVIEW_SECRET`    | Аутентификация preview mode               | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+| `SANITY_REVALIDATE_SECRET` | Аутентификация webhook                    | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+| `SANITY_WEBHOOK_SECRET`    | Валидация webhook signature (опционально) | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
 
 ---
 
@@ -304,6 +305,7 @@ package.json                    # Добавлен npm script: migrate-content
    - `SANITY_WEBHOOK_SECRET` (опционально)
 
 2. **Задеплоить на production:**
+
    ```bash
    git add .
    git commit -m "feat(sprint7): CMS migration and ISR setup"

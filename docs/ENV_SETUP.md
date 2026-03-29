@@ -71,6 +71,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
 Use the generated values for:
+
 - `SANITY_PREVIEW_SECRET` — for preview mode authentication
 - `SANITY_REVALIDATE_SECRET` — for webhook revalidation authentication
 - `SANITY_WEBHOOK_SECRET` — for webhook signature validation (optional)
@@ -82,6 +83,7 @@ When deploying to Vercel, add all environment variables in:
 **Project Settings → Environment Variables**
 
 Make sure to add them to all environments:
+
 - Production
 - Preview
 - Development

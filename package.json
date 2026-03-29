@@ -13,7 +13,8 @@
     "test-env": "dotenv -e .env.local -- tsx scripts/test-env.ts",
     "test-sanity": "dotenv -e .env.local -- tsx scripts/test-sanity.ts",
     "test-sanity-fetch": "dotenv -e .env.local -- tsx scripts/test-sanity-fetch.ts",
-    "migrate-content": "dotenv -e .env.local -- tsx sanity/migrate.ts"
+    "migrate-content": "dotenv -e .env.local -- tsx sanity/migrate.ts",
+    "cleanup-blocks": "dotenv -e .env.local -- tsx sanity/cleanup-blocks.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

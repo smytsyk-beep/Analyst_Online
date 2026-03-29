@@ -8,6 +8,7 @@
 ## Что деплоим
 
 Sprint 7 — CMS migration + ISR setup:
+
 - ✅ GROQ queries
 - ✅ Migration script
 - ✅ CMS-driven pages (Home, Services, OmniDash)
@@ -26,6 +27,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
 Сохраните результаты:
+
 1. Первый → `SANITY_PREVIEW_SECRET`
 2. Второй → `SANITY_REVALIDATE_SECRET`
 3. Третий → `SANITY_WEBHOOK_SECRET`
@@ -37,11 +39,11 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 1. Откройте https://vercel.com/your-project/settings/environment-variables
 2. Добавьте три новые переменные:
 
-| Variable | Value | Environments |
-|----------|-------|--------------|
-| `SANITY_PREVIEW_SECRET` | `your_first_secret` | Production, Preview, Development |
+| Variable                   | Value                | Environments                     |
+| -------------------------- | -------------------- | -------------------------------- |
+| `SANITY_PREVIEW_SECRET`    | `your_first_secret`  | Production, Preview, Development |
 | `SANITY_REVALIDATE_SECRET` | `your_second_secret` | Production, Preview, Development |
-| `SANITY_WEBHOOK_SECRET` | `your_third_secret` | Production, Preview, Development |
+| `SANITY_WEBHOOK_SECRET`    | `your_third_secret`  | Production, Preview, Development |
 
 3. Сохраните изменения
 
@@ -118,6 +120,7 @@ git push origin main
 3. API → Webhooks → Add webhook
 
 **Настройки:**
+
 - **Name:** `Next.js ISR Revalidation`
 - **URL:** `https://analyst-online.vercel.app/api/revalidate?secret=YOUR_REVALIDATE_SECRET`
 - **Dataset:** `production`
@@ -185,6 +188,7 @@ git push origin main
 ```
 
 Или откатиться через Vercel Dashboard:
+
 1. Deployments → Previous deployment → Promote to Production
 
 ---

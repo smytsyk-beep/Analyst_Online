@@ -149,7 +149,7 @@ async function migrateOmniDashBlocks() {
     const painDoc = {
       _type: 'omnidashBlock',
       locale,
-      blockType: 'pain',
+      blockType: 'painPoints',
       content: {
         title: copy.painTitle,
         subtitle: copy.painSubtitle,
@@ -159,15 +159,15 @@ async function migrateOmniDashBlocks() {
     };
 
     const painExists = await client.fetch(
-      `*[_type == "omnidashBlock" && blockType == "pain" && locale == $locale][0]._id`,
+      `*[_type == "omnidashBlock" && blockType == "painPoints" && locale == $locale][0]._id`,
       { locale },
     );
 
     if (!painExists) {
       await client.create(painDoc);
-      console.log(`✅ Created: OmniDash Pain (${locale})`);
+      console.log(`✅ Created: OmniDash Pain Points (${locale})`);
     } else {
-      console.log(`⏭️  Skip: OmniDash Pain (${locale}) (already exists)`);
+      console.log(`⏭️  Skip: OmniDash Pain Points (${locale}) (already exists)`);
     }
 
     // Features block
@@ -201,7 +201,7 @@ async function migrateOmniDashBlocks() {
     const howDoc = {
       _type: 'omnidashBlock',
       locale,
-      blockType: 'how',
+      blockType: 'howItWorks',
       content: {
         title: copy.howTitle,
         subtitle: copy.howSubtitle,
@@ -211,15 +211,15 @@ async function migrateOmniDashBlocks() {
     };
 
     const howExists = await client.fetch(
-      `*[_type == "omnidashBlock" && blockType == "how" && locale == $locale][0]._id`,
+      `*[_type == "omnidashBlock" && blockType == "howItWorks" && locale == $locale][0]._id`,
       { locale },
     );
 
     if (!howExists) {
       await client.create(howDoc);
-      console.log(`✅ Created: OmniDash How (${locale})`);
+      console.log(`✅ Created: OmniDash How It Works (${locale})`);
     } else {
-      console.log(`⏭️  Skip: OmniDash How (${locale}) (already exists)`);
+      console.log(`⏭️  Skip: OmniDash How It Works (${locale}) (already exists)`);
     }
 
     // Pricing block
@@ -252,7 +252,7 @@ async function migrateOmniDashBlocks() {
     const ctaDoc = {
       _type: 'omnidashBlock',
       locale,
-      blockType: 'cta',
+      blockType: 'ctaBottom',
       content: {
         title: copy.ctaTitle,
         subtitle: copy.ctaSubtitle,
@@ -263,15 +263,15 @@ async function migrateOmniDashBlocks() {
     };
 
     const ctaExists = await client.fetch(
-      `*[_type == "omnidashBlock" && blockType == "cta" && locale == $locale][0]._id`,
+      `*[_type == "omnidashBlock" && blockType == "ctaBottom" && locale == $locale][0]._id`,
       { locale },
     );
 
     if (!ctaExists) {
       await client.create(ctaDoc);
-      console.log(`✅ Created: OmniDash CTA (${locale})`);
+      console.log(`✅ Created: OmniDash CTA Bottom (${locale})`);
     } else {
-      console.log(`⏭️  Skip: OmniDash CTA (${locale}) (already exists)`);
+      console.log(`⏭️  Skip: OmniDash CTA Bottom (${locale}) (already exists)`);
     }
   }
 }
@@ -327,8 +327,18 @@ async function migratePrivacyPage() {
       _type: 'page',
       slug: { _type: 'slug', current: 'privacy' },
       locale,
-      title: locale === 'ru' ? 'Политика конфиденциальности' : locale === 'ua' ? 'Політика конфіденційності' : 'Politica de confidențialitate',
-      description: locale === 'ru' ? 'Политика обработки персональных данных' : locale === 'ua' ? 'Політика обробки персональних даних' : 'Politica de prelucrare a datelor personale',
+      title:
+        locale === 'ru'
+          ? 'Политика конфиденциальности'
+          : locale === 'ua'
+            ? 'Політика конфіденційності'
+            : 'Politica de confidențialitate',
+      description:
+        locale === 'ru'
+          ? 'Политика обработки персональных данных'
+          : locale === 'ua'
+            ? 'Політика обробки персональних даних'
+            : 'Politica de prelucrare a datelor personale',
       body: [
         {
           _type: 'block',
@@ -336,7 +346,12 @@ async function migratePrivacyPage() {
           children: [
             {
               _type: 'span',
-              text: locale === 'ru' ? 'Содержимое политики конфиденциальности будет добавлено позже.' : locale === 'ua' ? 'Вміст політики конфіденційності буде додано пізніше.' : 'Conținutul politicii de confidențialitate va fi adăugat mai târziu.',
+              text:
+                locale === 'ru'
+                  ? 'Содержимое политики конфиденциальности будет добавлено позже.'
+                  : locale === 'ua'
+                    ? 'Вміст політики конфіденційності буде додано пізніше.'
+                    : 'Conținutul politicii de confidențialitate va fi adăugat mai târziu.',
             },
           ],
         },
@@ -360,7 +375,12 @@ async function migrateContactPage() {
       slug: { _type: 'slug', current: 'contact' },
       locale,
       title: locale === 'ru' ? 'Контакты' : locale === 'ua' ? 'Контакти' : 'Contact',
-      description: locale === 'ru' ? 'Свяжитесь со мной для обсуждения вашей задачи' : locale === 'ua' ? "Зв'яжіться зі мною для обговорення вашої задачі" : 'Contactează-mă pentru a discuta sarcina ta',
+      description:
+        locale === 'ru'
+          ? 'Свяжитесь со мной для обсуждения вашей задачи'
+          : locale === 'ua'
+            ? "Зв'яжіться зі мною для обговорення вашої задачі"
+            : 'Contactează-mă pentru a discuta sarcina ta',
       body: [
         {
           _type: 'block',
@@ -368,7 +388,12 @@ async function migrateContactPage() {
           children: [
             {
               _type: 'span',
-              text: locale === 'ru' ? 'Форма обратной связи' : locale === 'ua' ? 'Форма зворотного зв\'язку' : 'Formular de contact',
+              text:
+                locale === 'ru'
+                  ? 'Форма обратной связи'
+                  : locale === 'ua'
+                    ? "Форма зворотного зв'язку"
+                    : 'Formular de contact',
             },
           ],
         },
@@ -392,7 +417,12 @@ async function migrateCasesPage() {
       slug: { _type: 'slug', current: 'cases' },
       locale,
       title: locale === 'ru' ? 'Кейсы' : locale === 'ua' ? 'Кейси' : 'Cazuri',
-      description: locale === 'ru' ? 'Примеры работы и результаты' : locale === 'ua' ? 'Приклади роботи та результати' : 'Exemple de lucru și rezultate',
+      description:
+        locale === 'ru'
+          ? 'Примеры работы и результаты'
+          : locale === 'ua'
+            ? 'Приклади роботи та результати'
+            : 'Exemple de lucru și rezultate',
       body: [
         {
           _type: 'block',
@@ -400,7 +430,12 @@ async function migrateCasesPage() {
           children: [
             {
               _type: 'span',
-              text: locale === 'ru' ? 'Реальные кейсы появятся здесь в ближайшее время.' : locale === 'ua' ? 'Реальні кейси з\'являться тут найближчим часом.' : 'Cazuri reale vor apărea aici în curând.',
+              text:
+                locale === 'ru'
+                  ? 'Реальные кейсы появятся здесь в ближайшее время.'
+                  : locale === 'ua'
+                    ? "Реальні кейси з'являться тут найближчим часом."
+                    : 'Cazuri reale vor apărea aici în curând.',
             },
           ],
         },

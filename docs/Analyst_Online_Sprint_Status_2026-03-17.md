@@ -287,6 +287,7 @@ Final Checks ✅
 **Статус:** ✅ Полностью завершён
 
 ### Выполнено
+
 - [x] Установлены зависимости: `next-sanity` v12.1.3, `sanity` v5.17.1, `@sanity/image-url`, `@sanity/vision`
 - [x] Создана конфигурация Sanity:
   - `sanity/config.ts` — projectId, dataset, apiVersion, useCdn, isSanityConfigured()
@@ -323,6 +324,7 @@ Final Checks ✅
   - `scripts/test-sanity-fetch.ts` — проверка fetch и документов
 
 ### Результат Sprint 6
+
 Sanity CMS полностью интегрирован и работает. Studio доступен локально и на production. Все 6 контент-схем готовы к использованию. Тестовый документ создан, fetch работает. Готов к миграции контента в Sprint 7.
 
 Подробный отчёт: `docs/SPRINT_6_FINAL_REPORT.md`
@@ -459,6 +461,7 @@ Sanity CMS полностью интегрирован и работает. Stud
 ## 6. Формула текущего статуса проекта
 
 ### Completed
+
 - Sprint 1 ✅
 - Sprint 2 ✅
 - Sprint 3 ✅
@@ -467,6 +470,7 @@ Sanity CMS полностью интегрирован и работает. Stud
 - Sprint 6 ✅
 
 ### Future roadmap
+
 - Sprint 7 🔜 (следующий)
 - Sprint 8 🔜
 - Sprint 9 🔜

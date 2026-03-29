@@ -5,6 +5,7 @@
 Настроить автоматическую ревалидацию страниц Next.js при изменении контента в Sanity Studio.
 
 **Как работает:**
+
 1. Редактор изменяет контент в Sanity Studio
 2. Sanity отправляет webhook на ваш сервер
 3. Next.js ревалидирует кеш для изменённого типа документа
@@ -22,6 +23,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
 Запустите команду дважды и сохраните результаты:
+
 - Первый → `SANITY_REVALIDATE_SECRET`
 - Второй → `SANITY_WEBHOOK_SECRET` (опционально)
 
@@ -53,19 +55,19 @@ SANITY_WEBHOOK_SECRET=your_second_random_secret_here
 
 ### Настройки webhook:
 
-| Поле | Значение |
-|------|----------|
-| **Name** | `Next.js ISR Revalidation` |
-| **URL** | `https://analyst-online.vercel.app/api/revalidate?secret=YOUR_REVALIDATE_SECRET` |
-| **Dataset** | `production` |
-| **Trigger on** | Create, Update, Delete |
-| **Filter** | Оставить пустым (или настроить фильтр по типам) |
-| **Projection** | `{ _type, "slug": slug.current }` |
-| **HTTP method** | `POST` |
-| **API version** | `v2021-06-07` |
-| **Include drafts** | ❌ Unchecked |
-| **HTTP Headers** | Оставить пустым |
-| **Secret** | `YOUR_WEBHOOK_SECRET` (если используете signature validation) |
+| Поле               | Значение                                                                         |
+| ------------------ | -------------------------------------------------------------------------------- |
+| **Name**           | `Next.js ISR Revalidation`                                                       |
+| **URL**            | `https://analyst-online.vercel.app/api/revalidate?secret=YOUR_REVALIDATE_SECRET` |
+| **Dataset**        | `production`                                                                     |
+| **Trigger on**     | Create, Update, Delete                                                           |
+| **Filter**         | Оставить пустым (или настроить фильтр по типам)                                  |
+| **Projection**     | `{ _type, "slug": slug.current }`                                                |
+| **HTTP method**    | `POST`                                                                           |
+| **API version**    | `v2021-06-07`                                                                    |
+| **Include drafts** | ❌ Unchecked                                                                     |
+| **HTTP Headers**   | Оставить пустым                                                                  |
+| **Secret**         | `YOUR_WEBHOOK_SECRET` (если используете signature validation)                    |
 
 **Важно:** Замените `YOUR_REVALIDATE_SECRET` на реальное значение из `.env.local`
 
@@ -113,6 +115,7 @@ curl -X POST "https://analyst-online.vercel.app/api/revalidate?secret=YOUR_SECRE
 ```
 
 **Ожидаемый ответ:**
+
 ```json
 {
   "revalidated": true,
@@ -133,14 +136,14 @@ curl -X POST "https://analyst-online.vercel.app/api/revalidate?secret=YOUR_SECRE
 
 Каждый тип документа в Sanity имеет свой тег для ревалидации:
 
-| Тип документа | Тег | Страницы для ревалидации |
-|---------------|-----|--------------------------|
-| `page` | `page` | Home, Privacy, Contact, Cases |
-| `service` | `service` | Services |
-| `omnidashBlock` | `omnidashBlock` | OmniDash |
-| `faq` | `faq` | OmniDash FAQ |
-| `caseStudy` | `caseStudy` | Cases (будущее) |
-| `blogPost` | `blogPost` | Blog (будущее) |
+| Тип документа   | Тег             | Страницы для ревалидации      |
+| --------------- | --------------- | ----------------------------- |
+| `page`          | `page`          | Home, Privacy, Contact, Cases |
+| `service`       | `service`       | Services                      |
+| `omnidashBlock` | `omnidashBlock` | OmniDash                      |
+| `faq`           | `faq`           | OmniDash FAQ                  |
+| `caseStudy`     | `caseStudy`     | Cases (будущее)               |
+| `blogPost`      | `blogPost`      | Blog (будущее)                |
 
 ---
 

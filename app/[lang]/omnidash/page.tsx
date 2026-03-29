@@ -4,6 +4,7 @@ import type { Locale } from '@/lib/i18n';
 import { omniDashCopy } from '@/content/omnidash.copy';
 import { sanityClient } from '@/sanity/client';
 import { omnidashBlocksQuery, faqQuery } from '@/sanity/queries';
+import { isSanityConfigured } from '@/sanity/config';
 
 import JsonLd from '@/components/seo/json-ld';
 import { productSchema, breadcrumbSchema } from '@/lib/schema';
@@ -34,7 +35,7 @@ function transformOmniDashBlocks(blocks: any[], faq: any[], fallback: typeof omn
         result.heroCtaSecondary = content.ctaSecondary;
         result.heroStats = content.stats;
         break;
-      case 'pain':
+      case 'painPoints':
         result.painTitle = content.title;
         result.painSubtitle = content.subtitle;
         result.pains = content.pains;
@@ -46,7 +47,7 @@ function transformOmniDashBlocks(blocks: any[], faq: any[], fallback: typeof omn
         result.featuresAdvancedTitle = content.advancedTitle;
         result.featuresAdvanced = content.advanced;
         break;
-      case 'how':
+      case 'howItWorks':
         result.howTitle = content.title;
         result.howSubtitle = content.subtitle;
         result.steps = content.steps;
@@ -57,7 +58,7 @@ function transformOmniDashBlocks(blocks: any[], faq: any[], fallback: typeof omn
         result.pricingNote = content.note;
         result.plans = content.plans;
         break;
-      case 'cta':
+      case 'ctaBottom':
         result.ctaTitle = content.title;
         result.ctaSubtitle = content.subtitle;
         result.ctaPrimary = content.ctaPrimary;
@@ -122,18 +123,26 @@ export default async function OmniDashPage({ params }: Props) {
   const { lang } = await params;
 
   // Fetch OmniDash blocks from CMS
-  const cmsBlocks = await sanityClient.fetch(
-    omnidashBlocksQuery,
-    { locale: lang },
-    { next: { tags: ['omnidashBlock'] } },
-  );
+  let cmsBlocks = null;
+  let cmsFaq = null;
 
-  // Fetch FAQ from CMS
-  const cmsFaq = await sanityClient.fetch(
-    faqQuery,
-    { locale: lang, category: 'omnidash' },
-    { next: { tags: ['faq'] } },
-  );
+  if (isSanityConfigured()) {
+    try {
+      cmsBlocks = await sanityClient.fetch(
+        omnidashBlocksQuery,
+        { locale: lang },
+        { next: { tags: ['omnidashBlock'] } },
+      );
+
+      cmsFaq = await sanityClient.fetch(
+        faqQuery,
+        { locale: lang, category: 'omnidash' },
+        { next: { tags: ['faq'] } },
+      );
+    } catch (error) {
+      console.warn('Failed to fetch OmniDash content from Sanity CMS, using fallback:', error);
+    }
+  }
 
   // Transform CMS blocks to component format
   const t = transformOmniDashBlocks(cmsBlocks, cmsFaq, omniDashCopy[lang]);

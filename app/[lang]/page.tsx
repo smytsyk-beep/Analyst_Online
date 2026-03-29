@@ -4,6 +4,7 @@ import type { Locale } from '@/lib/i18n';
 import { homeCopy } from '@/content/home.copy';
 import { sanityClient } from '@/sanity/client';
 import { homePageQuery } from '@/sanity/queries';
+import { isSanityConfigured } from '@/sanity/config';
 
 import JsonLd from '@/components/seo/json-ld';
 import { organizationSchema } from '@/lib/schema';
@@ -56,14 +57,23 @@ export default async function LangHome({ params }: Props) {
   const { lang } = await params;
 
   // Fetch from CMS with fallback to hardcoded copy
-  const cmsData = await sanityClient.fetch(
-    homePageQuery,
-    { locale: lang },
-    { next: { tags: ['page'] } },
-  );
+  let cmsData = null;
+  if (isSanityConfigured()) {
+    try {
+      cmsData = await sanityClient.fetch(
+        homePageQuery,
+        { locale: lang },
+        { next: { tags: ['page'] } },
+      );
+    } catch (error) {
+      console.warn('Failed to fetch from Sanity CMS, using fallback:', error);
+    }
+  }
 
   // Use CMS data if available, otherwise fallback to .copy.ts
-  const t = cmsData ? { ...homeCopy[lang], heroTitle: cmsData.title, heroSubtitle: cmsData.description } : homeCopy[lang];
+  const t = cmsData
+    ? { ...homeCopy[lang], heroTitle: cmsData.title, heroSubtitle: cmsData.description }
+    : homeCopy[lang];
 
   return (
     <div>

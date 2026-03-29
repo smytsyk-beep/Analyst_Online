@@ -8,29 +8,22 @@ async function testFetch() {
   try {
     // Test 1: Fetch all document types
     console.log('📋 Fetching all document types...');
-    const types = await sanityClient.fetch(
-      groq`array::unique(*[]._type) | order(@)`,
-    );
+    const types = await sanityClient.fetch(groq`array::unique(*[]._type) | order(@)`);
     console.log('✅ Document types:', types);
     console.log('');
 
     // Test 2: Count documents by type
     console.log('📊 Document counts:');
     for (const type of types) {
-      const count = await sanityClient.fetch(
-        groq`count(*[_type == $type])`,
-        { type },
-      );
+      const count = await sanityClient.fetch(groq`count(*[_type == $type])`, { type });
       console.log(`  ${type}: ${count}`);
     }
     console.log('');
 
     // Test 3: Fetch sample documents
     console.log('📄 Sample documents:');
-    
-    const samplePage = await sanityClient.fetch(
-      groq`*[_type == "page"][0]{ title, locale, slug }`,
-    );
+
+    const samplePage = await sanityClient.fetch(groq`*[_type == "page"][0]{ title, locale, slug }`);
     console.log('  Page:', samplePage || 'No pages found');
 
     const sampleService = await sanityClient.fetch(

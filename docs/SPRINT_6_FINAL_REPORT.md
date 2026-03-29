@@ -24,13 +24,13 @@
 
 ### ✅ 2. Конфигурационные файлы созданы
 
-| Файл                | Статус | Назначение                                    |
-| ------------------- | ------ | --------------------------------------------- |
-| `sanity/config.ts`  | ✅     | projectId, dataset, apiVersion, useCdn        |
-| `sanity/client.ts`  | ✅     | sanityClient и previewClient                  |
-| `sanity/image.ts`   | ✅     | хелпер urlFor() для изображений               |
-| `sanity.config.ts`  | ✅     | главный конфиг Sanity Studio                  |
-| `app/studio/[...]/` | ✅     | embedded Studio с fallback UI и диагностикой  |
+| Файл                | Статус | Назначение                                   |
+| ------------------- | ------ | -------------------------------------------- |
+| `sanity/config.ts`  | ✅     | projectId, dataset, apiVersion, useCdn       |
+| `sanity/client.ts`  | ✅     | sanityClient и previewClient                 |
+| `sanity/image.ts`   | ✅     | хелпер urlFor() для изображений              |
+| `sanity.config.ts`  | ✅     | главный конфиг Sanity Studio                 |
+| `app/studio/[...]/` | ✅     | embedded Studio с fallback UI и диагностикой |
 
 **Статус:** ✅ Вся инфраструктура создана
 
@@ -38,15 +38,15 @@
 
 ### ✅ 3. Все 6 схем описаны в `sanity/schemas/`
 
-| Schema            | Файл                  | Поля                                                       | Статус |
-| ----------------- | --------------------- | ---------------------------------------------------------- | ------ |
-| **page**          | `page.ts`             | slug, locale, title, description, body (Portable Text)     | ✅     |
-| **service**       | `service.ts`          | slug, locale, title, description, icon, order, featured    | ✅     |
-| **caseStudy**     | `caseStudy.ts`        | slug, locale, client, challenge, solution, metrics, images | ✅     |
-| **faq**           | `faq.ts`              | locale, question, answer, category, order                  | ✅     |
-| **omnidashBlock** | `omnidashBlock.ts`    | locale, blockType, content, order                          | ✅     |
-| **blogPost**      | `blogPost.ts`         | slug, locale, title, excerpt, body, publishedAt, tags      | ✅     |
-| **index**         | `index.ts`            | экспорт всех схем                                          | ✅     |
+| Schema            | Файл               | Поля                                                       | Статус |
+| ----------------- | ------------------ | ---------------------------------------------------------- | ------ |
+| **page**          | `page.ts`          | slug, locale, title, description, body (Portable Text)     | ✅     |
+| **service**       | `service.ts`       | slug, locale, title, description, icon, order, featured    | ✅     |
+| **caseStudy**     | `caseStudy.ts`     | slug, locale, client, challenge, solution, metrics, images | ✅     |
+| **faq**           | `faq.ts`           | locale, question, answer, category, order                  | ✅     |
+| **omnidashBlock** | `omnidashBlock.ts` | locale, blockType, content, order                          | ✅     |
+| **blogPost**      | `blogPost.ts`      | slug, locale, title, excerpt, body, publishedAt, tags      | ✅     |
+| **index**         | `index.ts`         | экспорт всех схем                                          | ✅     |
 
 **Статус:** ✅ Все схемы описаны, поддерживают 3 локали (ru/ua/ro)
 
@@ -73,11 +73,13 @@ export default defineConfig({
 ### ✅ 5. `/studio` открывается и показывает Sanity Studio
 
 **Локально:**
+
 - ✅ `http://localhost:3000/studio` — работает
 - ✅ Видны все 6 типов документов
 - ✅ Интерфейс загружается корректно
 
 **Production:**
+
 - ✅ `https://analyst-online.vercel.app/studio` — работает
 - ✅ Переменные окружения настроены в Vercel (Production, Preview, Development)
 - ✅ Авторизация через Sanity работает
@@ -89,6 +91,7 @@ export default defineConfig({
 ### ✅ 6. Можно создать тестовый документ в Studio
 
 **Проверено:**
+
 - ✅ Создан тестовый FAQ документ:
   - Question: "Тестовый вопрос"
   - Answer: "Тестовый ответ"
@@ -110,6 +113,7 @@ npm run test-sanity-fetch
 ```
 
 **Результат:**
+
 ```
 ✅ Document types: [ 'faq' ]
 📊 Document counts:
@@ -130,6 +134,7 @@ npm run build
 ```
 
 **Результат:**
+
 ```
 ✓ Compiled successfully in 70s
 ✓ Running TypeScript ...
@@ -137,6 +142,7 @@ npm run build
 ```
 
 **Все роуты собраны:**
+
 - ✅ `/studio/[[...tool]]` — dynamic
 - ✅ Все остальные страницы работают
 
@@ -176,6 +182,7 @@ npm run build
 ### Файлы созданы: 24
 
 **Sanity infrastructure:**
+
 - `sanity/config.ts`
 - `sanity/client.ts`
 - `sanity/image.ts`
@@ -190,10 +197,12 @@ npm run build
 - `app/studio/[[...tool]]/page.tsx`
 
 **Scripts:**
+
 - `scripts/test-sanity.ts`
 - `scripts/test-sanity-fetch.ts`
 
 **Documentation:**
+
 - `docs/SANITY_SETUP.md`
 - `docs/DEPLOY_SPRINT6.md`
 - `docs/SPRINT_6_SUMMARY.md`
@@ -204,6 +213,7 @@ npm run build
 - `docs/ENV_SETUP.md` (обновлён)
 
 **Modified:**
+
 - `proxy.ts` — исключён `/studio` из middleware
 - `package.json` — добавлены test скрипты
 - `package-lock.json` — пересоздан для CI
@@ -252,6 +262,7 @@ npm run build
 **Миграция контента из `.copy.ts` в Sanity CMS**
 
 Задачи:
+
 1. Создать GROQ queries
 2. Перенести контент из хардкода в CMS
 3. Переключить страницы на CMS-driven rendering

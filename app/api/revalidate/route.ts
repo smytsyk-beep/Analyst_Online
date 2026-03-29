@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
     // Revalidate based on document type
     const type = body._type;
-    
+
     // Revalidate all pages (Next.js 16 approach)
     // This will revalidate all pages that use this data
     revalidatePath('/', 'layout');

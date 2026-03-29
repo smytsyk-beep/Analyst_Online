@@ -46,11 +46,13 @@
 - ✅ Cases page (3 локали)
 
 **Команда для запуска:**
+
 ```bash
 npm run migrate-content
 ```
 
 **Результат миграции:**
+
 - 12 pages
 - 18 services
 - 18 omnidashBlocks
@@ -78,11 +80,7 @@ npm run migrate-content
 
 ```typescript
 // Fetch from CMS with fallback
-const cmsData = await sanityClient.fetch(
-  query,
-  { locale: lang },
-  { next: { tags: ['type'] } }
-);
+const cmsData = await sanityClient.fetch(query, { locale: lang }, { next: { tags: ['type'] } });
 
 // Use CMS data if available, otherwise fallback
 const t = cmsData ?? fallbackCopy[lang];
@@ -91,6 +89,7 @@ const t = cmsData ?? fallbackCopy[lang];
 **Статус:** ✅ Частично завершено (Home + Services)
 
 **TODO:** Переключить остальные страницы:
+
 - `/[lang]/omnidash`
 - `/[lang]/contact`
 - `/[lang]/privacy`
@@ -112,6 +111,7 @@ const t = cmsData ?? fallbackCopy[lang];
    - Редиректит на главную
 
 **Preview client:**
+
 - Уже создан в `sanity/client.ts` (Sprint 6)
 - Использует `perspective: 'previewDrafts'`
 - Требует `SANITY_API_TOKEN`
@@ -139,11 +139,13 @@ https://analyst-online.vercel.app/api/draft?secret=YOUR_SECRET&slug=/ru/services
    - Логирует результат
 
 **Webhook URL:**
+
 ```
 https://analyst-online.vercel.app/api/revalidate?secret=YOUR_SECRET
 ```
 
 **Документация:**
+
 - `docs/SANITY_WEBHOOK_SETUP.md` — пошаговая настройка webhook в Sanity Dashboard
 
 **Статус:** ✅ Завершено
@@ -198,11 +200,11 @@ docs/
 
 ## Новые env-переменные
 
-| Переменная | Назначение | Как получить |
-|------------|------------|--------------|
-| `SANITY_PREVIEW_SECRET` | Аутентификация preview mode | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
-| `SANITY_REVALIDATE_SECRET` | Аутентификация webhook | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
-| `SANITY_WEBHOOK_SECRET` | Валидация webhook signature (опционально) | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+| Переменная                 | Назначение                                | Как получить                                                               |
+| -------------------------- | ----------------------------------------- | -------------------------------------------------------------------------- |
+| `SANITY_PREVIEW_SECRET`    | Аутентификация preview mode               | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+| `SANITY_REVALIDATE_SECRET` | Аутентификация webhook                    | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+| `SANITY_WEBHOOK_SECRET`    | Валидация webhook signature (опционально) | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
 
 ---
 
@@ -219,6 +221,7 @@ docs/
 ## Статистика миграции
 
 **Документы созданы в Sanity:**
+
 - 12 pages (home, privacy, contact, cases × 3 локали)
 - 18 services (6 услуг × 3 локали)
 - 18 omnidashBlocks (6 блоков × 3 локали)
@@ -237,6 +240,7 @@ npm run build
 **Результат:** ✅ Успешно
 
 **Все роуты собраны:**
+
 - ✅ `/[lang]` — Home (CMS-driven)
 - ✅ `/[lang]/services` — Services (CMS-driven)
 - ✅ `/[lang]/omnidash` — OmniDash (TODO: переключить на CMS)
