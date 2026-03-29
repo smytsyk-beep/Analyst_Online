@@ -2,6 +2,8 @@
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import { omniDashCopy } from '@/content/omnidash.copy';
+import { sanityClient } from '@/sanity/client';
+import { omnidashBlocksQuery, faqQuery } from '@/sanity/queries';
 
 import JsonLd from '@/components/seo/json-ld';
 import { productSchema, breadcrumbSchema } from '@/lib/schema';
@@ -14,6 +16,64 @@ import OmniDashFaq from '@/components/omnidash/faq';
 import OmniDashCtaBottom from '@/components/omnidash/cta-bottom';
 
 type Props = { params: Promise<{ lang: Locale }> };
+
+// Transform CMS blocks to component format
+function transformOmniDashBlocks(blocks: any[], faq: any[], fallback: typeof omniDashCopy.ru) {
+  if (!blocks || blocks.length === 0) return fallback;
+
+  const result: any = { ...fallback };
+
+  blocks.forEach((block) => {
+    const content = block.content;
+    switch (block.blockType) {
+      case 'hero':
+        result.heroBadge = content.badge;
+        result.heroTitle = content.title;
+        result.heroSubtitle = content.subtitle;
+        result.heroCtaPrimary = content.ctaPrimary;
+        result.heroCtaSecondary = content.ctaSecondary;
+        result.heroStats = content.stats;
+        break;
+      case 'pain':
+        result.painTitle = content.title;
+        result.painSubtitle = content.subtitle;
+        result.pains = content.pains;
+        break;
+      case 'features':
+        result.featuresTitle = content.title;
+        result.featuresSubtitle = content.subtitle;
+        result.features = content.features;
+        result.featuresAdvancedTitle = content.advancedTitle;
+        result.featuresAdvanced = content.advanced;
+        break;
+      case 'how':
+        result.howTitle = content.title;
+        result.howSubtitle = content.subtitle;
+        result.steps = content.steps;
+        break;
+      case 'pricing':
+        result.pricingTitle = content.title;
+        result.pricingSubtitle = content.subtitle;
+        result.pricingNote = content.note;
+        result.plans = content.plans;
+        break;
+      case 'cta':
+        result.ctaTitle = content.title;
+        result.ctaSubtitle = content.subtitle;
+        result.ctaPrimary = content.ctaPrimary;
+        result.ctaSecondary = content.ctaSecondary;
+        break;
+    }
+  });
+
+  // Transform FAQ
+  if (faq && faq.length > 0) {
+    result.faqTitle = fallback.faqTitle; // Keep from fallback
+    result.faqs = faq.map((f: any) => ({ q: f.question, a: f.answer }));
+  }
+
+  return result;
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
@@ -60,7 +120,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function OmniDashPage({ params }: Props) {
   const { lang } = await params;
-  const t = omniDashCopy[lang];
+
+  // Fetch OmniDash blocks from CMS
+  const cmsBlocks = await sanityClient.fetch(
+    omnidashBlocksQuery,
+    { locale: lang },
+    { next: { tags: ['omnidashBlock'] } },
+  );
+
+  // Fetch FAQ from CMS
+  const cmsFaq = await sanityClient.fetch(
+    faqQuery,
+    { locale: lang, category: 'omnidash' },
+    { next: { tags: ['faq'] } },
+  );
+
+  // Transform CMS blocks to component format
+  const t = transformOmniDashBlocks(cmsBlocks, cmsFaq, omniDashCopy[lang]);
 
   return (
     <div className="bg-black">

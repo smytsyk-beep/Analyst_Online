@@ -18,6 +18,11 @@ GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
 NEXT_PUBLIC_SANITY_DATASET=production
 SANITY_API_TOKEN=your_api_token_here
+
+# Sanity Preview & Revalidation (Sprint 7)
+SANITY_PREVIEW_SECRET=your_random_secret_here
+SANITY_REVALIDATE_SECRET=your_random_secret_here
+SANITY_WEBHOOK_SECRET=your_webhook_secret_here
 ```
 
 ## How to get values
@@ -56,8 +61,34 @@ The ID is: `13K8W2nCEst3HVY8RW-wxEdc6vqR-ct2zQ7u0LNNb8lQ`
    - Select your project → API → Tokens → Add API token
    - Name: "Next.js Server", Permissions: Editor
 
+### Sanity Preview & Revalidation Secrets
+
+Generate random secrets for preview mode and webhook revalidation:
+
+```bash
+# Generate random secrets (run in terminal)
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+Use the generated values for:
+- `SANITY_PREVIEW_SECRET` — for preview mode authentication
+- `SANITY_REVALIDATE_SECRET` — for webhook revalidation authentication
+- `SANITY_WEBHOOK_SECRET` — for webhook signature validation (optional)
+
+## Vercel Deployment
+
+When deploying to Vercel, add all environment variables in:
+
+**Project Settings → Environment Variables**
+
+Make sure to add them to all environments:
+- Production
+- Preview
+- Development
+
 ## Security Notes
 
 - Never commit `.env.local` to git
 - `.env.local` is already in `.gitignore`
 - Keep your tokens and keys secure
+- Rotate secrets regularly

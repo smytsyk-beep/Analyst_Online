@@ -2,6 +2,8 @@
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import { homeCopy } from '@/content/home.copy';
+import { sanityClient } from '@/sanity/client';
+import { homePageQuery } from '@/sanity/queries';
 
 import JsonLd from '@/components/seo/json-ld';
 import { organizationSchema } from '@/lib/schema';
@@ -52,7 +54,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function LangHome({ params }: Props) {
   const { lang } = await params;
-  const t = homeCopy[lang];
+
+  // Fetch from CMS with fallback to hardcoded copy
+  const cmsData = await sanityClient.fetch(
+    homePageQuery,
+    { locale: lang },
+    { next: { tags: ['page'] } },
+  );
+
+  // Use CMS data if available, otherwise fallback to .copy.ts
+  const t = cmsData ? { ...homeCopy[lang], heroTitle: cmsData.title, heroSubtitle: cmsData.description } : homeCopy[lang];
 
   return (
     <div>
