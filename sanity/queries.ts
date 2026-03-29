@@ -184,7 +184,13 @@ export const blogListQuery = groq`
     title,
     slug,
     excerpt,
-    coverImage,
+    coverImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
     publishedAt,
     tags
   }
@@ -195,8 +201,15 @@ export const blogPostQuery = groq`
     _id,
     title,
     slug,
+    locale,
     excerpt,
-    coverImage,
+    coverImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
     body,
     publishedAt,
     tags,

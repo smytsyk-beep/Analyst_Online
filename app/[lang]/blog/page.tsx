@@ -10,11 +10,22 @@ import { breadcrumbSchema } from '@/lib/schema';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
+type BlogImageAsset = {
+  _id?: string;
+  _ref?: string;
+  url?: string;
+};
+
+type BlogCoverImage = {
+  asset?: BlogImageAsset;
+  alt?: string;
+};
+
 type BlogListPost = {
   title: string;
   slug: { current: string };
   excerpt?: string;
-  coverImage?: Record<string, unknown>;
+  coverImage?: BlogCoverImage;
   publishedAt: string;
   tags?: string[];
 };

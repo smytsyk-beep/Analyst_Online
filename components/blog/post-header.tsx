@@ -3,13 +3,42 @@ import Image from 'next/image';
 import { urlFor } from '@/sanity/image';
 import type { Locale } from '@/lib/i18n';
 
+type BlogImageAsset = {
+  _id?: string;
+  _ref?: string;
+  url?: string;
+};
+
+type BlogCoverImage = {
+  asset?: BlogImageAsset;
+  alt?: string;
+};
+
 type PostHeaderProps = {
   title: string;
   publishedAt: string;
-  coverImage?: Record<string, unknown>;
+  coverImage?: BlogCoverImage;
   tags?: string[];
   lang: Locale;
 };
+
+function getCoverImageUrl(coverImage: BlogCoverImage | undefined): string | undefined {
+  if (!coverImage) return undefined;
+
+  if (coverImage.asset?.url) {
+    return coverImage.asset.url;
+  }
+
+  if (!coverImage.asset?._id && !coverImage.asset?._ref) {
+    return undefined;
+  }
+
+  try {
+    return urlFor(coverImage).width(1200).height(675).url();
+  } catch {
+    return undefined;
+  }
+}
 
 export default function PostHeader({
   title,
@@ -18,6 +47,7 @@ export default function PostHeader({
   tags,
   lang,
 }: PostHeaderProps) {
+  const coverImageUrl = getCoverImageUrl(coverImage);
   const formattedDate = new Date(publishedAt).toLocaleDateString(
     lang === 'ru' ? 'ru-RU' : lang === 'ua' ? 'uk-UA' : 'ro-RO',
     {
@@ -53,11 +83,11 @@ export default function PostHeader({
         </div>
       </div>
 
-      {coverImage && (
+      {coverImageUrl && (
         <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
           <Image
-            src={urlFor(coverImage).width(1200).height(675).url()}
-            alt={title}
+            src={coverImageUrl}
+            alt={coverImage?.alt || title}
             width={1200}
             height={675}
             className="object-cover"
