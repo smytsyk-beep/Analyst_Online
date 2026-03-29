@@ -1,5 +1,6 @@
 // components/blog/portable-text.tsx
 import { PortableText, PortableTextComponents } from '@portabletext/react';
+import type { PortableTextBlock } from '@portabletext/types';
 import Image from 'next/image';
 import { urlFor } from '@/sanity/image';
 
@@ -74,7 +75,7 @@ const portableTextComponents: PortableTextComponents = {
 };
 
 type Props = {
-  value: any;
+  value: PortableTextBlock[] | PortableTextBlock;
 };
 
 export default function BlogPortableText({ value }: Props) {

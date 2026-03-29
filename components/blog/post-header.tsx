@@ -6,7 +6,7 @@ import type { Locale } from '@/lib/i18n';
 type PostHeaderProps = {
   title: string;
   publishedAt: string;
-  coverImage?: any;
+  coverImage?: Record<string, unknown>;
   tags?: string[];
   lang: Locale;
 };

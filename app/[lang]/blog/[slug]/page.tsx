@@ -1,7 +1,9 @@
 // app/[lang]/blog/[slug]/page.tsx
 import type { Metadata } from 'next';
+import type { PortableTextBlock } from '@portabletext/types';
 import type { Locale } from '@/lib/i18n';
 import { sanityClient } from '@/sanity/client';
+import { urlFor } from '@/sanity/image';
 import { blogPostQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
 import { notFound } from 'next/navigation';
@@ -16,6 +18,23 @@ type Props = {
   params: Promise<{ lang: Locale; slug: string }>;
 };
 
+type BlogPost = {
+  title: string;
+  slug: { current: string };
+  excerpt?: string;
+  coverImage?: Record<string, unknown>;
+  body?: PortableTextBlock | PortableTextBlock[];
+  publishedAt: string;
+  tags?: string[];
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
+type StaticBlogPostParam = {
+  slug: string;
+  locale: Locale;
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang, slug } = await params;
 
@@ -26,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   try {
-    const post = await sanityClient.fetch(blogPostQuery, { locale: lang, slug });
+    const post = await sanityClient.fetch<BlogPost | null>(blogPostQuery, { locale: lang, slug });
 
     if (!post) {
       return {
@@ -36,6 +55,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     const title = post.seoTitle || post.title;
     const description = post.seoDescription || post.excerpt || '';
+    const ogImageUrl = post.coverImage
+      ? urlFor(post.coverImage).width(1200).height(630).fit('crop').url()
+      : undefined;
 
     return {
       title: `${title} — Analyst Online`,
@@ -54,10 +76,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         type: 'article',
         publishedTime: post.publishedAt,
         authors: ['Analyst Online'],
-        images: post.coverImage
+        images: ogImageUrl
           ? [
               {
-                url: post.coverImage,
+                url: ogImageUrl,
                 width: 1200,
                 height: 630,
                 alt: title,
@@ -80,10 +102,10 @@ export async function generateStaticParams() {
   }
 
   try {
-    const posts = await sanityClient.fetch(
+    const posts = await sanityClient.fetch<StaticBlogPostParam[]>(
       groq`*[_type == "blogPost" && defined(slug.current) && defined(publishedAt)]{ "slug": slug.current, locale }`,
     );
-    return posts.map((p: any) => ({ lang: p.locale, slug: p.slug }));
+    return posts.map((post) => ({ lang: post.locale, slug: post.slug }));
   } catch (error) {
     console.error('Failed to generate static params for blog:', error);
     return [];
@@ -105,9 +127,9 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
-  let post = null;
+  let post: BlogPost | null = null;
   try {
-    post = await sanityClient.fetch(
+    post = await sanityClient.fetch<BlogPost | null>(
       blogPostQuery,
       { locale: lang, slug },
       { next: { tags: ['blogPost'] } },
@@ -172,7 +194,7 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Post content */}
         <article className="prose prose-invert prose-lg max-w-none">
-          <BlogPortableText value={post.body} />
+          <BlogPortableText value={post.body ?? []} />
         </article>
       </div>
     </div>

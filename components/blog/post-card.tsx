@@ -9,7 +9,7 @@ type PostCardProps = {
     title: string;
     slug: { current: string };
     excerpt?: string;
-    coverImage?: any;
+    coverImage?: Record<string, unknown>;
     publishedAt: string;
     tags?: string[];
   };

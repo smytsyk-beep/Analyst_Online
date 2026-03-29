@@ -10,6 +10,15 @@ import { breadcrumbSchema } from '@/lib/schema';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
+type BlogListPost = {
+  title: string;
+  slug: { current: string };
+  excerpt?: string;
+  coverImage?: Record<string, unknown>;
+  publishedAt: string;
+  tags?: string[];
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
 
@@ -63,10 +72,10 @@ export default async function BlogPage({ params }: Props) {
   const l = labels[lang];
 
   // Fetch blog posts from CMS
-  let posts = null;
+  let posts: BlogListPost[] = [];
   if (isSanityConfigured()) {
     try {
-      posts = await sanityClient.fetch(
+      posts = await sanityClient.fetch<BlogListPost[]>(
         blogListQuery,
         { locale: lang },
         { next: { tags: ['blogPost'] } },
@@ -76,7 +85,7 @@ export default async function BlogPage({ params }: Props) {
     }
   }
 
-  const hasPosts = posts && posts.length > 0;
+  const hasPosts = posts.length > 0;
 
   return (
     <div className="page space-y-12 py-12">
@@ -96,7 +105,7 @@ export default async function BlogPage({ params }: Props) {
       {/* Posts grid or empty state */}
       {hasPosts ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post: any) => (
+          {posts.map((post) => (
             <PostCard key={post.slug.current} post={post} lang={lang} />
           ))}
         </div>

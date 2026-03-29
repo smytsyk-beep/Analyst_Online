@@ -19,8 +19,19 @@ export async function GET(request: NextRequest) {
   const draft = await draftMode();
   draft.enable();
 
-  // Validate slug to prevent open redirect vulnerabilities
-  // Only allow internal paths starting with /
-  const safePath = slug && slug.startsWith('/') ? slug : '/';
+  // Validate slug to prevent open redirect vulnerabilities.
+  // Reject protocol-relative forms like //evil.example and allow only same-origin internal paths.
+  let safePath = '/';
+  if (slug && slug.startsWith('/') && !slug.startsWith('//') && !slug.startsWith('/\\')) {
+    try {
+      const resolved = new URL(slug, request.nextUrl.origin);
+      if (resolved.origin === request.nextUrl.origin) {
+        safePath = `${resolved.pathname}${resolved.search}${resolved.hash}`;
+      }
+    } catch {
+      safePath = '/';
+    }
+  }
+
   redirect(safePath);
 }
