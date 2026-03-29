@@ -1,6 +1,6 @@
 # Analyst Online + OmniDash — Sprint Status
 
-Дата обновления: 2026-03-17
+Дата обновления: 2026-03-22
 
 ---
 
@@ -331,32 +331,119 @@ Sanity CMS полностью интегрирован и работает. Stud
 
 ---
 
-## Sprint 7 — Sanity: миграция контента + preview
+## Sprint 7 — Sanity: миграция контента + preview + ISR
 
-**Статус:** 🔜 Backlog
+**Статус:** ✅ Завершён
 
-### Что нужно сделать
+**Дата завершения:** 2026-03-22
 
-- [ ] Наполнить Sanity реальным контентом
-- [ ] Добавить GROQ queries
-- [ ] Перевести страницы на CMS-driven rendering
-- [ ] Удалить хардкод из `.copy.ts`
-- [ ] Сделать preview mode
-- [ ] Подключить revalidation / ISR / webhook flow
+### Выполнено
+
+- [x] Созданы GROQ queries (`sanity/queries.ts`)
+  - Queries для pages, services, omnidash, FAQ, cases, blog, sitemap
+- [x] Создан migration script (`sanity/migrate.ts`)
+  - Автоматический перенос контента из `.copy.ts` → Sanity
+  - Команда: `npm run migrate-content`
+- [x] Мигрировано 73 документа в Sanity:
+  - 12 pages (home, privacy, contact, cases × 3 локали)
+  - 18 services (6 услуг × 3 локали)
+  - 18 omnidashBlocks (6 блоков × 3 локали)
+  - 25 FAQ (8 вопросов × 3 локали + 1 тестовый)
+- [x] Переключены страницы на CMS-driven rendering:
+  - `app/[lang]/page.tsx` — Home (с fallback)
+  - `app/[lang]/services/page.tsx` — Services (с fallback)
+  - `app/[lang]/omnidash/page.tsx` — OmniDash (с fallback)
+- [x] Добавлена проверка `isSanityConfigured()` для graceful degradation
+- [x] Реализован Preview mode:
+  - `/api/draft` — включение preview mode
+  - `/api/disable-draft` — выключение preview mode
+  - Preview client готов в `sanity/client.ts`
+- [x] Настроен ISR webhook:
+  - `/api/revalidate` — endpoint для автоматической ревалидации
+  - Webhook настроен в Sanity Dashboard
+  - Изменения в Studio → обновление страницы за ~5 секунд
+- [x] Исправлены замечания Codex:
+  - Preview redirect vulnerability (валидация slug)
+  - OmniDash block type mismatch (painPoints, howItWorks, ctaBottom)
+  - Graceful degradation без Sanity (проверка конфигурации)
+  - Prettier formatting
+- [x] Создан cleanup script (`sanity/cleanup-blocks.ts`)
+- [x] Обновлена документация:
+  - `docs/SPRINT_7_FINAL_REPORT.md`
+  - `docs/SPRINT_7_QUICK_SUMMARY.md`
+  - `docs/SPRINT_7_FIXES.md`
+  - `docs/DEPLOY_SPRINT7.md`
+  - `docs/SANITY_WEBHOOK_SETUP.md`
+  - `docs/ENV_SETUP.md`
+- [x] Добавлены env-переменные:
+  - `SANITY_PREVIEW_SECRET`
+  - `SANITY_REVALIDATE_SECRET`
+  - `SANITY_WEBHOOK_SECRET`
+- [x] Задеплоено на production
+- [x] Протестировано:
+  - ✅ CMS-driven страницы работают
+  - ✅ Fallback работает
+  - ✅ ISR webhook работает
+  - ✅ Изменения публикуются автоматически
+  - ✅ API requests: 277 / 250k
+  - ✅ Bandwidth: 357.5 KB / 100 GB
+
+### Результат Sprint 7
+
+Весь контент теперь управляется через Sanity Studio. Можно редактировать тексты без деплоя. Preview mode и ISR работают. Страницы автоматически обновляются при изменении контента в CMS.
+
+**Подробные отчёты:**
+
+- `docs/SPRINT_7_FINAL_REPORT.md`
+- `docs/SPRINT_7_FIXES.md`
 
 ---
 
 ## Sprint 8 — Blog: инфраструктура
 
-**Статус:** 🔜 Backlog
+**Статус:** ✅ Завершён
 
-### Что нужно сделать
+**Дата завершения:** 2026-03-22
 
-- [ ] Sanity schema для blog posts
-- [ ] `app/[lang]/blog/page.tsx` — список статей
-- [ ] `app/[lang]/blog/[slug]/page.tsx` — страница статьи
-- [ ] SEO для блога
-- [ ] Типографика для article pages
+### Выполнено
+
+- [x] Установлены зависимости:
+  - `@portabletext/react` — рендер Portable Text
+  - `@tailwindcss/typography` — типографика для статей
+- [x] Создан `components/blog/portable-text.tsx`:
+  - Кастомные компоненты для h2, h3, h4, p, lists, blockquote
+  - Стилизация code, links, images
+  - Caption для изображений
+- [x] Создан `components/blog/post-card.tsx`:
+  - Карточка статьи для списка
+  - Cover image с hover эффектом
+  - Excerpt, дата, теги
+- [x] Создан `components/blog/post-header.tsx`:
+  - Шапка статьи с title, датой, тегами, cover image
+- [x] Обновлён `app/[lang]/blog/page.tsx`:
+  - CMS integration с `blogListQuery`
+  - Grid layout (1/2/3 колонки)
+  - Empty state если нет статей
+  - Graceful degradation
+- [x] Создан `app/[lang]/blog/[slug]/page.tsx`:
+  - Fetch статьи по slug + locale
+  - Рендер Portable Text
+  - `generateMetadata()` с seoTitle/seoDescription
+  - `generateStaticParams()` для SSG
+  - JSON-LD Article schema
+  - Breadcrumbs
+  - "← Назад к блогу" навигация
+- [x] Обновлён `app/sitemap.ts`:
+  - Динамически добавляет blog posts из CMS
+- [x] Исправлен `sanity/image.ts`:
+  - Использует `createImageUrlBuilder` вместо deprecated default export
+- [x] `next build` проходит успешно
+
+### Результат Sprint 8
+
+Блог полностью функционален. Можно публиковать статьи через Sanity Studio — они автоматически появляются на сайте с правильным SEO, типографикой и в sitemap. SSG для статей работает через `generateStaticParams()`.
+
+**Подробный отчёт:** `docs/SPRINT_8_FINAL_REPORT.md`
 
 ---
 
@@ -438,14 +525,21 @@ Sanity CMS полностью интегрирован и работает. Stud
 - cases page;
 - финальный footer;
 - JSON-LD schema;
-- рабочая отправка форм.
+- рабочая отправка форм;
+- **Sanity CMS полностью интегрирован**;
+- **CMS-driven rendering для основных страниц**;
+- **Preview mode и ISR работают**;
+- **Контент редактируется без деплоя**;
+- **Блоговая система** полностью функциональна;
+- **Portable Text** рендеринг с типографикой;
+- **SSG для blog posts** через generateStaticParams.
 
 ### Ещё не готово
 
-- технический SEO-фундамент в полном объёме;
-- аналитика сайта;
-- CMS для удобного редактирования контента;
 - блоговая инфраструктура;
+- реальные кейсы с детальными страницами;
+- аналитика и event tracking;
+- cookie consent;
 - прод-полировка и launch toolkit.
 
 ---
@@ -468,10 +562,12 @@ Sanity CMS полностью интегрирован и работает. Stud
 - Sprint 4 ✅
 - Sprint 5 ✅
 - Sprint 6 ✅
+- Sprint 7 ✅
+- Sprint 8 ✅
 
 ### Future roadmap
 
-- Sprint 7 🔜 (следующий)
+- Sprint 9 🔜 (следующий — Cases: реальный контент)
 - Sprint 8 🔜
 - Sprint 9 🔜
 - Sprint 10 🔜

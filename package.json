@@ -17,10 +17,12 @@
     "cleanup-blocks": "dotenv -e .env.local -- tsx sanity/cleanup-blocks.ts"
   },
   "dependencies": {
+    "@portabletext/react": "^6.0.3",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.4",
     "@sanity/image-url": "^2.0.3",
     "@sanity/vision": "^5.17.1",
+    "@tailwindcss/typography": "^0.5.19",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "googleapis": "^171.4.0",
