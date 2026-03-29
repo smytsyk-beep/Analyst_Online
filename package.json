@@ -14,7 +14,11 @@
     "test-sanity": "dotenv -e .env.local -- tsx scripts/test-sanity.ts",
     "test-sanity-fetch": "dotenv -e .env.local -- tsx scripts/test-sanity-fetch.ts",
     "migrate-content": "dotenv -e .env.local -- tsx sanity/migrate.ts",
-    "cleanup-blocks": "dotenv -e .env.local -- tsx sanity/cleanup-blocks.ts"
+    "cleanup-blocks": "dotenv -e .env.local -- tsx sanity/cleanup-blocks.ts",
+    "test-blog": "dotenv -e .env.local -- tsx scripts/test-blog-fetch.ts",
+    "test-blog-post": "dotenv -e .env.local -- tsx scripts/test-blog-post.ts",
+    "fix-blog-locale": "dotenv -e .env.local -- tsx scripts/fix-blog-locale.ts",
+    "update-blog-post": "dotenv -e .env.local -- tsx scripts/update-blog-post.ts"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.3",

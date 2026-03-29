@@ -18,11 +18,22 @@ type Props = {
   params: Promise<{ lang: Locale; slug: string }>;
 };
 
+type BlogImageAsset = {
+  _id?: string;
+  _ref?: string;
+  url?: string;
+};
+
+type BlogCoverImage = {
+  asset?: BlogImageAsset;
+  alt?: string;
+};
+
 type BlogPost = {
   title: string;
   slug: { current: string };
   excerpt?: string;
-  coverImage?: Record<string, unknown>;
+  coverImage?: BlogCoverImage;
   body?: PortableTextBlock | PortableTextBlock[];
   publishedAt: string;
   tags?: string[];
@@ -34,6 +45,28 @@ type StaticBlogPostParam = {
   slug: string;
   locale: Locale;
 };
+
+function getCoverImageUrl(
+  coverImage: BlogCoverImage | undefined,
+  width: number,
+  height: number,
+): string | undefined {
+  if (!coverImage) return undefined;
+
+  if (coverImage.asset?.url) {
+    return coverImage.asset.url;
+  }
+
+  if (!coverImage.asset?._id && !coverImage.asset?._ref) {
+    return undefined;
+  }
+
+  try {
+    return urlFor(coverImage).width(width).height(height).fit('crop').url();
+  } catch {
+    return undefined;
+  }
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang, slug } = await params;
@@ -55,9 +88,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     const title = post.seoTitle || post.title;
     const description = post.seoDescription || post.excerpt || '';
-    const ogImageUrl = post.coverImage
-      ? urlFor(post.coverImage).width(1200).height(630).fit('crop').url()
-      : undefined;
+    const ogImageUrl = getCoverImageUrl(post.coverImage, 1200, 630);
 
     return {
       title: `${title} — Analyst Online`,
@@ -96,7 +127,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ lang: Locale; slug: string }[]> {
   if (!isSanityConfigured()) {
     return [];
   }
@@ -115,10 +146,22 @@ export async function generateStaticParams() {
 export default async function BlogPostPage({ params }: Props) {
   const { lang, slug } = await params;
 
-  const labels: Record<Locale, { backToBlog: string; notFound: string }> = {
-    ru: { backToBlog: '← Назад к блогу', notFound: 'Статья не найдена' },
-    ua: { backToBlog: '← Назад до блогу', notFound: 'Статтю не знайдено' },
-    ro: { backToBlog: '← Înapoi la blog', notFound: 'Articol negăsit' },
+  const labels: Record<Locale, { backToBlog: string; notFound: string; emptyBody: string }> = {
+    ru: {
+      backToBlog: '← Назад к блогу',
+      notFound: 'Статья не найдена',
+      emptyBody: 'Содержимое статьи пусто',
+    },
+    ua: {
+      backToBlog: '← Назад до блогу',
+      notFound: 'Статтю не знайдено',
+      emptyBody: 'Вміст статті порожній',
+    },
+    ro: {
+      backToBlog: '← Înapoi la blog',
+      notFound: 'Articol negăsit',
+      emptyBody: 'Conținutul articolului este gol',
+    },
   };
 
   const l = labels[lang];
@@ -142,7 +185,8 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
-  // JSON-LD Article schema
+  const postBody = Array.isArray(post.body) ? post.body : post.body ? [post.body] : [];
+
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -175,7 +219,6 @@ export default async function BlogPostPage({ params }: Props) {
       />
 
       <div className="mx-auto max-w-3xl space-y-8">
-        {/* Back link */}
         <Link
           href={`/${lang}/blog`}
           className="inline-flex items-center text-sm text-neutral-400 transition-colors hover:text-white"
@@ -183,7 +226,6 @@ export default async function BlogPostPage({ params }: Props) {
           {l.backToBlog}
         </Link>
 
-        {/* Post header */}
         <PostHeader
           title={post.title}
           publishedAt={post.publishedAt}
@@ -192,10 +234,15 @@ export default async function BlogPostPage({ params }: Props) {
           lang={lang}
         />
 
-        {/* Post content */}
-        <article className="prose prose-invert prose-lg max-w-none">
-          <BlogPortableText value={post.body ?? []} />
-        </article>
+        {postBody.length > 0 ? (
+          <article className="prose prose-invert prose-lg max-w-none">
+            <BlogPortableText value={postBody} />
+          </article>
+        ) : (
+          <div className="rounded-2xl border border-white/10 bg-neutral-950/30 p-8 text-center">
+            <p className="opacity-70">{l.emptyBody}</p>
+          </div>
+        )}
       </div>
     </div>
   );
