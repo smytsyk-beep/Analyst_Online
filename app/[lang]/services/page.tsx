@@ -13,6 +13,14 @@ import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
 
 type Props = { params: Promise<{ lang: Locale }> };
+type CmsService = {
+  slug: { current: string };
+  title: string;
+  description: string;
+  bullets?: string[];
+  cta?: string;
+  featured?: boolean;
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
@@ -42,10 +50,10 @@ export default async function ServicesPage({ params }: Props) {
   const { lang } = await params;
 
   // Fetch services from CMS
-  let cmsServices = null;
+  let cmsServices: CmsService[] | null = null;
   if (isSanityConfigured()) {
     try {
-      cmsServices = await sanityClient.fetch(
+      cmsServices = await sanityClient.fetch<CmsService[]>(
         servicesQuery,
         { locale: lang },
         { next: { tags: ['service'] } },
@@ -59,7 +67,7 @@ export default async function ServicesPage({ params }: Props) {
   const t = servicesCopy[lang];
   const services =
     cmsServices && cmsServices.length > 0
-      ? cmsServices.map((s: any) => ({
+      ? cmsServices.map((s) => ({
           id: s.slug.current,
           title: s.title,
           description: s.description,

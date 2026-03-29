@@ -25,6 +25,12 @@ const client = createClient({
 
 const locales: Locale[] = ['ru', 'ua', 'ro'];
 
+type SluggedDocument = {
+  _type: string;
+  slug: { current: string };
+  locale: string;
+};
+
 // ============================================================================
 // Helper functions
 // ============================================================================
@@ -35,7 +41,7 @@ async function documentExists(type: string, slug: string, locale: string): Promi
   return !!result;
 }
 
-async function createOrSkip(doc: any, label: string) {
+async function createOrSkip(doc: SluggedDocument, label: string) {
   const exists = await documentExists(doc._type, doc.slug.current, doc.locale);
   if (exists) {
     console.log(`⏭️  Skip: ${label} (already exists)`);

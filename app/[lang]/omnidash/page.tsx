@@ -2,6 +2,7 @@
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import { omniDashCopy } from '@/content/omnidash.copy';
+import type { OmniDashCopy } from '@/content/omnidash.copy';
 import { sanityClient } from '@/sanity/client';
 import { omnidashBlocksQuery, faqQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
@@ -18,51 +19,90 @@ import OmniDashCtaBottom from '@/components/omnidash/cta-bottom';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
+type OmniDashBlockType =
+  | 'hero'
+  | 'painPoints'
+  | 'features'
+  | 'howItWorks'
+  | 'pricing'
+  | 'ctaBottom'
+  | 'faq';
+
+type CmsOmniDashBlock = {
+  blockType: OmniDashBlockType;
+  content: {
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    ctaPrimary?: string;
+    ctaSecondary?: string;
+    stats?: OmniDashCopy['heroStats'];
+    pains?: OmniDashCopy['pains'];
+    features?: OmniDashCopy['features'];
+    advancedTitle?: string;
+    advanced?: OmniDashCopy['featuresAdvanced'];
+    steps?: OmniDashCopy['steps'];
+    note?: string;
+    plans?: OmniDashCopy['plans'];
+  };
+};
+
+type CmsFaqItem = {
+  question: string;
+  answer: string;
+};
+
 // Transform CMS blocks to component format
-function transformOmniDashBlocks(blocks: any[], faq: any[], fallback: typeof omniDashCopy.ru) {
+function transformOmniDashBlocks(
+  blocks: CmsOmniDashBlock[] | null,
+  faq: CmsFaqItem[] | null,
+  fallback: OmniDashCopy,
+) {
   if (!blocks || blocks.length === 0) return fallback;
 
-  const result: any = { ...fallback };
+  const result: OmniDashCopy = { ...fallback };
 
   blocks.forEach((block) => {
     const content = block.content;
     switch (block.blockType) {
       case 'hero':
-        result.heroBadge = content.badge;
-        result.heroTitle = content.title;
-        result.heroSubtitle = content.subtitle;
-        result.heroCtaPrimary = content.ctaPrimary;
-        result.heroCtaSecondary = content.ctaSecondary;
-        result.heroStats = content.stats;
+        result.heroBadge = content.badge ?? result.heroBadge;
+        result.heroTitle = content.title ?? result.heroTitle;
+        result.heroSubtitle = content.subtitle ?? result.heroSubtitle;
+        result.heroCtaPrimary = content.ctaPrimary ?? result.heroCtaPrimary;
+        result.heroCtaSecondary = content.ctaSecondary ?? result.heroCtaSecondary;
+        result.heroStats = content.stats ?? result.heroStats;
         break;
       case 'painPoints':
-        result.painTitle = content.title;
-        result.painSubtitle = content.subtitle;
-        result.pains = content.pains;
+        result.painTitle = content.title ?? result.painTitle;
+        result.painSubtitle = content.subtitle ?? result.painSubtitle;
+        result.pains = content.pains ?? result.pains;
         break;
       case 'features':
-        result.featuresTitle = content.title;
-        result.featuresSubtitle = content.subtitle;
-        result.features = content.features;
-        result.featuresAdvancedTitle = content.advancedTitle;
-        result.featuresAdvanced = content.advanced;
+        result.featuresTitle = content.title ?? result.featuresTitle;
+        result.featuresSubtitle = content.subtitle ?? result.featuresSubtitle;
+        result.features = content.features ?? result.features;
+        result.featuresAdvancedTitle = content.advancedTitle ?? result.featuresAdvancedTitle;
+        result.featuresAdvanced = content.advanced ?? result.featuresAdvanced;
         break;
       case 'howItWorks':
-        result.howTitle = content.title;
-        result.howSubtitle = content.subtitle;
-        result.steps = content.steps;
+        result.howTitle = content.title ?? result.howTitle;
+        result.howSubtitle = content.subtitle ?? result.howSubtitle;
+        result.steps = content.steps ?? result.steps;
         break;
       case 'pricing':
-        result.pricingTitle = content.title;
-        result.pricingSubtitle = content.subtitle;
-        result.pricingNote = content.note;
-        result.plans = content.plans;
+        result.pricingTitle = content.title ?? result.pricingTitle;
+        result.pricingSubtitle = content.subtitle ?? result.pricingSubtitle;
+        result.pricingNote = content.note ?? result.pricingNote;
+        result.plans = content.plans ?? result.plans;
         break;
       case 'ctaBottom':
-        result.ctaTitle = content.title;
-        result.ctaSubtitle = content.subtitle;
-        result.ctaPrimary = content.ctaPrimary;
-        result.ctaSecondary = content.ctaSecondary;
+        result.ctaTitle = content.title ?? result.ctaTitle;
+        result.ctaSubtitle = content.subtitle ?? result.ctaSubtitle;
+        result.ctaPrimary = content.ctaPrimary ?? result.ctaPrimary;
+        result.ctaSecondary = content.ctaSecondary ?? result.ctaSecondary;
+        break;
+      case 'faq':
         break;
     }
   });
@@ -70,7 +110,7 @@ function transformOmniDashBlocks(blocks: any[], faq: any[], fallback: typeof omn
   // Transform FAQ
   if (faq && faq.length > 0) {
     result.faqTitle = fallback.faqTitle; // Keep from fallback
-    result.faqs = faq.map((f: any) => ({ q: f.question, a: f.answer }));
+    result.faqs = faq.map((item) => ({ q: item.question, a: item.answer }));
   }
 
   return result;
@@ -123,18 +163,18 @@ export default async function OmniDashPage({ params }: Props) {
   const { lang } = await params;
 
   // Fetch OmniDash blocks from CMS
-  let cmsBlocks = null;
-  let cmsFaq = null;
+  let cmsBlocks: CmsOmniDashBlock[] | null = null;
+  let cmsFaq: CmsFaqItem[] | null = null;
 
   if (isSanityConfigured()) {
     try {
-      cmsBlocks = await sanityClient.fetch(
+      cmsBlocks = await sanityClient.fetch<CmsOmniDashBlock[]>(
         omnidashBlocksQuery,
         { locale: lang },
         { next: { tags: ['omnidashBlock'] } },
       );
 
-      cmsFaq = await sanityClient.fetch(
+      cmsFaq = await sanityClient.fetch<CmsFaqItem[]>(
         faqQuery,
         { locale: lang, category: 'omnidash' },
         { next: { tags: ['faq'] } },
