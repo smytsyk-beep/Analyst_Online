@@ -10,11 +10,13 @@
 ### 1. ❌ Prettier formatting error
 
 **Проблема:**
+
 ```
 Code style issues found in 13 files. Run Prettier with --write to fix.
 ```
 
 **Исправление:**
+
 ```bash
 npm run format
 ```
@@ -26,6 +28,7 @@ npm run format
 ### 2. 🔒 Preview redirect vulnerability
 
 **Проблема:**
+
 ```typescript
 // app/api/draft/route.ts
 redirect(slug || '/');
@@ -34,6 +37,7 @@ redirect(slug || '/');
 Preview endpoint редиректит напрямую из user-controlled `slug` query param. Если preview secret утекает (logs, shared links, referrers), это может быть использовано как open redirect от вашего trusted domain.
 
 **Исправление:**
+
 ```typescript
 // app/api/draft/route.ts
 // Validate slug to prevent open redirect vulnerabilities
@@ -55,19 +59,21 @@ Transform switch обрабатывает `'pain'`, `'how'`, и `'cta'`, но Sa
 **Исправление:**
 
 1. **Migration script** (`sanity/migrate.ts`):
+
 ```typescript
 // Было:
-blockType: 'pain'
-blockType: 'how'
-blockType: 'cta'
+blockType: 'pain';
+blockType: 'how';
+blockType: 'cta';
 
 // Стало:
-blockType: 'painPoints'
-blockType: 'howItWorks'
-blockType: 'ctaBottom'
+blockType: 'painPoints';
+blockType: 'howItWorks';
+blockType: 'ctaBottom';
 ```
 
 2. **Transform function** (`app/[lang]/omnidash/page.tsx`):
+
 ```typescript
 // Было:
 case 'pain':
@@ -81,6 +87,7 @@ case 'ctaBottom':
 ```
 
 3. **Cleanup script** (`sanity/cleanup-blocks.ts`):
+
 - Создан скрипт для удаления старых блоков с неправильными blockType
 - Команда: `npm run cleanup-blocks`
 
@@ -97,6 +104,7 @@ case 'ctaBottom':
 **Исправление:**
 
 1. **Home page** (`app/[lang]/page.tsx`):
+
 ```typescript
 // Fetch from CMS with fallback to hardcoded copy
 let cmsData = null;
@@ -119,6 +127,7 @@ const t = cmsData
 ```
 
 2. **Services page** (`app/[lang]/services/page.tsx`):
+
 ```typescript
 // Fetch services from CMS
 let cmsServices = null;
@@ -136,6 +145,7 @@ if (isSanityConfigured()) {
 ```
 
 3. **OmniDash page** (`app/[lang]/omnidash/page.tsx`):
+
 ```typescript
 // Fetch OmniDash blocks from CMS
 let cmsBlocks = null;
@@ -211,23 +221,29 @@ package.json                  # Добавлен cleanup-blocks script
 ## Тестирование
 
 ### 1. Build проходит
+
 ```bash
 npm run build
 ```
+
 ✅ Успешно
 
 ### 2. Cleanup + Migration
+
 ```bash
 npm run cleanup-blocks
 npm run migrate-content
 ```
+
 ✅ Удалено 9 старых блоков (3 × 3 локали)  
 ✅ Создано 9 новых блоков с правильными blockType
 
 ### 3. Prettier
+
 ```bash
 npm run format
 ```
+
 ✅ Все файлы отформатированы
 
 ---
@@ -235,6 +251,7 @@ npm run format
 ## Готово к деплою
 
 Все замечания от Codex исправлены:
+
 - ✅ Prettier formatting
 - ✅ Preview redirect vulnerability
 - ✅ OmniDash block type mismatch
