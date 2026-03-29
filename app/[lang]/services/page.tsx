@@ -2,6 +2,9 @@
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import { servicesCopy } from '@/content/services.copy';
+import { sanityClient } from '@/sanity/client';
+import { servicesQuery } from '@/sanity/queries';
+import { isSanityConfigured } from '@/sanity/config';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +13,14 @@ import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
 
 type Props = { params: Promise<{ lang: Locale }> };
+type CmsService = {
+  slug: { current: string };
+  title: string;
+  description: string;
+  bullets?: string[];
+  cta?: string;
+  featured?: boolean;
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
@@ -37,7 +48,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ServicesPage({ params }: Props) {
   const { lang } = await params;
+
+  // Fetch services from CMS
+  let cmsServices: CmsService[] | null = null;
+  if (isSanityConfigured()) {
+    try {
+      cmsServices = await sanityClient.fetch<CmsService[]>(
+        servicesQuery,
+        { locale: lang },
+        { next: { tags: ['service'] } },
+      );
+    } catch (error) {
+      console.warn('Failed to fetch services from Sanity CMS, using fallback:', error);
+    }
+  }
+
+  // Use CMS data if available, otherwise fallback to .copy.ts
   const t = servicesCopy[lang];
+  const services =
+    cmsServices && cmsServices.length > 0
+      ? cmsServices.map((s) => ({
+          id: s.slug.current,
+          title: s.title,
+          description: s.description,
+          bullets: s.bullets || [],
+          cta: s.cta || t.ctaPrimary,
+          highlighted: s.featured || false,
+        }))
+      : t.services;
 
   return (
     <div className="page space-y-16 py-12">
@@ -56,7 +94,7 @@ export default async function ServicesPage({ params }: Props) {
 
       {/* Services grid */}
       <div className="grid gap-6 md:grid-cols-2">
-        {t.services.map((service) => (
+        {services.map((service: (typeof t.services)[0]) => (
           <Card
             key={service.id}
             className={`rounded-2xl border transition-colors ${

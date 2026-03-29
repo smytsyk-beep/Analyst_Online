@@ -284,13 +284,13 @@ Final Checks ✅
 
 ## Sprint 6 — Sanity CMS: подключение + контент-модель
 
-**Статус:** ✅ Завершён (инфраструктура)
+**Статус:** ✅ Полностью завершён
 
 ### Выполнено
 
-- [x] Установлены зависимости: `next-sanity`, `@sanity/image-url`, `@sanity/vision`, `sanity`
+- [x] Установлены зависимости: `next-sanity` v12.1.3, `sanity` v5.17.1, `@sanity/image-url`, `@sanity/vision`
 - [x] Создана конфигурация Sanity:
-  - `sanity/config.ts` — projectId, dataset, apiVersion, useCdn
+  - `sanity/config.ts` — projectId, dataset, apiVersion, useCdn, isSanityConfigured()
   - `sanity/client.ts` — sanityClient и previewClient
   - `sanity/image.ts` — хелпер urlFor() для изображений
 - [x] Описаны 6 контент-схем в `sanity/schemas/`:
@@ -302,23 +302,32 @@ Final Checks ✅
   - `blogPost.ts` — статьи блога с Portable Text
 - [x] Создан `sanity.config.ts` в корне проекта
 - [x] Создан embedded Sanity Studio: `app/studio/[[...tool]]/page.tsx`
-- [x] Обновлена документация: `docs/ENV_SETUP.md`, `docs/SANITY_SETUP.md`
+- [x] Middleware исправлен: `/studio` исключён из i18n редиректов
+- [x] Добавлена fallback UI с диагностикой конфигурации
+- [x] Создан Sanity project на sanity.io (Project ID: kqf8a635)
+- [x] Переменные добавлены в `.env.local` и Vercel (все окружения)
+- [x] Studio работает локально: `http://localhost:3000/studio`
+- [x] Studio работает на production: `https://analyst-online.vercel.app/studio`
+- [x] Создан тестовый документ (FAQ) в Studio
+- [x] `sanityClient.fetch()` возвращает данные (проверено через test-sanity-fetch.ts)
 - [x] `next build` проходит успешно
+- [x] Обновлена документация:
+  - `docs/ENV_SETUP.md`
+  - `docs/SANITY_SETUP.md`
+  - `docs/DEPLOY_SPRINT6.md`
+  - `docs/SPRINT_6_SUMMARY.md`
+  - `docs/SPRINT_6_FINAL_REPORT.md`
+  - `docs/GIT_PUSH_GUIDE.md`
+  - `docs/PUSH_INSTRUCTIONS.md`
+- [x] Созданы тестовые скрипты:
+  - `scripts/test-sanity.ts` — проверка конфигурации
+  - `scripts/test-sanity-fetch.ts` — проверка fetch и документов
 
-### Что осталось (требует действий пользователя)
+### Результат Sprint 6
 
-- [ ] Создать Sanity project на sanity.io
-- [ ] Получить Project ID и API Token
-- [ ] Добавить переменные в `.env.local`:
-  - `NEXT_PUBLIC_SANITY_PROJECT_ID`
-  - `NEXT_PUBLIC_SANITY_DATASET`
-  - `SANITY_API_TOKEN`
-- [ ] Открыть `/studio` и авторизоваться
-- [ ] Проверить, что Studio работает
+Sanity CMS полностью интегрирован и работает. Studio доступен локально и на production. Все 6 контент-схем готовы к использованию. Тестовый документ создан, fetch работает. Готов к миграции контента в Sprint 7.
 
-### Итог Sprint 6
-
-Инфраструктура Sanity полностью готова. Все схемы описаны, Studio настроен. Осталось только создать проект на sanity.io и добавить credentials. Подробная инструкция в `docs/SANITY_SETUP.md`.
+Подробный отчёт: `docs/SPRINT_6_FINAL_REPORT.md`
 
 ---
 
@@ -456,19 +465,13 @@ Final Checks ✅
 - Sprint 1 ✅
 - Sprint 2 ✅
 - Sprint 3 ✅
-
-### In queue
-
 - Sprint 4 ✅
 - Sprint 5 ✅
-
-### In progress
-
-- Sprint 6 ⏳ (инфраструктура готова, ждёт настройки проекта)
+- Sprint 6 ✅
 
 ### Future roadmap
 
-- Sprint 7 🔜
+- Sprint 7 🔜 (следующий)
 - Sprint 8 🔜
 - Sprint 9 🔜
 - Sprint 10 🔜
