@@ -59,7 +59,7 @@ export default function PostCard({ post, lang }: PostCardProps) {
   return (
     <Link
       href={`/${lang}/blog/${post.slug.current}`}
-      className="group block overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm transition-all duration-300 hover:border-white/[0.1] hover:bg-white/[0.055] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)]"
+      className="group block overflow-hidden rounded-lg border border-grid-divider bg-white shadow-sm transition-all duration-200 hover:border-omni-blue hover:shadow-md"
     >
       {coverImageUrl && (
         <div className="relative aspect-video w-full overflow-hidden">
@@ -74,7 +74,7 @@ export default function PostCard({ post, lang }: PostCardProps) {
       )}
 
       <div className="p-6 space-y-3">
-        <div className="flex items-center gap-2 text-sm text-neutral-400">
+        <div className="flex items-center gap-2 text-sm text-omni-navy/60">
           <time dateTime={post.publishedAt}>{formattedDate}</time>
           {post.tags && post.tags.length > 0 && (
             <>
@@ -84,13 +84,13 @@ export default function PostCard({ post, lang }: PostCardProps) {
           )}
         </div>
 
-        <h3 className="text-xl font-semibold leading-tight transition-colors group-hover:text-blue-400">
+        <h3 className="text-xl font-bold leading-tight text-omni-navy transition-colors group-hover:text-omni-blue">
           {post.title}
         </h3>
 
-        {post.excerpt && <p className="line-clamp-2 text-sm opacity-70">{post.excerpt}</p>}
+        {post.excerpt && <p className="line-clamp-2 text-sm text-omni-navy/70">{post.excerpt}</p>}
 
-        <div className="pt-2 text-sm text-blue-400 transition-colors group-hover:text-blue-300">
+        <div className="pt-2 text-sm font-semibold text-omni-blue transition-colors group-hover:text-royal-blue">
           Читать далее →
         </div>
       </div>

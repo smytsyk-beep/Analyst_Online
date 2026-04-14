@@ -26,6 +26,7 @@ export default async function LangLayout({
 
   return (
     <div className="relative min-h-dvh flex flex-col">
+      <ParticlesBackground />
       <Header lang={lang as Locale} policy={policy} />
       <main className="flex-1">{children}</main>
       <Footer lang={lang as Locale} />

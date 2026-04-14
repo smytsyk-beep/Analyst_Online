@@ -85,13 +85,13 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
 
   if (state === 'success') {
     return (
-      <Card className="rounded-2xl border border-green-500/25 bg-green-500/[0.05] backdrop-blur-sm">
+      <Card className="rounded-lg border border-growth-green/30 bg-growth-green/5">
         <CardContent className="p-8 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/20">
-            <span className="text-3xl">✓</span>
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-growth-green/20">
+            <span className="text-3xl text-growth-green">✓</span>
           </div>
-          <h3 className="text-xl font-semibold text-green-400">{labels.successTitle}</h3>
-          <p className="mt-2 opacity-80">{labels.successMessage}</p>
+          <h3 className="text-xl font-bold text-omni-navy">{labels.successTitle}</h3>
+          <p className="mt-2 text-omni-navy/70">{labels.successMessage}</p>
           <Button onClick={() => setState('idle')} variant="outline" className="mt-6" size="sm">
             Send another message
           </Button>
@@ -102,15 +102,15 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold">{labels.title}</h2>
-      <p className="mt-2 opacity-80">{labels.subtitle}</p>
+      <h2 className="text-2xl font-bold text-omni-navy">{labels.title}</h2>
+      <p className="mt-2 text-omni-navy/70">{labels.subtitle}</p>
 
-      <Card className="mt-6 rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm">
+      <Card className="mt-6 rounded-lg border border-grid-divider bg-white shadow-sm">
         <CardContent className="p-6 md:p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium opacity-80">
+              <label htmlFor="name" className="block text-sm font-semibold text-omni-navy">
                 {labels.nameLabel}
               </label>
               <input
@@ -121,19 +121,19 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
                 onChange={handleChange}
                 placeholder={labels.namePlaceholder}
                 disabled={state === 'loading'}
-                className={`mt-1.5 w-full rounded-lg border px-4 py-2.5 text-sm transition-colors ${
+                className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-omni-navy transition-colors placeholder:text-omni-navy/40 ${
                   errors.name
-                    ? 'border-red-500/50 bg-red-950/20'
-                    : 'border-white/10 bg-white/5 focus:border-white/30 focus:outline-none'
+                    ? 'border-red-500 bg-red-50'
+                    : 'border-grid-divider bg-white focus:border-omni-blue focus:outline-none focus:ring-2 focus:ring-omni-blue/20'
                 } disabled:opacity-50`}
                 required
               />
-              {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name}</p>}
+              {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name}</p>}
             </div>
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium opacity-80">
+              <label htmlFor="email" className="block text-sm font-semibold text-omni-navy">
                 {labels.emailLabel}
               </label>
               <input
@@ -144,19 +144,19 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
                 onChange={handleChange}
                 placeholder={labels.emailPlaceholder}
                 disabled={state === 'loading'}
-                className={`mt-1.5 w-full rounded-lg border px-4 py-2.5 text-sm transition-colors ${
+                className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-omni-navy transition-colors placeholder:text-omni-navy/40 ${
                   errors.email
-                    ? 'border-red-500/50 bg-red-950/20'
-                    : 'border-white/10 bg-white/5 focus:border-white/30 focus:outline-none'
+                    ? 'border-red-500 bg-red-50'
+                    : 'border-grid-divider bg-white focus:border-omni-blue focus:outline-none focus:ring-2 focus:ring-omni-blue/20'
                 } disabled:opacity-50`}
                 required
               />
-              {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
+              {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
             </div>
 
             {/* Message */}
             <div>
-              <label htmlFor="message" className="block text-sm font-medium opacity-80">
+              <label htmlFor="message" className="block text-sm font-semibold text-omni-navy">
                 {labels.messageLabel}
               </label>
               <textarea
@@ -167,25 +167,29 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
                 placeholder={labels.messagePlaceholder}
                 disabled={state === 'loading'}
                 rows={5}
-                className={`mt-1.5 w-full rounded-lg border px-4 py-2.5 text-sm transition-colors ${
+                className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-omni-navy transition-colors placeholder:text-omni-navy/40 ${
                   errors.message
-                    ? 'border-red-500/50 bg-red-950/20'
-                    : 'border-white/10 bg-white/5 focus:border-white/30 focus:outline-none'
+                    ? 'border-red-500 bg-red-50'
+                    : 'border-grid-divider bg-white focus:border-omni-blue focus:outline-none focus:ring-2 focus:ring-omni-blue/20'
                 } disabled:opacity-50`}
                 required
               />
-              {errors.message && <p className="mt-1 text-xs text-red-400">{errors.message}</p>}
+              {errors.message && <p className="mt-1 text-xs text-red-600">{errors.message}</p>}
             </div>
 
             {/* Error message */}
             {state === 'error' && !Object.keys(errors).length && (
-              <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-4">
-                <p className="text-sm text-red-200">{labels.errorMessage}</p>
+              <div className="rounded-lg border border-red-500/30 bg-red-50 p-4">
+                <p className="text-sm text-red-700">{labels.errorMessage}</p>
               </div>
             )}
 
             {/* Submit */}
-            <Button type="submit" disabled={state === 'loading'} className="w-full sm:w-auto">
+            <Button
+              type="submit"
+              disabled={state === 'loading'}
+              className="w-full rounded-lg bg-omni-blue font-bold text-white hover:bg-royal-blue sm:w-auto"
+            >
               {state === 'loading' ? labels.sending : labels.submit}
             </Button>
           </form>

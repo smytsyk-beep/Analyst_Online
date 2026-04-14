@@ -73,22 +73,24 @@ export default async function ContactPage({ params }: Props) {
               >
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.06] bg-white/[0.04]">
-                      <Icon size={18} className="text-white/70" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-grid-divider bg-soft-bg">
+                      <Icon size={18} className="text-omni-blue" />
                     </div>
                     <div>
-                      <div className="text-sm font-semibold">{channel.label}</div>
+                      <div className="text-sm font-semibold text-omni-navy">{channel.label}</div>
                       <a
                         href={channel.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-blue-400 hover:underline"
+                        className="text-sm font-medium text-omni-blue hover:text-royal-blue"
                       >
                         {channel.value}
                       </a>
                     </div>
                   </div>
-                  <p className="mt-3 text-xs leading-relaxed opacity-60">{channel.description}</p>
+                  <p className="mt-3 text-xs leading-relaxed text-omni-navy/60">
+                    {channel.description}
+                  </p>
                 </CardContent>
               </Card>
             );

@@ -75,11 +75,13 @@ components/
 ### Паттерн 1: Карточка
 
 **Было:**
+
 ```tsx
 <Card className="rounded-2xl border border-white/10 bg-neutral-950/30">
 ```
 
 **Стало:**
+
 ```tsx
 <Card className="rounded-lg border border-grid-divider bg-white shadow-sm hover:border-omni-blue hover:shadow-md">
 ```
@@ -87,11 +89,13 @@ components/
 ### Паттерн 2: Заголовок
 
 **Было:**
+
 ```tsx
 <h2 className="text-3xl font-semibold text-white">
 ```
 
 **Стало:**
+
 ```tsx
 <h2 className="text-3xl font-bold text-omni-navy md:text-4xl">
 ```
@@ -99,11 +103,13 @@ components/
 ### Паттерн 3: Текст
 
 **Было:**
+
 ```tsx
 <p className="text-white/60">
 ```
 
 **Стало:**
+
 ```tsx
 <p className="text-omni-navy/70">
 ```
@@ -111,11 +117,13 @@ components/
 ### Паттерн 4: Кнопка Primary
 
 **Было:**
+
 ```tsx
 <Button className="rounded-full px-8 shadow-lg shadow-blue-500/20">
 ```
 
 **Стало:**
+
 ```tsx
 <Button className="rounded-lg bg-omni-blue px-8 font-bold text-white shadow-md hover:bg-royal-blue">
 ```
@@ -123,11 +131,13 @@ components/
 ### Паттерн 5: Кнопка Outline
 
 **Было:**
+
 ```tsx
 <Button variant="outline" className="rounded-full border-white/10">
 ```
 
 **Стало:**
+
 ```tsx
 <Button variant="outline" className="rounded-lg border-2 border-omni-blue font-bold text-omni-blue hover:bg-omni-blue hover:text-white">
 ```
@@ -135,6 +145,7 @@ components/
 ### Паттерн 6: Изображение в карточке
 
 **Было:**
+
 ```tsx
 <Card>
   <Image src="..." />
@@ -142,6 +153,7 @@ components/
 ```
 
 **Стало:**
+
 ```tsx
 <Card className="p-4">
   <div className="overflow-hidden rounded-md">
@@ -171,16 +183,19 @@ components/
 ## Приоритет обновления
 
 ### Фаза 1 (критично — видно сразу)
+
 1. `components/omnidash/hero.tsx`
 2. `components/omnidash/pricing.tsx`
 3. `components/omnidash/cta-bottom.tsx`
 
 ### Фаза 2 (важно)
+
 4. `components/omnidash/features.tsx`
 5. `components/omnidash/pain-points.tsx`
 6. `app/[lang]/services/page.tsx`
 
 ### Фаза 3 (остальное)
+
 7. Все остальные компоненты из списка выше
 
 ---
