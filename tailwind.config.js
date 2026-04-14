@@ -12,13 +12,12 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        lg: '8px',
+        md: '6px',
+        sm: '4px',
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -61,6 +60,16 @@ module.exports = {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
+        // OmniDash brand colors
+        'omni-navy': '#1F2A44',
+        'omni-blue': '#2F6EDB',
+        'royal-blue': '#2C5CC5',
+        'sky-blue': '#3F86E8',
+        'omni-cyan': '#4EC6D8',
+        'growth-green': '#63C05A',
+        'lime-accent': '#A6D63A',
+        'soft-bg': '#F3F6FA',
+        'grid-divider': '#DDE6F3',
       },
     },
   },

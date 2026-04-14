@@ -29,7 +29,7 @@ export default function Header({ lang, policy }: HeaderProps) {
   const localesToShow = policy?.allowedLocales ?? LOCALES;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0a0b18]/75 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-grid-divider bg-white/95 backdrop-blur-sm shadow-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 text-sm sm:px-6">
         {/* Логотип / бренд */}
         <Link href={`/${lang}`} className="flex items-center gap-2.5 group">
@@ -38,9 +38,9 @@ export default function Header({ lang, policy }: HeaderProps) {
             alt="Analyst Online"
             width={32}
             height={32}
-            className="h-8 w-8 transition-opacity group-hover:opacity-90"
+            className="h-8 w-8 transition-opacity group-hover:opacity-80"
           />
-          <span className="hidden font-semibold tracking-tight text-white/90 group-hover:text-white transition-colors xs:inline sm:inline">
+          <span className="hidden font-bold tracking-tight text-omni-navy group-hover:text-omni-blue transition-colors xs:inline sm:inline">
             Analyst Online
           </span>
         </Link>
@@ -53,7 +53,7 @@ export default function Header({ lang, policy }: HeaderProps) {
                 <Link
                   key={item.id}
                   href={`/${lang}`}
-                  className="rounded-md px-3 py-1.5 text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
+                  className="rounded-md px-3 py-1.5 text-omni-navy/70 transition-colors hover:bg-soft-bg hover:text-omni-navy font-medium"
                 >
                   {item.label}
                 </Link>
@@ -65,7 +65,7 @@ export default function Header({ lang, policy }: HeaderProps) {
                 <Link
                   key={item.id}
                   href={`/${lang}${item.href}`}
-                  className="rounded-md px-3 py-1.5 font-semibold text-blue-400 transition-colors hover:bg-blue-500/10 hover:text-blue-300"
+                  className="rounded-md px-3 py-1.5 font-bold text-omni-blue transition-colors hover:bg-omni-blue/10 hover:text-royal-blue"
                 >
                   {item.label}
                 </Link>
@@ -76,7 +76,7 @@ export default function Header({ lang, policy }: HeaderProps) {
               <Link
                 key={item.id}
                 href={`/${lang}${item.href}`}
-                className="rounded-md px-3 py-1.5 text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
+                className="rounded-md px-3 py-1.5 text-omni-navy/70 transition-colors hover:bg-soft-bg hover:text-omni-navy font-medium"
               >
                 {item.label}
               </Link>

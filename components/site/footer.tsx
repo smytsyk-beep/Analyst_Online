@@ -19,13 +19,13 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/[0.06] bg-[#020304]/60 backdrop-blur-sm">
+    <footer className="border-t border-grid-divider bg-white">
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
         {/* Top: nav + contacts */}
         <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
           {/* Navigation */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-white/40 mb-3">
+            <p className="text-xs font-semibold uppercase tracking-wider text-omni-navy/50 mb-3">
               Navigation
             </p>
             <nav className="flex flex-wrap gap-x-4 gap-y-2">
@@ -33,7 +33,7 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
                 <Link
                   key={item.href}
                   href={`/${lang}${item.href}`}
-                  className="text-sm text-white/60 hover:text-white transition-colors"
+                  className="text-sm text-omni-navy/60 hover:text-omni-blue transition-colors font-medium"
                 >
                   {item.label}
                 </Link>
@@ -43,7 +43,7 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
 
           {/* Contacts */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-white/40 mb-3">
+            <p className="text-xs font-semibold uppercase tracking-wider text-omni-navy/50 mb-3">
               Contact
             </p>
             <div className="flex flex-col gap-1.5 text-sm">
@@ -51,13 +51,13 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
                 href="https://t.me/omnidash_ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/60 hover:text-white transition-colors"
+                className="text-omni-navy/60 hover:text-omni-blue transition-colors font-medium"
               >
                 Telegram: @omnidash_ai
               </a>
               <a
                 href="mailto:s.mytsyk@gmail.com"
-                className="text-white/60 hover:text-white transition-colors"
+                className="text-omni-navy/60 hover:text-omni-blue transition-colors font-medium"
               >
                 s.mytsyk@gmail.com
               </a>
@@ -66,7 +66,7 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
         </div>
 
         {/* Bottom */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-2 border-t border-white/5 pt-6 text-xs text-white/40 sm:flex-row">
+        <div className="mt-8 flex flex-col items-center justify-between gap-2 border-t border-grid-divider pt-6 text-xs text-omni-navy/50 sm:flex-row">
           <span>© {year} Analyst Online. All rights reserved.</span>
           <span>Analytics, dashboards & automation for business.</span>
         </div>

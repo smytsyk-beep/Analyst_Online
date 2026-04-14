@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html {
@@ -12,9 +12,9 @@ html {
 
 body {
   min-height: 100%;
-  @apply text-white antialiased;
-  background: linear-gradient(180deg, #0d0d1f 0%, #080b14 35%, #050709 70%, #020304 100%);
-  background-attachment: fixed;
+  @apply antialiased;
+  background: #f3f6fa;
+  color: #1f2a44;
 }
 
 .page {
@@ -29,95 +29,82 @@ body {
   @apply text-lg opacity-80;
 }
 
-/* Gradient text utility */
+/* OmniDash brand utilities */
 .text-gradient {
   @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(
-    135deg,
-    #ffffff 0%,
-    #ffffff 50%,
-    rgba(255, 255, 255, 0.55) 100%
-  );
+  background-image: linear-gradient(135deg, #2f6edb 0%, #4ec6d8 100%);
 }
 
-/* Glass card utility */
-.glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(12px);
+/* Clean card style */
+.brand-card {
+  background: #ffffff;
+  border: 1px solid #dde6f3;
+  box-shadow: 0 1px 3px rgba(31, 42, 68, 0.04);
   transition:
-    background 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.glass-card:hover {
-  background: rgba(255, 255, 255, 0.055);
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 40px rgba(59, 130, 246, 0.05);
+.brand-card:hover {
+  border-color: #2f6edb;
+  box-shadow: 0 4px 12px rgba(47, 110, 219, 0.08);
 }
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* OmniDash light theme */
+    --background: 243 246 250; /* #F3F6FA */
+    --foreground: 217 28 27; /* #1F2A44 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%; /* white */
+    --card-foreground: 217 28 27;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 217 28 27;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 217 73% 53%; /* #2F6EDB Omni Blue */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 215 60% 47%; /* #2C5CC5 Royal Blue */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 215 35% 92%; /* #DDE6F3 */
+    --muted-foreground: 217 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 187 64% 58%; /* #4EC6D8 Cyan */
+    --accent-foreground: 217 28 27;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 215 35% 92%; /* #DDE6F3 */
+    --input: 215 35% 92%;
+    --ring: 217 73% 53%;
 
-    --radius: 0.75rem;
+    --radius: 8px;
   }
 
+  /* Dark mode disabled for OmniDash brand consistency */
   .dark {
-    --background: 230 30% 6%;
-    --foreground: 210 40% 98%;
-
-    --card: 228 25% 8%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 228 25% 8%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 225 22% 13%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 225 20% 14%;
-    --muted-foreground: 215 18% 58%;
-
-    --accent: 225 22% 13%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 225 18% 14%;
-    --input: 225 18% 14%;
-    --ring: 213 27% 84%;
+    --background: 243 246 250;
+    --foreground: 217 28 27;
+    --card: 0 0% 100%;
+    --card-foreground: 217 28 27;
+    --popover: 0 0% 100%;
+    --popover-foreground: 217 28 27;
+    --primary: 217 73% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 60% 47%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 215 35% 92%;
+    --muted-foreground: 217 15% 45%;
+    --accent: 187 64% 58%;
+    --accent-foreground: 217 28 27;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 35% 92%;
+    --input: 215 35% 92%;
+    --ring: 217 73% 53%;
   }
 
   * {
