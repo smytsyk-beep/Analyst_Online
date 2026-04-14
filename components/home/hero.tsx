@@ -32,17 +32,11 @@ export default function HomeHero({ t, lang }: Props) {
           </span>
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-white/55 md:text-xl">
-          {t.heroSubtitle}
-        </p>
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-white/55 md:text-xl">{t.heroSubtitle}</p>
 
         {/* CTAs */}
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <Button
-            size="lg"
-            className="rounded-full px-8 shadow-lg shadow-blue-500/20"
-            asChild
-          >
+          <Button size="lg" className="rounded-full px-8 shadow-lg shadow-blue-500/20" asChild>
             <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
               {t.ctaPrimary}
             </a>
