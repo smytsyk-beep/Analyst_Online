@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 
 import Header from '@/components/site/header';
 import Footer from '@/components/site/footer';
+import ParticlesBackground from '@/components/shared/particles-background';
 import { COUNTRY_COOKIE, getI18nPolicy, isLocale, type Locale } from '@/lib/i18n';
 
 export default async function LangLayout({
@@ -24,7 +25,8 @@ export default async function LangLayout({
   const policy = getI18nPolicy(country);
 
   return (
-    <div className="min-h-dvh flex flex-col">
+    <div className="relative min-h-dvh flex flex-col">
+      <ParticlesBackground />
       <Header lang={lang as Locale} policy={policy} />
       <main className="flex-1">{children}</main>
       <Footer lang={lang as Locale} />

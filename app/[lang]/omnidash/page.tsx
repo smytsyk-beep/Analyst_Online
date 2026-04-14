@@ -188,7 +188,7 @@ export default async function OmniDashPage({ params }: Props) {
   const t = transformOmniDashBlocks(cmsBlocks, cmsFaq, omniDashCopy[lang]);
 
   return (
-    <div className="bg-black">
+    <div>
       <JsonLd data={productSchema(lang)} />
       <JsonLd
         data={breadcrumbSchema([

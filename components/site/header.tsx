@@ -29,28 +29,32 @@ export default function Header({ lang, policy }: HeaderProps) {
   const localesToShow = policy?.allowedLocales ?? LOCALES;
 
   return (
-    <header className="border-b border-white/10 bg-black/80 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 text-sm sm:px-6">
+    <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0a0b18]/75 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 text-sm sm:px-6">
         {/* Логотип / бренд */}
-        <Link href={`/${lang}`} className="flex items-center gap-2">
+        <Link href={`/${lang}`} className="flex items-center gap-2.5 group">
           <Image
             src="/logo/icon.png"
             alt="Analyst Online"
             width={32}
             height={32}
-            className="h-8 w-8"
+            className="h-8 w-8 transition-opacity group-hover:opacity-90"
           />
-          <span className="hidden font-semibold tracking-tight xs:inline sm:inline">
+          <span className="hidden font-semibold tracking-tight text-white/90 group-hover:text-white transition-colors xs:inline sm:inline">
             Analyst Online
           </span>
         </Link>
 
         {/* Главное меню */}
-        <nav className="hidden items-center gap-4 md:flex">
+        <nav className="hidden items-center gap-1 md:flex">
           {NAV.map((item) => {
             if (item.id === 'home') {
               return (
-                <Link key={item.id} href={`/${lang}`} className="opacity-80 hover:opacity-100">
+                <Link
+                  key={item.id}
+                  href={`/${lang}`}
+                  className="rounded-md px-3 py-1.5 text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
+                >
                   {item.label}
                 </Link>
               );
@@ -61,7 +65,7 @@ export default function Header({ lang, policy }: HeaderProps) {
                 <Link
                   key={item.id}
                   href={`/${lang}${item.href}`}
-                  className="font-semibold text-white hover:opacity-90"
+                  className="rounded-md px-3 py-1.5 font-semibold text-blue-400 transition-colors hover:bg-blue-500/10 hover:text-blue-300"
                 >
                   {item.label}
                 </Link>
@@ -72,7 +76,7 @@ export default function Header({ lang, policy }: HeaderProps) {
               <Link
                 key={item.id}
                 href={`/${lang}${item.href}`}
-                className="opacity-80 hover:opacity-100"
+                className="rounded-md px-3 py-1.5 text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
               >
                 {item.label}
               </Link>

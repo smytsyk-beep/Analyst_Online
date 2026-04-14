@@ -60,10 +60,14 @@ const portableTextComponents: PortableTextComponents = {
       <code className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-sm">{children}</code>
     ),
     link: ({ children, value }) => {
-      const rel = !value.href.startsWith('/') ? 'noreferrer noopener' : undefined;
+      const href = typeof value?.href === 'string' ? value.href : '';
+      if (!href) {
+        return <>{children}</>;
+      }
+      const rel = !href.startsWith('/') ? 'noreferrer noopener' : undefined;
       return (
         <a
-          href={value.href}
+          href={href}
           rel={rel}
           className="text-blue-400 underline decoration-blue-400/30 underline-offset-2 transition-colors hover:text-blue-300 hover:decoration-blue-300/50"
         >

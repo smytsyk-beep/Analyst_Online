@@ -19,7 +19,7 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/10 bg-black">
+    <footer className="border-t border-white/[0.06] bg-[#020304]/60 backdrop-blur-sm">
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
         {/* Top: nav + contacts */}
         <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
