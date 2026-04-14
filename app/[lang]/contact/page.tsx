@@ -55,8 +55,8 @@ export default async function ContactPage({ params }: Props) {
 
       {/* Header */}
       <div className="max-w-2xl">
-        <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">{t.pageTitle}</h1>
-        <p className="mt-4 text-lg opacity-80">{t.pageSubtitle}</p>
+        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{t.pageTitle}</h1>
+        <p className="mt-4 text-lg text-white/60">{t.pageSubtitle}</p>
       </div>
 
       {/* Channels */}
@@ -69,11 +69,11 @@ export default async function ContactPage({ params }: Props) {
             return (
               <Card
                 key={channel.id}
-                className="rounded-2xl border border-white/10 bg-neutral-950/30 transition-colors hover:border-white/20 hover:bg-neutral-950/50"
+                className="rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm transition-all duration-300 hover:border-blue-500/20 hover:bg-white/[0.05] hover:shadow-[0_0_30px_rgba(59,130,246,0.05)]"
               >
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/5">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.06] bg-white/[0.04]">
                       <Icon size={18} className="text-white/70" />
                     </div>
                     <div>

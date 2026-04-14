@@ -17,10 +17,13 @@ export default function OmniDashFaq({ t }: Props) {
 
         <div className="mt-10 space-y-2">
           {t.faqs.map((faq, i) => (
-            <div key={i} className="overflow-hidden rounded-xl border border-white/8 bg-white/3">
+            <div
+              key={i}
+              className="overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm transition-colors hover:border-white/[0.1]"
+            >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className="flex w-full items-center justify-between px-6 py-4 text-left text-sm font-medium text-white hover:bg-white/5"
+                className="flex w-full items-center justify-between px-6 py-4 text-left text-sm font-medium text-white hover:bg-white/[0.04]"
               >
                 <span>{faq.q}</span>
                 <ChevronDown
@@ -32,7 +35,7 @@ export default function OmniDashFaq({ t }: Props) {
               </button>
 
               {open === i && (
-                <div className="border-t border-white/8 px-6 py-4 text-sm leading-relaxed text-white/60">
+                <div className="border-t border-white/[0.06] px-6 py-4 text-sm leading-relaxed text-white/60">
                   {faq.a}
                 </div>
               )}

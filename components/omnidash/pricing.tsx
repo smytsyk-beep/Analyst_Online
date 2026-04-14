@@ -18,8 +18,10 @@ export default function OmniDashPricing({ t }: Props) {
           {t.plans.map((plan) => (
             <div
               key={plan.label}
-              className={`relative flex flex-col rounded-2xl border p-6 md:p-8 ${
-                plan.highlighted ? 'border-blue-500/50 bg-blue-500/10' : 'border-white/8 bg-white/3'
+              className={`relative flex flex-col rounded-2xl border p-6 backdrop-blur-sm transition-all duration-300 md:p-8 ${
+                plan.highlighted
+                  ? 'border-blue-500/40 bg-blue-500/[0.08] shadow-[0_0_60px_rgba(59,130,246,0.1)] hover:border-blue-500/60'
+                  : 'border-white/[0.06] bg-white/[0.03] hover:border-white/[0.1] hover:bg-white/[0.05]'
               }`}
             >
               {plan.highlighted && (
@@ -50,7 +52,11 @@ export default function OmniDashPricing({ t }: Props) {
 
               <div className="mt-8">
                 <Button
-                  className="w-full"
+                  className={`w-full rounded-full ${
+                    plan.highlighted
+                      ? 'shadow-lg shadow-blue-500/20'
+                      : 'border-white/10 bg-white/[0.04] hover:bg-white/[0.08]'
+                  }`}
                   variant={plan.highlighted ? 'default' : 'outline'}
                   asChild
                 >

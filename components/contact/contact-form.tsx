@@ -85,7 +85,7 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
 
   if (state === 'success') {
     return (
-      <Card className="rounded-2xl border border-green-500/30 bg-green-950/20">
+      <Card className="rounded-2xl border border-green-500/25 bg-green-500/[0.05] backdrop-blur-sm">
         <CardContent className="p-8 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/20">
             <span className="text-3xl">✓</span>
@@ -105,7 +105,7 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
       <h2 className="text-2xl font-semibold">{labels.title}</h2>
       <p className="mt-2 opacity-80">{labels.subtitle}</p>
 
-      <Card className="mt-6 rounded-2xl border border-white/10 bg-neutral-950/30">
+      <Card className="mt-6 rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm">
         <CardContent className="p-6 md:p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name */}

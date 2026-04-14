@@ -88,8 +88,8 @@ export default async function ServicesPage({ params }: Props) {
 
       {/* Header */}
       <div className="max-w-2xl">
-        <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">{t.pageTitle}</h1>
-        <p className="mt-4 text-lg opacity-80">{t.pageSubtitle}</p>
+        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{t.pageTitle}</h1>
+        <p className="mt-4 text-lg text-white/60">{t.pageSubtitle}</p>
       </div>
 
       {/* Services grid */}
@@ -97,10 +97,10 @@ export default async function ServicesPage({ params }: Props) {
         {services.map((service: (typeof t.services)[0]) => (
           <Card
             key={service.id}
-            className={`rounded-2xl border transition-colors ${
+            className={`rounded-2xl border backdrop-blur-sm transition-all duration-300 ${
               service.highlighted
-                ? 'border-blue-500/30 bg-blue-950/10 hover:border-blue-500/50'
-                : 'border-white/10 bg-neutral-950/30 hover:border-white/20'
+                ? 'border-blue-500/25 bg-blue-500/[0.06] hover:border-blue-500/40 hover:shadow-[0_0_50px_rgba(59,130,246,0.08)]'
+                : 'border-white/[0.06] bg-white/[0.03] hover:border-white/[0.1] hover:bg-white/[0.05]'
             }`}
           >
             <CardContent className="p-6 md:p-8 space-y-4">
@@ -141,9 +141,9 @@ export default async function ServicesPage({ params }: Props) {
 
       {/* Bottom CTA */}
       <div className="text-center space-y-4">
-        <h3 className="text-xl font-semibold">{t.ctaTitle}</h3>
-        <p className="opacity-70">{t.ctaSubtitle}</p>
-        <Button asChild>
+        <h3 className="text-xl font-bold">{t.ctaTitle}</h3>
+        <p className="text-white/60">{t.ctaSubtitle}</p>
+        <Button className="rounded-full px-8 shadow-lg shadow-blue-500/20" asChild>
           <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
             {t.ctaPrimary}
           </a>

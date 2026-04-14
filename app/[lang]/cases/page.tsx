@@ -43,35 +43,39 @@ export default async function CasesPage({ params }: Props) {
 
       {/* Header */}
       <div className="max-w-2xl">
-        <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">{t.pageTitle}</h1>
-        <p className="mt-4 text-lg opacity-80">{t.pageSubtitle}</p>
+        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{t.pageTitle}</h1>
+        <p className="mt-4 text-lg text-white/60">{t.pageSubtitle}</p>
       </div>
 
       {/* Coming soon */}
-      <Card className="rounded-2xl border border-white/10 bg-neutral-950/30">
+      <Card className="rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm">
         <CardContent className="p-8 md:p-12 text-center">
           <div className="mx-auto max-w-lg space-y-4">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/5">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-white/[0.06] bg-white/[0.04]">
               <span className="text-2xl">📊</span>
             </div>
-            <h2 className="text-2xl font-semibold">{t.comingSoonTitle}</h2>
-            <p className="leading-relaxed opacity-70">{t.comingSoonText}</p>
+            <h2 className="text-2xl font-bold">{t.comingSoonTitle}</h2>
+            <p className="leading-relaxed text-white/60">{t.comingSoonText}</p>
           </div>
         </CardContent>
       </Card>
 
       {/* CTA */}
       <div className="text-center space-y-4">
-        <h3 className="text-xl font-semibold">{t.ctaTitle}</h3>
-        <p className="opacity-70">{t.ctaText}</p>
+        <h3 className="text-xl font-bold">{t.ctaTitle}</h3>
+        <p className="text-white/60">{t.ctaText}</p>
         <div className="flex flex-wrap justify-center gap-3 pt-2">
-          <Button asChild>
+          <Button className="rounded-full px-6 shadow-lg shadow-blue-500/20" asChild>
             <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
               <MessageCircle size={16} className="mr-2" />
               {t.ctaTelegram}
             </a>
           </Button>
-          <Button variant="outline" asChild>
+          <Button
+            variant="outline"
+            className="rounded-full border-white/10 bg-white/[0.04] px-6 text-white/80 hover:bg-white/[0.08] hover:text-white"
+            asChild
+          >
             <a href="mailto:s.mytsyk@gmail.com">
               <Mail size={16} className="mr-2" />
               {t.ctaEmail}

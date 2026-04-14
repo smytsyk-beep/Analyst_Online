@@ -18,7 +18,10 @@ export default function OmniDashFeatures({ t }: Props) {
         {/* Core features grid */}
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {t.features.map((f) => (
-            <div key={f.title} className="rounded-2xl border border-white/8 bg-white/3 p-6">
+            <div
+              key={f.title}
+              className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 backdrop-blur-sm transition-all duration-300 hover:border-emerald-500/20 hover:bg-white/[0.05] hover:shadow-[0_0_30px_rgba(52,211,153,0.04)]"
+            >
               <CheckCircle2 size={18} className="text-emerald-400" />
               <div className="mt-3 font-semibold text-white">{f.title}</div>
               <p className="mt-2 text-sm leading-relaxed text-white/60">{f.text}</p>
@@ -27,7 +30,7 @@ export default function OmniDashFeatures({ t }: Props) {
         </div>
 
         {/* Second mockup */}
-        <div className="mt-14 overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/60">
+        <div className="mt-14 overflow-hidden rounded-2xl border border-white/[0.08] shadow-2xl shadow-black/70 ring-1 ring-white/[0.04]">
           <Image
             src="/images/omnidash/mockup-2.png"
             alt="OmniDash — Ad Campaign Optimizer"
@@ -38,7 +41,7 @@ export default function OmniDashFeatures({ t }: Props) {
         </div>
 
         {/* Advanced features */}
-        <div className="mt-10 rounded-2xl border border-white/8 bg-white/3 p-6 md:p-8">
+        <div className="mt-10 rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 backdrop-blur-sm md:p-8">
           <div className="text-sm font-semibold uppercase tracking-widest text-white/40">
             {t.featuresAdvancedTitle}
           </div>

@@ -17,7 +17,7 @@ export default function OmniDashPainPoints({ t }: Props) {
           {t.pains.map((pain) => (
             <div
               key={pain.title}
-              className="rounded-2xl border border-white/8 bg-white/3 p-6 transition-colors hover:border-white/15 hover:bg-white/5"
+              className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 backdrop-blur-sm transition-all duration-300 hover:border-amber-500/20 hover:bg-white/[0.05] hover:shadow-[0_0_30px_rgba(245,158,11,0.04)]"
             >
               <AlertTriangle size={18} className="text-amber-400" />
               <div className="mt-3 font-semibold text-white">{pain.title}</div>

@@ -13,6 +13,7 @@ import HomeFlagship from '@/components/home/flagship';
 import HomeServicesPreview from '@/components/home/services-preview';
 import HomeSocialProof from '@/components/home/social-proof';
 import HomeCtaSection from '@/components/home/cta-section';
+import SectionDivider from '@/components/shared/section-divider';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
@@ -79,9 +80,13 @@ export default async function LangHome({ params }: Props) {
     <div>
       <JsonLd data={organizationSchema()} />
       <HomeHero t={t} lang={lang} />
+      <SectionDivider />
       <HomeFlagship t={t} lang={lang} />
+      <SectionDivider />
       <HomeServicesPreview t={t} lang={lang} />
+      <SectionDivider />
       <HomeSocialProof t={t} />
+      <SectionDivider />
       <HomeCtaSection t={t} lang={lang} />
     </div>
   );

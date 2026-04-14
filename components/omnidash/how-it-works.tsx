@@ -20,7 +20,7 @@ export default function OmniDashHowItWorks({ t }: Props) {
                 <div className="absolute left-full top-6 hidden h-px w-6 bg-white/10 lg:block" />
               )}
 
-              <div className="rounded-2xl border border-white/8 bg-white/3 p-6">
+              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/20 hover:bg-white/[0.05]">
                 <div className="text-3xl font-bold text-white/15">{step.number}</div>
                 <div className="mt-4 font-semibold text-white">{step.title}</div>
                 <p className="mt-2 text-sm leading-relaxed text-white/60">{step.text}</p>

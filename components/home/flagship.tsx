@@ -12,17 +12,18 @@ export default function HomeFlagship({ t, lang }: Props) {
   return (
     <section className="py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <Card className="overflow-hidden rounded-3xl border border-blue-500/30 bg-gradient-to-br from-blue-600/10 via-blue-500/5 to-transparent">
+        <Card className="overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-600/8 via-blue-500/4 to-transparent backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:shadow-[0_0_60px_rgba(59,130,246,0.07)]">
           <CardContent className="p-0">
             <div className="grid gap-8 md:grid-cols-2 md:items-center">
               {/* Left: content */}
               <div className="p-8 md:p-12">
-                <div className="inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-400">
+                <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/25 bg-blue-500/10 px-4 py-1.5 text-xs font-medium text-blue-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
                   {t.flagshipBadge}
                 </div>
 
-                <h2 className="mt-4 text-2xl font-semibold md:text-3xl">{t.flagshipTitle}</h2>
-                <p className="mt-3 leading-relaxed opacity-80">{t.flagshipSubtitle}</p>
+                <h2 className="mt-4 text-2xl font-bold md:text-3xl">{t.flagshipTitle}</h2>
+                <p className="mt-3 leading-relaxed text-white/60">{t.flagshipSubtitle}</p>
 
                 <ul className="mt-6 space-y-2">
                   {t.flagshipBullets.map((bullet) => (
@@ -34,7 +35,7 @@ export default function HomeFlagship({ t, lang }: Props) {
                 </ul>
 
                 <div className="mt-8">
-                  <Button asChild>
+                  <Button className="rounded-full px-6 shadow-lg shadow-blue-500/20" asChild>
                     <Link href={`/${lang}/omnidash`}>{t.flagshipCta}</Link>
                   </Button>
                 </div>

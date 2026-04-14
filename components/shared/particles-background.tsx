@@ -26,7 +26,7 @@ const particleOptions: ISourceOptions = {
     },
     move: {
       enable: true,
-      speed: 0.6,
+      speed: 1.8,
       direction: 'none',
       random: true,
       straight: false,
@@ -34,7 +34,7 @@ const particleOptions: ISourceOptions = {
     },
     number: {
       density: { enable: true, width: 900 },
-      value: 70,
+      value: 44,
     },
     opacity: {
       value: { min: 0.06, max: 0.18 },
@@ -70,7 +70,7 @@ const particleOptionsMobile: ISourceOptions = {
     ...particleOptions.particles,
     number: {
       density: { enable: true, width: 900 },
-      value: 28,
+      value: 18,
     },
   },
   interactivity: {
