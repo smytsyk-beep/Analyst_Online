@@ -27,6 +27,8 @@
     "@sanity/image-url": "^2.0.3",
     "@sanity/vision": "^5.17.1",
     "@tailwindcss/typography": "^0.5.19",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.9.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "googleapis": "^171.4.0",
