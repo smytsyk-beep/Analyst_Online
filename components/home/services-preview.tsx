@@ -12,8 +12,8 @@ export default function HomeServicesPreview({ t, lang }: Props) {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex items-end justify-between">
           <div>
-            <h2 className="text-3xl font-semibold">{t.servicesTitle}</h2>
-            <p className="mt-2 opacity-80">{t.servicesSubtitle}</p>
+            <h2 className="text-3xl font-bold">{t.servicesTitle}</h2>
+            <p className="mt-2 text-white/60">{t.servicesSubtitle}</p>
           </div>
           <Link
             href={`/${lang}/services`}
@@ -28,11 +28,11 @@ export default function HomeServicesPreview({ t, lang }: Props) {
           {t.services.map((service) => (
             <Card
               key={service.title}
-              className="rounded-2xl border border-white/10 bg-neutral-950/30 transition-colors hover:border-white/20 hover:bg-neutral-950/50"
+              className="rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm transition-all duration-300 hover:border-white/[0.1] hover:bg-white/[0.055] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)]"
             >
               <CardContent className="p-6">
-                <div className="font-semibold">{service.title}</div>
-                <p className="mt-2 text-sm leading-relaxed opacity-70">{service.description}</p>
+                <div className="font-semibold text-white">{service.title}</div>
+                <p className="mt-2 text-sm leading-relaxed text-white/55">{service.description}</p>
               </CardContent>
             </Card>
           ))}

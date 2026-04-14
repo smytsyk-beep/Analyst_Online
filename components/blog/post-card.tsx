@@ -59,7 +59,7 @@ export default function PostCard({ post, lang }: PostCardProps) {
   return (
     <Link
       href={`/${lang}/blog/${post.slug.current}`}
-      className="group block overflow-hidden rounded-2xl border border-white/10 bg-neutral-950/30 transition-all hover:border-white/20 hover:bg-neutral-950/50"
+      className="group block overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm transition-all duration-300 hover:border-white/[0.1] hover:bg-white/[0.055] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)]"
     >
       {coverImageUrl && (
         <div className="relative aspect-video w-full overflow-hidden">
