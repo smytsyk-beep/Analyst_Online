@@ -16,12 +16,12 @@ const particleOptions: ISourceOptions = {
   background: { color: { value: 'transparent' } },
   fpsLimit: 60,
   particles: {
-    color: { value: '#ffffff' },
+    color: { value: '#1F2A44' },
     links: {
-      color: '#a0b4d6',
+      color: '#DDE6F3',
       distance: 160,
       enable: true,
-      opacity: 0.07,
+      opacity: 0.15,
       width: 1,
     },
     move: {
@@ -37,7 +37,7 @@ const particleOptions: ISourceOptions = {
       value: 44,
     },
     opacity: {
-      value: { min: 0.06, max: 0.18 },
+      value: { min: 0.1, max: 0.25 },
       animation: {
         enable: true,
         speed: 0.5,

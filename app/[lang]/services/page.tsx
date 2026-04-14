@@ -112,22 +112,31 @@ export default async function ServicesPage({ params }: Props) {
                   </Badge>
                 )}
               </div>
-              <p className="leading-relaxed opacity-70">{service.description}</p>
+              <p className="leading-relaxed text-omni-navy/70">{service.description}</p>
               <ul className="space-y-1.5">
                 {service.bullets.map((bullet, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm opacity-80">
-                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-white/40" />
+                  <li key={i} className="flex items-start gap-2 text-sm text-omni-navy/80">
+                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-omni-cyan" />
                     {bullet}
                   </li>
                 ))}
               </ul>
               <div className="pt-2">
                 {service.id === 'omnidash' ? (
-                  <Button asChild size="sm">
+                  <Button
+                    className="rounded-lg bg-omni-blue font-bold text-white hover:bg-royal-blue"
+                    asChild
+                    size="sm"
+                  >
                     <Link href={`/${lang}/omnidash`}>{service.cta}</Link>
                   </Button>
                 ) : (
-                  <Button variant="outline" size="sm" asChild>
+                  <Button
+                    className="rounded-lg border-2 border-omni-blue font-semibold text-omni-blue hover:bg-omni-blue hover:text-white"
+                    variant="outline"
+                    size="sm"
+                    asChild
+                  >
                     <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
                       {service.cta}
                     </a>

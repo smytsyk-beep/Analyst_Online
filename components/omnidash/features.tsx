@@ -11,44 +11,46 @@ export default function OmniDashFeatures({ t }: Props) {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Header */}
         <div className="max-w-2xl">
-          <h2 className="text-3xl font-semibold text-white">{t.featuresTitle}</h2>
-          <p className="mt-3 text-lg text-white/60">{t.featuresSubtitle}</p>
+          <h2 className="text-3xl font-bold text-omni-navy md:text-4xl">{t.featuresTitle}</h2>
+          <p className="mt-3 text-lg text-omni-navy/70">{t.featuresSubtitle}</p>
         </div>
 
         {/* Core features grid */}
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {t.features.map((f) => (
             <div
               key={f.title}
-              className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 backdrop-blur-sm transition-all duration-300 hover:border-emerald-500/20 hover:bg-white/[0.05] hover:shadow-[0_0_30px_rgba(52,211,153,0.04)]"
+              className="rounded-lg border border-grid-divider bg-white p-6 shadow-sm transition-all duration-200 hover:border-growth-green hover:shadow-md"
             >
-              <CheckCircle2 size={18} className="text-emerald-400" />
-              <div className="mt-3 font-semibold text-white">{f.title}</div>
-              <p className="mt-2 text-sm leading-relaxed text-white/60">{f.text}</p>
+              <CheckCircle2 size={18} className="text-growth-green" />
+              <div className="mt-3 font-bold text-omni-navy">{f.title}</div>
+              <p className="mt-2 text-sm leading-relaxed text-omni-navy/70">{f.text}</p>
             </div>
           ))}
         </div>
 
         {/* Second mockup */}
-        <div className="mt-14 overflow-hidden rounded-2xl border border-white/[0.08] shadow-2xl shadow-black/70 ring-1 ring-white/[0.04]">
-          <Image
-            src="/images/omnidash/mockup-2.png"
-            alt="OmniDash — Ad Campaign Optimizer"
-            width={1200}
-            height={675}
-            className="w-full object-cover"
-          />
+        <div className="mt-14 overflow-hidden rounded-lg border border-grid-divider bg-white p-4 shadow-md">
+          <div className="overflow-hidden rounded-md">
+            <Image
+              src="/images/omnidash/mockup-2.png"
+              alt="OmniDash — Ad Campaign Optimizer"
+              width={1200}
+              height={675}
+              className="w-full object-cover"
+            />
+          </div>
         </div>
 
         {/* Advanced features */}
-        <div className="mt-10 rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 backdrop-blur-sm md:p-8">
-          <div className="text-sm font-semibold uppercase tracking-widest text-white/40">
+        <div className="mt-10 rounded-lg border border-grid-divider bg-white p-6 shadow-sm md:p-8">
+          <div className="text-sm font-semibold uppercase tracking-widest text-omni-navy/50">
             {t.featuresAdvancedTitle}
           </div>
           <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {t.featuresAdvanced.map((item) => (
-              <li key={item} className="flex items-center gap-2 text-sm text-white/70">
-                <span className="h-1 w-1 rounded-full bg-blue-400" />
+              <li key={item} className="flex items-center gap-2 text-sm text-omni-navy/80">
+                <span className="h-1 w-1 rounded-full bg-omni-cyan" />
                 {item}
               </li>
             ))}

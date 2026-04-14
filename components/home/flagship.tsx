@@ -10,45 +10,52 @@ type Props = { t: HomeCopy; lang: string };
 
 export default function HomeFlagship({ t, lang }: Props) {
   return (
-    <section className="py-16">
+    <section className="py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <Card className="overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-600/8 via-blue-500/4 to-transparent backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:shadow-[0_0_60px_rgba(59,130,246,0.07)]">
+        <Card className="overflow-hidden rounded-lg border-2 border-omni-blue bg-omni-blue/5 shadow-md transition-all duration-200 hover:shadow-lg">
           <CardContent className="p-0">
             <div className="grid gap-8 md:grid-cols-2 md:items-center">
               {/* Left: content */}
               <div className="p-8 md:p-12">
-                <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/25 bg-blue-500/10 px-4 py-1.5 text-xs font-medium text-blue-400">
-                  <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
+                <div className="inline-flex items-center gap-2 rounded-md bg-omni-blue/10 px-3 py-1 text-xs font-semibold text-omni-blue">
+                  <span className="h-1.5 w-1.5 rounded-full bg-omni-blue" />
                   {t.flagshipBadge}
                 </div>
 
-                <h2 className="mt-4 text-2xl font-bold md:text-3xl">{t.flagshipTitle}</h2>
-                <p className="mt-3 leading-relaxed text-white/60">{t.flagshipSubtitle}</p>
+                <h2 className="mt-4 text-2xl font-bold text-omni-navy md:text-3xl">
+                  {t.flagshipTitle}
+                </h2>
+                <p className="mt-3 leading-relaxed text-omni-navy/70">{t.flagshipSubtitle}</p>
 
                 <ul className="mt-6 space-y-2">
                   {t.flagshipBullets.map((bullet) => (
-                    <li key={bullet} className="flex items-start gap-2 text-sm">
-                      <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-emerald-400" />
+                    <li key={bullet} className="flex items-start gap-2 text-sm text-omni-navy/80">
+                      <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-growth-green" />
                       {bullet}
                     </li>
                   ))}
                 </ul>
 
                 <div className="mt-8">
-                  <Button className="rounded-full px-6 shadow-lg shadow-blue-500/20" asChild>
+                  <Button
+                    className="rounded-lg bg-omni-blue px-6 font-bold text-white shadow-md hover:bg-royal-blue"
+                    asChild
+                  >
                     <Link href={`/${lang}/omnidash`}>{t.flagshipCta}</Link>
                   </Button>
                 </div>
               </div>
 
               {/* Right: mockup */}
-              <div className="relative h-64 md:h-full">
-                <Image
-                  src="/images/omnidash/mockup-1.png"
-                  alt="OmniDash dashboard preview"
-                  fill
-                  className="object-cover"
-                />
+              <div className="relative h-64 p-4 md:h-full md:p-6">
+                <div className="relative h-full overflow-hidden rounded-md">
+                  <Image
+                    src="/images/omnidash/mockup-1.png"
+                    alt="OmniDash dashboard preview"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               </div>
             </div>
           </CardContent>
