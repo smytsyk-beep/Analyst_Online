@@ -188,7 +188,11 @@ export default async function OmniDashPage({ params }: Props) {
   const t = transformOmniDashBlocks(cmsBlocks, cmsFaq, omniDashCopy[lang]);
 
   return (
-    <div>
+    <div className="relative overflow-hidden bg-[#060d1b] text-white">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(47,110,219,0.2),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(78,198,216,0.12),transparent_35%)]"
+      />
       <JsonLd data={productSchema(lang)} />
       <JsonLd
         data={breadcrumbSchema([

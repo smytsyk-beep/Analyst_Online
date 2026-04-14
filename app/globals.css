@@ -53,14 +53,14 @@ body {
 @layer base {
   :root {
     /* OmniDash light theme */
-    --background: 243 246 250; /* #F3F6FA */
-    --foreground: 217 28 27; /* #1F2A44 */
+    --background: 214 41% 97%; /* #F3F6FA */
+    --foreground: 222 37% 19%; /* #1F2A44 */
 
     --card: 0 0% 100%; /* white */
-    --card-foreground: 217 28 27;
+    --card-foreground: 222 37% 19%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 217 28 27;
+    --popover-foreground: 222 37% 19%;
 
     --primary: 217 73% 53%; /* #2F6EDB Omni Blue */
     --primary-foreground: 0 0% 100%;
@@ -72,7 +72,7 @@ body {
     --muted-foreground: 217 15% 45%;
 
     --accent: 187 64% 58%; /* #4EC6D8 Cyan */
-    --accent-foreground: 217 28 27;
+    --accent-foreground: 222 37% 19%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -86,12 +86,12 @@ body {
 
   /* Dark mode disabled for OmniDash brand consistency */
   .dark {
-    --background: 243 246 250;
-    --foreground: 217 28 27;
+    --background: 214 41% 97%;
+    --foreground: 222 37% 19%;
     --card: 0 0% 100%;
-    --card-foreground: 217 28 27;
+    --card-foreground: 222 37% 19%;
     --popover: 0 0% 100%;
-    --popover-foreground: 217 28 27;
+    --popover-foreground: 222 37% 19%;
     --primary: 217 73% 53%;
     --primary-foreground: 0 0% 100%;
     --secondary: 215 60% 47%;
@@ -99,7 +99,7 @@ body {
     --muted: 215 35% 92%;
     --muted-foreground: 217 15% 45%;
     --accent: 187 64% 58%;
-    --accent-foreground: 217 28 27;
+    --accent-foreground: 222 37% 19%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 215 35% 92%;
