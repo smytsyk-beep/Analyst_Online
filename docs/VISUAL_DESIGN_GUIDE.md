@@ -58,20 +58,20 @@ Analyst Online следует визуальному языку **OmniDash** —
 
 ### Использование цветов
 
-| Элемент              | Цвет                  | Семантический класс             |
-| -------------------- | --------------------- | ------------------------------- |
-| Фон страницы         | `#F3F6FA`             | `bg-background`                 |
-| Фон карточки         | `#FFFFFF`             | `bg-card`                       |
-| Основной текст       | `#1F2A44`             | `text-foreground`               |
-| Вторичный текст      | `#1F2A44` 60% opacity | `text-foreground/60`            |
+| Элемент              | Цвет                  | Семантический класс                  |
+| -------------------- | --------------------- | ------------------------------------ |
+| Фон страницы         | `#F3F6FA`             | `bg-background`                      |
+| Фон карточки         | `#FFFFFF`             | `bg-card`                            |
+| Основной текст       | `#1F2A44`             | `text-foreground`                    |
+| Вторичный текст      | `#1F2A44` 60% opacity | `text-foreground/60`                 |
 | Primary кнопка       | `#2F6EDB`             | `bg-primary text-primary-foreground` |
-| Primary кнопка hover | `#2C5CC5`             | `hover:bg-primary/90`           |
-| Outline кнопка       | border `#2F6EDB`      | `border-primary text-primary`   |
-| Ссылки               | `#2F6EDB`             | `text-primary`                  |
-| Ссылки hover         | `#2C5CC5`             | `hover:text-primary/90`         |
-| Границы              | `#DDE6F3`             | `border-border`                 |
-| Иконки акцент        | `#4EC6D8`             | `text-omni-cyan`                |
-| Success state        | `#63C05A`             | `text-growth-green`             |
+| Primary кнопка hover | `#2C5CC5`             | `hover:bg-primary/90`                |
+| Outline кнопка       | border `#2F6EDB`      | `border-primary text-primary`        |
+| Ссылки               | `#2F6EDB`             | `text-primary`                       |
+| Ссылки hover         | `#2C5CC5`             | `hover:text-primary/90`              |
+| Границы              | `#DDE6F3`             | `border-border`                      |
+| Иконки акцент        | `#4EC6D8`             | `text-omni-cyan`                     |
+| Success state        | `#63C05A`             | `text-growth-green`                  |
 
 ### Запрещённые цвета
 

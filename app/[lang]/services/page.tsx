@@ -127,12 +127,7 @@ export default async function ServicesPage({ params }: Props) {
                     <Link href={`/${lang}/omnidash`}>{service.cta}</Link>
                   </Button>
                 ) : (
-                  <Button
-                    className="font-semibold"
-                    variant="outline"
-                    size="sm"
-                    asChild
-                  >
+                  <Button className="font-semibold" variant="outline" size="sm" asChild>
                     <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
                       {service.cta}
                     </a>
