@@ -19,8 +19,10 @@ export default function LanguageSwitcher({ currentLang, availableLocales }: Lang
         <Link
           key={locale}
           href={replaceLocalePrefix(pathname, locale)}
-          className={`rounded-md border border-white/20 px-2 py-1 text-xs ${
-            locale === currentLang ? 'bg-white text-black' : 'text-white/70 hover:text-white'
+          className={`rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
+            locale === currentLang
+              ? 'border-primary bg-primary text-primary-foreground'
+              : 'border-border text-foreground/70 hover:border-primary/30 hover:text-foreground'
           }`}
         >
           {locale.toUpperCase()}

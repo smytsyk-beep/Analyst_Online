@@ -56,7 +56,7 @@ export default async function ContactPage({ params }: Props) {
       {/* Header */}
       <div className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{t.pageTitle}</h1>
-        <p className="mt-4 text-lg text-white/60">{t.pageSubtitle}</p>
+        <p className="mt-4 text-lg text-foreground/70">{t.pageSubtitle}</p>
       </div>
 
       {/* Channels */}
@@ -69,26 +69,26 @@ export default async function ContactPage({ params }: Props) {
             return (
               <Card
                 key={channel.id}
-                className="rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm transition-all duration-300 hover:border-blue-500/20 hover:bg-white/[0.05] hover:shadow-[0_0_30px_rgba(59,130,246,0.05)]"
+                className="rounded-lg border border-border bg-card transition-all duration-300 hover:border-primary/30 hover:shadow-sm"
               >
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-grid-divider bg-soft-bg">
-                      <Icon size={18} className="text-omni-blue" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background">
+                      <Icon size={18} className="text-primary" />
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-omni-navy">{channel.label}</div>
+                      <div className="text-sm font-semibold text-foreground">{channel.label}</div>
                       <a
                         href={channel.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm font-medium text-omni-blue hover:text-royal-blue"
+                        className="text-sm font-medium text-primary hover:text-primary"
                       >
                         {channel.value}
                       </a>
                     </div>
                   </div>
-                  <p className="mt-3 text-xs leading-relaxed text-omni-navy/60">
+                  <p className="mt-3 text-xs leading-relaxed text-foreground/60">
                     {channel.description}
                   </p>
                 </CardContent>

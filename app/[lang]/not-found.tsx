@@ -47,7 +47,7 @@ export default function LangNotFound() {
 
       <Link
         href={`/${lang}`}
-        className="mt-6 inline-flex items-center rounded-md border px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+        className="mt-6 inline-flex items-center rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium hover:border-primary/30 hover:bg-accent/40 hover:text-foreground"
       >
         ← {t.back}
       </Link>

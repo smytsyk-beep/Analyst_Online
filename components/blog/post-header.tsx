@@ -62,7 +62,7 @@ export default function PostHeader({
       <div className="space-y-4">
         <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">{title}</h1>
 
-        <div className="flex flex-wrap items-center gap-3 text-sm text-neutral-400">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
           <time dateTime={publishedAt}>{formattedDate}</time>
 
           {tags && tags.length > 0 && (
@@ -72,7 +72,7 @@ export default function PostHeader({
                 {tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full bg-neutral-800 px-3 py-1 text-xs text-neutral-300"
+                    className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-foreground/70"
                   >
                     {tag}
                   </span>
@@ -84,7 +84,7 @@ export default function PostHeader({
       </div>
 
       {coverImageUrl && (
-        <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
+        <div className="relative aspect-video w-full overflow-hidden rounded-lg">
           <Image
             src={coverImageUrl}
             alt={coverImage?.alt || title}

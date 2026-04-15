@@ -40,15 +40,15 @@ export default async function PrivacyPage({ params }: Props) {
 
       <div className="max-w-3xl">
         <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">{t.pageTitle}</h1>
-        <p className="mt-4 text-lg opacity-80">{t.pageSubtitle}</p>
-        <p className="mt-2 text-sm opacity-50">{t.lastUpdated}</p>
+        <p className="mt-4 text-lg text-foreground/70">{t.pageSubtitle}</p>
+        <p className="mt-2 text-sm text-muted-foreground">{t.lastUpdated}</p>
       </div>
 
       <div className="max-w-3xl space-y-8">
         {t.sections.map((section, i) => (
           <section key={i}>
             <h2 className="text-xl font-semibold">{section.title}</h2>
-            <p className="mt-2 leading-relaxed opacity-80">{section.content}</p>
+            <p className="mt-2 leading-relaxed text-foreground/70">{section.content}</p>
           </section>
         ))}
       </div>

@@ -6,22 +6,22 @@ type Props = { t: OmniDashCopy };
 
 export default function OmniDashPainPoints({ t }: Props) {
   return (
-    <section className="bg-soft-bg py-20">
+    <section className="bg-background py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="max-w-2xl">
-          <h2 className="text-3xl font-bold text-omni-navy md:text-4xl">{t.painTitle}</h2>
-          <p className="mt-3 text-lg text-omni-navy/70">{t.painSubtitle}</p>
+          <h2 className="text-3xl font-bold text-foreground md:text-4xl">{t.painTitle}</h2>
+          <p className="mt-3 text-lg text-foreground/70">{t.painSubtitle}</p>
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {t.pains.map((pain) => (
             <div
               key={pain.title}
-              className="rounded-lg border border-grid-divider bg-white p-6 shadow-sm transition-all duration-200 hover:border-lime-accent hover:shadow-md"
+              className="rounded-lg border border-border bg-card p-6 shadow-sm transition-all duration-200 hover:border-lime-accent hover:shadow-md"
             >
               <AlertTriangle size={18} className="text-lime-accent" />
-              <div className="mt-3 font-bold text-omni-navy">{pain.title}</div>
-              <p className="mt-2 text-sm leading-relaxed text-omni-navy/70">{pain.text}</p>
+              <div className="mt-3 font-bold text-foreground">{pain.title}</div>
+              <p className="mt-2 text-sm leading-relaxed text-foreground/70">{pain.text}</p>
             </div>
           ))}
         </div>
