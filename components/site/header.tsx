@@ -29,7 +29,7 @@ export default function Header({ lang, policy }: HeaderProps) {
   const localesToShow = policy?.allowedLocales ?? LOCALES;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm shadow-sm">
+    <header className="sticky top-0 z-50 border-b border-border bg-white/30 backdrop-blur-md shadow-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 text-sm sm:px-6">
         {/* Логотип / бренд */}
         <Link href={`/${lang}`} className="flex items-center gap-2.5 group">
