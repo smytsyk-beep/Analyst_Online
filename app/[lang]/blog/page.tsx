@@ -110,7 +110,7 @@ export default async function BlogPage({ params }: Props) {
       {/* Header */}
       <div className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{l.title}</h1>
-        <p className="mt-4 text-lg text-white/60">{l.subtitle}</p>
+        <p className="mt-4 text-lg text-foreground/70">{l.subtitle}</p>
       </div>
 
       {/* Posts grid or empty state */}
@@ -121,8 +121,8 @@ export default async function BlogPage({ params }: Props) {
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-12 text-center backdrop-blur-sm">
-          <p className="text-lg text-white/55">{l.empty}</p>
+        <div className="rounded-lg border border-border bg-card p-12 text-center">
+          <p className="text-lg text-foreground/60">{l.empty}</p>
         </div>
       )}
     </div>

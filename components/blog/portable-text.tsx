@@ -20,7 +20,7 @@ const portableTextComponents: PortableTextComponents = {
             className="rounded-lg"
           />
           {value.caption && (
-            <figcaption className="mt-2 text-center text-sm text-neutral-400">
+            <figcaption className="mt-2 text-center text-sm text-muted-foreground">
               {value.caption}
             </figcaption>
           )}
@@ -40,7 +40,7 @@ const portableTextComponents: PortableTextComponents = {
     ),
     normal: ({ children }) => <p className="mb-4 leading-relaxed">{children}</p>,
     blockquote: ({ children }) => (
-      <blockquote className="my-6 border-l-4 border-blue-500 pl-4 italic opacity-80">
+      <blockquote className="my-6 border-l-4 border-primary/60 pl-4 italic text-foreground/80">
         {children}
       </blockquote>
     ),
@@ -57,7 +57,9 @@ const portableTextComponents: PortableTextComponents = {
     strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
     em: ({ children }) => <em className="italic">{children}</em>,
     code: ({ children }) => (
-      <code className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-sm">{children}</code>
+      <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-sm text-foreground">
+        {children}
+      </code>
     ),
     link: ({ children, value }) => {
       const href = typeof value?.href === 'string' ? value.href : '';
@@ -69,7 +71,7 @@ const portableTextComponents: PortableTextComponents = {
         <a
           href={href}
           rel={rel}
-          className="text-blue-400 underline decoration-blue-400/30 underline-offset-2 transition-colors hover:text-blue-300 hover:decoration-blue-300/50"
+          className="text-primary underline decoration-primary/30 underline-offset-2 transition-colors hover:text-primary/90 hover:decoration-primary/50"
         >
           {children}
         </a>

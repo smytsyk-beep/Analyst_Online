@@ -221,7 +221,7 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="mx-auto max-w-3xl space-y-8">
         <Link
           href={`/${lang}/blog`}
-          className="inline-flex items-center text-sm text-neutral-400 transition-colors hover:text-white"
+          className="inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           {l.backToBlog}
         </Link>
@@ -235,12 +235,12 @@ export default async function BlogPostPage({ params }: Props) {
         />
 
         {postBody.length > 0 ? (
-          <article className="prose prose-invert prose-lg max-w-none">
+          <article className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-foreground/80 prose-a:text-primary">
             <BlogPortableText value={postBody} />
           </article>
         ) : (
-          <div className="rounded-2xl border border-white/10 bg-neutral-950/30 p-8 text-center">
-            <p className="opacity-70">{l.emptyBody}</p>
+          <div className="rounded-lg border border-border bg-card p-8 text-center">
+            <p className="text-foreground/70">{l.emptyBody}</p>
           </div>
         )}
       </div>

@@ -32,9 +32,9 @@ export default function MobileNav({ lang, nav }: MobileNavProps) {
         </button>
       </SheetTrigger>
 
-      <SheetContent side="right" className="w-64 bg-black/95 p-6">
+      <SheetContent side="right" className="w-64 border-l border-border bg-background p-6">
         <SheetHeader>
-          <SheetTitle className="text-left text-sm font-semibold tracking-tight text-white">
+          <SheetTitle className="text-left text-sm font-semibold tracking-tight">
             Analyst Online
           </SheetTitle>
         </SheetHeader>
@@ -51,8 +51,8 @@ export default function MobileNav({ lang, nav }: MobileNavProps) {
                 onClick={() => setOpen(false)}
                 className={
                   isOmniDash
-                    ? 'text-base font-semibold text-white'
-                    : 'text-base text-white/70 hover:text-white'
+                    ? 'text-base font-semibold text-primary'
+                    : 'text-base text-foreground/70 hover:text-foreground'
                 }
               >
                 {item.label}

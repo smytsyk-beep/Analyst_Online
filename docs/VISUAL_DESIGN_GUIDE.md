@@ -1,7 +1,7 @@
 # Analyst Online — Visual Design Guide
 
-**Версия:** 1.0  
-**Дата:** 2025-03-17  
+**Версия:** 1.1  
+**Дата:** 2026-04-15  
 **Основа:** OmniDash Brand Guide
 
 ---
@@ -17,6 +17,13 @@ Analyst Online следует визуальному языку **OmniDash** —
 - **Доверие**: консервативная типографика, чёткие границы, предсказуемость
 - **Современность**: без скевоморфизма, без тяжёлых градиентов, без глянца
 
+### Token-first система (обязательно)
+
+- Источник правды для темы: `app/globals.css` (`--background`, `--foreground`, `--primary`, `--border`, `--radius` и т.д.)
+- В компонентах используем семантические классы: `bg-background`, `text-foreground`, `bg-primary`, `border-border`
+- Бренд-алиасы (`omni-*`, `royal-*`) допустимы только как акцентные исключения, а не как базовые цвета интерфейса
+- Любое изменение темы делается через CSS-переменные, без переписывания JSX/TSX
+
 ---
 
 ## 2. Цветовая палитра
@@ -24,6 +31,13 @@ Analyst Online следует визуальному языку **OmniDash** —
 ### Основные цвета
 
 ```css
+/* Source of truth: app/globals.css */
+--background: hsl(214 41% 97%); /* #F3F6FA */
+--foreground: hsl(222 37% 19%); /* #1F2A44 */
+--card: hsl(0 0% 100%); /* #FFFFFF */
+--primary: hsl(217 73% 53%); /* #2F6EDB */
+--border: hsl(215 35% 92%); /* #DDE6F3 */
+
 /* Primary */
 --omni-navy: #1f2a44; /* Основной текст, заголовки */
 --omni-blue: #2f6edb; /* Primary CTA, акценты, ссылки */
@@ -44,20 +58,20 @@ Analyst Online следует визуальному языку **OmniDash** —
 
 ### Использование цветов
 
-| Элемент              | Цвет                  | Пример                  |
-| -------------------- | --------------------- | ----------------------- |
-| Фон страницы         | `#F3F6FA`             | `bg-soft-bg`            |
-| Фон карточки         | `#FFFFFF`             | `bg-white`              |
-| Основной текст       | `#1F2A44`             | `text-omni-navy`        |
-| Вторичный текст      | `#1F2A44` 60% opacity | `text-omni-navy/60`     |
-| Primary кнопка       | `#2F6EDB`             | `bg-omni-blue`          |
-| Primary кнопка hover | `#2C5CC5`             | `hover:bg-royal-blue`   |
-| Outline кнопка       | border `#2F6EDB`      | `border-omni-blue`      |
-| Ссылки               | `#2F6EDB`             | `text-omni-blue`        |
-| Ссылки hover         | `#2C5CC5`             | `hover:text-royal-blue` |
-| Границы              | `#DDE6F3`             | `border-grid-divider`   |
-| Иконки акцент        | `#4EC6D8`             | `text-omni-cyan`        |
-| Success state        | `#63C05A`             | `text-growth-green`     |
+| Элемент              | Цвет                  | Семантический класс             |
+| -------------------- | --------------------- | ------------------------------- |
+| Фон страницы         | `#F3F6FA`             | `bg-background`                 |
+| Фон карточки         | `#FFFFFF`             | `bg-card`                       |
+| Основной текст       | `#1F2A44`             | `text-foreground`               |
+| Вторичный текст      | `#1F2A44` 60% opacity | `text-foreground/60`            |
+| Primary кнопка       | `#2F6EDB`             | `bg-primary text-primary-foreground` |
+| Primary кнопка hover | `#2C5CC5`             | `hover:bg-primary/90`           |
+| Outline кнопка       | border `#2F6EDB`      | `border-primary text-primary`   |
+| Ссылки               | `#2F6EDB`             | `text-primary`                  |
+| Ссылки hover         | `#2C5CC5`             | `hover:text-primary/90`         |
+| Границы              | `#DDE6F3`             | `border-border`                 |
+| Иконки акцент        | `#4EC6D8`             | `text-omni-cyan`                |
+| Success state        | `#63C05A`             | `text-growth-green`             |
 
 ### Запрещённые цвета
 
@@ -104,7 +118,7 @@ const inter = Inter({
 - **Заголовки**: всегда `font-bold` (700) или `font-extrabold` (800)
 - **Основной текст**: `font-normal` (400)
 - **Навигация, кнопки, labels**: `font-semibold` (600) или `font-bold` (700)
-- **Цвет текста**: `text-omni-navy` для основного, `text-omni-navy/60` или `/70` для вторичного
+- **Цвет текста**: `text-foreground` для основного, `text-foreground/60` или `/70` для вторичного
 - **Межстрочный интервал**: `leading-tight` для заголовков, `leading-relaxed` для body
 
 ### Примеры
@@ -633,11 +647,11 @@ className = 'transition-opacity duration-300';
 
 ### Цвета
 
-- [ ] Фон страницы `#F3F6FA` (`bg-soft-bg`)
-- [ ] Карточки белые `#FFFFFF` (`bg-white`)
-- [ ] Текст `#1F2A44` (`text-omni-navy`)
-- [ ] Primary кнопки `#2F6EDB` (`bg-omni-blue`)
-- [ ] Границы `#DDE6F3` (`border-grid-divider`)
+- [ ] Фон страницы `#F3F6FA` (`bg-background`)
+- [ ] Карточки белые `#FFFFFF` (`bg-card`)
+- [ ] Текст `#1F2A44` (`text-foreground`)
+- [ ] Primary кнопки `#2F6EDB` (`bg-primary`)
+- [ ] Границы `#DDE6F3` (`border-border`)
 
 ### Типографика
 
@@ -657,8 +671,8 @@ className = 'transition-opacity duration-300';
 - [ ] Padding `p-6` (24px)
 - [ ] Изображения с отступом 16px от краёв
 - [ ] Изображения `rounded-md` (6px)
-- [ ] Border `border-grid-divider`
-- [ ] Hover `hover:border-omni-blue`
+- [ ] Border `border-border`
+- [ ] Hover `hover:border-primary`
 
 ### Кнопки
 

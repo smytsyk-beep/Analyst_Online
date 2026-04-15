@@ -90,8 +90,8 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-growth-green/20">
             <span className="text-3xl text-growth-green">✓</span>
           </div>
-          <h3 className="text-xl font-bold text-omni-navy">{labels.successTitle}</h3>
-          <p className="mt-2 text-omni-navy/70">{labels.successMessage}</p>
+          <h3 className="text-xl font-bold text-foreground">{labels.successTitle}</h3>
+          <p className="mt-2 text-foreground/70">{labels.successMessage}</p>
           <Button onClick={() => setState('idle')} variant="outline" className="mt-6" size="sm">
             Send another message
           </Button>
@@ -102,15 +102,15 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-omni-navy">{labels.title}</h2>
-      <p className="mt-2 text-omni-navy/70">{labels.subtitle}</p>
+      <h2 className="text-2xl font-bold text-foreground">{labels.title}</h2>
+      <p className="mt-2 text-foreground/70">{labels.subtitle}</p>
 
-      <Card className="mt-6 rounded-lg border border-grid-divider bg-white shadow-sm">
+      <Card className="mt-6 rounded-lg border border-border bg-card shadow-sm">
         <CardContent className="p-6 md:p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name */}
             <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-omni-navy">
+              <label htmlFor="name" className="block text-sm font-semibold text-foreground">
                 {labels.nameLabel}
               </label>
               <input
@@ -121,10 +121,10 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
                 onChange={handleChange}
                 placeholder={labels.namePlaceholder}
                 disabled={state === 'loading'}
-                className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-omni-navy transition-colors placeholder:text-omni-navy/40 ${
+                className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-foreground transition-colors placeholder:text-foreground/40 ${
                   errors.name
                     ? 'border-red-500 bg-red-50'
-                    : 'border-grid-divider bg-white focus:border-omni-blue focus:outline-none focus:ring-2 focus:ring-omni-blue/20'
+                    : 'border-border bg-card focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
                 } disabled:opacity-50`}
                 required
               />
@@ -133,7 +133,7 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-omni-navy">
+              <label htmlFor="email" className="block text-sm font-semibold text-foreground">
                 {labels.emailLabel}
               </label>
               <input
@@ -144,10 +144,10 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
                 onChange={handleChange}
                 placeholder={labels.emailPlaceholder}
                 disabled={state === 'loading'}
-                className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-omni-navy transition-colors placeholder:text-omni-navy/40 ${
+                className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-foreground transition-colors placeholder:text-foreground/40 ${
                   errors.email
                     ? 'border-red-500 bg-red-50'
-                    : 'border-grid-divider bg-white focus:border-omni-blue focus:outline-none focus:ring-2 focus:ring-omni-blue/20'
+                    : 'border-border bg-card focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
                 } disabled:opacity-50`}
                 required
               />
@@ -156,7 +156,7 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
 
             {/* Message */}
             <div>
-              <label htmlFor="message" className="block text-sm font-semibold text-omni-navy">
+              <label htmlFor="message" className="block text-sm font-semibold text-foreground">
                 {labels.messageLabel}
               </label>
               <textarea
@@ -167,10 +167,10 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
                 placeholder={labels.messagePlaceholder}
                 disabled={state === 'loading'}
                 rows={5}
-                className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-omni-navy transition-colors placeholder:text-omni-navy/40 ${
+                className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-foreground transition-colors placeholder:text-foreground/40 ${
                   errors.message
                     ? 'border-red-500 bg-red-50'
-                    : 'border-grid-divider bg-white focus:border-omni-blue focus:outline-none focus:ring-2 focus:ring-omni-blue/20'
+                    : 'border-border bg-card focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
                 } disabled:opacity-50`}
                 required
               />
@@ -188,7 +188,7 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
             <Button
               type="submit"
               disabled={state === 'loading'}
-              className="w-full rounded-lg bg-omni-blue font-bold text-white hover:bg-royal-blue sm:w-auto"
+              className="w-full font-bold sm:w-auto"
             >
               {state === 'loading' ? labels.sending : labels.submit}
             </Button>

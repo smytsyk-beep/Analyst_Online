@@ -89,7 +89,7 @@ export default async function ServicesPage({ params }: Props) {
       {/* Header */}
       <div className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{t.pageTitle}</h1>
-        <p className="mt-4 text-lg text-white/60">{t.pageSubtitle}</p>
+        <p className="mt-4 text-lg text-foreground/70">{t.pageSubtitle}</p>
       </div>
 
       {/* Services grid */}
@@ -97,13 +97,13 @@ export default async function ServicesPage({ params }: Props) {
         {services.map((service: (typeof t.services)[0]) => (
           <Card
             key={service.id}
-            className={`rounded-2xl border backdrop-blur-sm transition-all duration-300 ${
+            className={`rounded-lg border bg-card transition-all duration-300 ${
               service.highlighted
-                ? 'border-blue-500/25 bg-blue-500/[0.06] hover:border-blue-500/40 hover:shadow-[0_0_50px_rgba(59,130,246,0.08)]'
-                : 'border-white/[0.06] bg-white/[0.03] hover:border-white/[0.1] hover:bg-white/[0.05]'
+                ? 'border-primary/25 bg-primary/5 hover:border-primary/40 hover:shadow-md'
+                : 'border-border hover:border-primary/20'
             }`}
           >
-            <CardContent className="p-6 md:p-8 space-y-4">
+            <CardContent className="space-y-4 p-6 md:p-8">
               <div className="flex items-start justify-between gap-3">
                 <h2 className="text-xl font-semibold">{service.title}</h2>
                 {service.highlighted && (
@@ -112,10 +112,10 @@ export default async function ServicesPage({ params }: Props) {
                   </Badge>
                 )}
               </div>
-              <p className="leading-relaxed text-omni-navy/70">{service.description}</p>
+              <p className="leading-relaxed text-foreground/70">{service.description}</p>
               <ul className="space-y-1.5">
                 {service.bullets.map((bullet, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-omni-navy/80">
+                  <li key={i} className="flex items-start gap-2 text-sm text-foreground/80">
                     <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-omni-cyan" />
                     {bullet}
                   </li>
@@ -123,16 +123,12 @@ export default async function ServicesPage({ params }: Props) {
               </ul>
               <div className="pt-2">
                 {service.id === 'omnidash' ? (
-                  <Button
-                    className="rounded-lg bg-omni-blue font-bold text-white hover:bg-royal-blue"
-                    asChild
-                    size="sm"
-                  >
+                  <Button className="font-bold" asChild size="sm">
                     <Link href={`/${lang}/omnidash`}>{service.cta}</Link>
                   </Button>
                 ) : (
                   <Button
-                    className="rounded-lg border-2 border-omni-blue font-semibold text-omni-blue hover:bg-omni-blue hover:text-white"
+                    className="font-semibold"
                     variant="outline"
                     size="sm"
                     asChild
@@ -151,8 +147,8 @@ export default async function ServicesPage({ params }: Props) {
       {/* Bottom CTA */}
       <div className="text-center space-y-4">
         <h3 className="text-xl font-bold">{t.ctaTitle}</h3>
-        <p className="text-white/60">{t.ctaSubtitle}</p>
-        <Button className="rounded-full px-8 shadow-lg shadow-blue-500/20" asChild>
+        <p className="text-foreground/70">{t.ctaSubtitle}</p>
+        <Button className="px-8 font-bold" asChild>
           <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
             {t.ctaPrimary}
           </a>

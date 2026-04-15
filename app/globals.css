@@ -12,9 +12,7 @@ html {
 
 body {
   min-height: 100%;
-  @apply antialiased;
-  background: #f3f6fa;
-  color: #1f2a44;
+  @apply bg-background text-foreground antialiased;
 }
 
 .page {
@@ -26,7 +24,7 @@ body {
 }
 
 .section p {
-  @apply text-lg opacity-80;
+  @apply text-lg text-foreground/80;
 }
 
 /* OmniDash brand utilities */
@@ -112,6 +110,6 @@ body {
   }
 
   body {
-    @apply text-foreground;
+    @apply bg-background text-foreground;
   }
 }
