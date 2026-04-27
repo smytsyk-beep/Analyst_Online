@@ -4,11 +4,13 @@
  */
 
 import { google } from 'googleapis';
+import { withTimeout } from '@/lib/timeout';
 
 export type LeadData = {
   timestamp: string;
   name: string;
   email: string;
+  messenger: string;
   message: string;
   locale: string;
   source: string;
@@ -39,18 +41,30 @@ export async function appendLeadToSheet(data: LeadData): Promise<boolean> {
 
     // Prepare row data
     const values = [
-      [data.timestamp, data.name, data.email, data.message, data.locale, data.source],
+      [
+        data.timestamp,
+        data.name,
+        data.email,
+        data.message,
+        data.locale,
+        data.source,
+        data.messenger,
+      ],
     ];
 
     // Append to sheet
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: sheetId,
-      range: 'Sheet1!A:F', // Adjust sheet name if needed
-      valueInputOption: 'RAW',
-      requestBody: {
-        values,
-      },
-    });
+    await withTimeout(
+      sheets.spreadsheets.values.append({
+        spreadsheetId: sheetId,
+        range: 'Sheet1!A:G', // Adjust sheet name if needed
+        valueInputOption: 'RAW',
+        requestBody: {
+          values,
+        },
+      }),
+      6_000,
+      'Google Sheets append timed out',
+    );
 
     return true;
   } catch (error) {
@@ -84,20 +98,25 @@ export async function initializeSheet(): Promise<boolean> {
     // Check if headers already exist
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
-      range: 'Sheet1!A1:F1',
+      range: 'Sheet1!A1:G1',
     });
 
-    if (response.data.values && response.data.values.length > 0) {
-      console.log('Headers already exist');
-      return true;
-    }
-
     // Add headers
-    const headers = [['Timestamp', 'Name', 'Email', 'Message', 'Locale', 'Source']];
+    const headers = [
+      ['Timestamp', 'Name', 'Email', 'Message', 'Locale', 'Source', 'Tel / Messenger'],
+    ];
+
+    if (response.data.values && response.data.values.length > 0) {
+      const existingHeaders = response.data.values[0] || [];
+      if (existingHeaders.join('|') === headers[0].join('|')) {
+        console.log('Headers already exist');
+        return true;
+      }
+    }
 
     await sheets.spreadsheets.values.update({
       spreadsheetId: sheetId,
-      range: 'Sheet1!A1:F1',
+      range: 'Sheet1!A1:G1',
       valueInputOption: 'RAW',
       requestBody: {
         values: headers,
