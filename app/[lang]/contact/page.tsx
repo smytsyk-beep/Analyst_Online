@@ -10,6 +10,7 @@ import ContactForm from '@/components/contact/contact-form';
 import { sanityClient } from '@/sanity/client';
 import { contactInfoQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { createContactFormToken } from '@/lib/contact-security';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
@@ -69,6 +70,10 @@ export default async function ContactPage({ params }: Props) {
           formNamePlaceholder: cmsData.formNamePlaceholder,
           formEmailLabel: cmsData.formEmailLabel,
           formEmailPlaceholder: cmsData.formEmailPlaceholder,
+          formMessengerLabel: cmsData.formMessengerLabel ?? contactCopy[lang].formMessengerLabel,
+          formMessengerPlaceholder:
+            cmsData.formMessengerPlaceholder ?? contactCopy[lang].formMessengerPlaceholder,
+          formContactHint: cmsData.formContactHint ?? contactCopy[lang].formContactHint,
           formMessageLabel: cmsData.formMessageLabel,
           formMessagePlaceholder: cmsData.formMessagePlaceholder,
           formSubmit: cmsData.formSubmit,
@@ -141,6 +146,7 @@ export default async function ContactPage({ params }: Props) {
       {/* Contact Form */}
       <ContactForm
         lang={lang}
+        formToken={createContactFormToken()}
         labels={{
           title: t.formTitle,
           subtitle: t.formSubtitle,
@@ -148,6 +154,9 @@ export default async function ContactPage({ params }: Props) {
           namePlaceholder: t.formNamePlaceholder,
           emailLabel: t.formEmailLabel,
           emailPlaceholder: t.formEmailPlaceholder,
+          messengerLabel: t.formMessengerLabel,
+          messengerPlaceholder: t.formMessengerPlaceholder,
+          contactHint: t.formContactHint,
           messageLabel: t.formMessageLabel,
           messagePlaceholder: t.formMessagePlaceholder,
           submit: t.formSubmit,

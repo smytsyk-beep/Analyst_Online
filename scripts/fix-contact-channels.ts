@@ -41,6 +41,9 @@ async function fixContactChannels() {
         .patch(existing._id)
         .set({
           channels: channelsWithKeys,
+          formMessengerLabel: data.formMessengerLabel,
+          formMessengerPlaceholder: data.formMessengerPlaceholder,
+          formContactHint: data.formContactHint,
         })
         .commit();
 

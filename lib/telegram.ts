@@ -3,11 +3,14 @@
  * Telegram Bot API utilities for sending lead notifications
  */
 
+import { fetchWithTimeout } from '@/lib/timeout';
+
 const TELEGRAM_API_URL = 'https://api.telegram.org';
 
 export type TelegramMessage = {
   name: string;
   email: string;
+  messenger: string;
   message: string;
   timestamp: string;
   locale: string;
@@ -28,17 +31,21 @@ export async function sendTelegramNotification(data: TelegramMessage): Promise<b
   const text = formatLeadMessage(data);
 
   try {
-    const response = await fetch(`${TELEGRAM_API_URL}/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetchWithTimeout(
+      `${TELEGRAM_API_URL}/bot${botToken}/sendMessage`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text,
+          parse_mode: 'HTML',
+        }),
       },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text,
-        parse_mode: 'HTML',
-      }),
-    });
+      5_000,
+    );
 
     if (!response.ok) {
       const error = await response.text();
@@ -61,7 +68,8 @@ function formatLeadMessage(data: TelegramMessage): string {
 🔔 <b>Новый лид с сайта</b>
 
 👤 <b>Имя:</b> ${escapeHtml(data.name)}
-📧 <b>Email:</b> ${escapeHtml(data.email)}
+📧 <b>Email:</b> ${escapeHtml(data.email || '-')}
+📱 <b>Tel / Messenger:</b> ${escapeHtml(data.messenger || '-')}
 🌐 <b>Язык:</b> ${data.locale.toUpperCase()}
 🕐 <b>Время:</b> ${data.timestamp}
 

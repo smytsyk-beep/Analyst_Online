@@ -1,14 +1,33 @@
 // components/contact/contact-form.tsx
 'use client';
 
-import { useState } from 'react';
+import Script from 'next/script';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { submitContactForm, type ContactFormData } from '@/app/actions/contact';
 import type { Locale } from '@/lib/i18n';
 
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        container: HTMLElement,
+        options: {
+          sitekey: string;
+          callback: (token: string) => void;
+          'expired-callback': () => void;
+          'error-callback': () => void;
+        },
+      ) => string;
+      reset: (widgetId?: string) => void;
+    };
+  }
+}
+
 type ContactFormProps = {
   lang: Locale;
+  formToken: string;
   labels: {
     title: string;
     subtitle: string;
@@ -16,6 +35,9 @@ type ContactFormProps = {
     namePlaceholder: string;
     emailLabel: string;
     emailPlaceholder: string;
+    messengerLabel: string;
+    messengerPlaceholder: string;
+    contactHint: string;
     messageLabel: string;
     messagePlaceholder: string;
     submit: string;
@@ -27,15 +49,44 @@ type ContactFormProps = {
   };
 };
 
-export default function ContactForm({ lang, labels }: ContactFormProps) {
+const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+
+export default function ContactForm({ lang, formToken, labels }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    messenger: '',
     message: '',
+    website: '',
   });
 
   const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileReady, setTurnstileReady] = useState(
+    () => typeof window !== 'undefined' && Boolean(window.turnstile),
+  );
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetIdRef = useRef<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (
+      !turnstileSiteKey ||
+      !turnstileReady ||
+      !window.turnstile ||
+      !turnstileContainerRef.current ||
+      turnstileWidgetIdRef.current
+    ) {
+      return;
+    }
+
+    turnstileWidgetIdRef.current = window.turnstile.render(turnstileContainerRef.current, {
+      sitekey: turnstileSiteKey,
+      callback: setTurnstileToken,
+      'expired-callback': () => setTurnstileToken(''),
+      'error-callback': () => setTurnstileToken(''),
+    });
+  }, [turnstileReady, state]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,6 +96,8 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
     const data: ContactFormData = {
       ...formData,
       locale: lang,
+      formToken,
+      turnstileToken,
     };
 
     try {
@@ -52,7 +105,10 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
 
       if (result.success) {
         setState('success');
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: '', email: '', messenger: '', message: '', website: '' });
+        setTurnstileToken('');
+        window.turnstile?.reset(turnstileWidgetIdRef.current);
+        turnstileWidgetIdRef.current = undefined;
       } else {
         setState('error');
         if (result.fieldErrors) {
@@ -78,6 +134,10 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
       setErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[name];
+        if (name === 'email' || name === 'messenger') {
+          delete newErrors.email;
+          delete newErrors.messenger;
+        }
         return newErrors;
       });
     }
@@ -92,7 +152,16 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
           </div>
           <h3 className="text-xl font-bold text-foreground">{labels.successTitle}</h3>
           <p className="mt-2 text-foreground/70">{labels.successMessage}</p>
-          <Button onClick={() => setState('idle')} variant="outline" className="mt-6" size="sm">
+          <Button
+            onClick={() => {
+              turnstileWidgetIdRef.current = undefined;
+              setTurnstileToken('');
+              setState('idle');
+            }}
+            variant="outline"
+            className="mt-6"
+            size="sm"
+          >
             Send another message
           </Button>
         </CardContent>
@@ -145,13 +214,38 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
                 placeholder={labels.emailPlaceholder}
                 disabled={state === 'loading'}
                 className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-foreground transition-colors placeholder:text-foreground/40 ${
-                  errors.email
+                  errors.email || errors.messenger
                     ? 'border-red-500 bg-red-50'
                     : 'border-border bg-card focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
                 } disabled:opacity-50`}
-                required
+                autoComplete="email"
               />
-              {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+            </div>
+
+            {/* Tel / Messenger */}
+            <div>
+              <label htmlFor="messenger" className="block text-sm font-semibold text-foreground">
+                {labels.messengerLabel}
+              </label>
+              <input
+                type="text"
+                id="messenger"
+                name="messenger"
+                value={formData.messenger}
+                onChange={handleChange}
+                placeholder={labels.messengerPlaceholder}
+                disabled={state === 'loading'}
+                className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-foreground transition-colors placeholder:text-foreground/40 ${
+                  errors.email || errors.messenger
+                    ? 'border-red-500 bg-red-50'
+                    : 'border-border bg-card focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
+                } disabled:opacity-50`}
+                autoComplete="tel"
+              />
+              <p className="mt-1 text-xs text-foreground/60">{labels.contactHint}</p>
+              {(errors.email || errors.messenger) && (
+                <p className="mt-1 text-xs text-red-600">{errors.email || errors.messenger}</p>
+              )}
             </div>
 
             {/* Message */}
@@ -173,9 +267,34 @@ export default function ContactForm({ lang, labels }: ContactFormProps) {
                     : 'border-border bg-card focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
                 } disabled:opacity-50`}
                 required
+                minLength={15}
               />
               {errors.message && <p className="mt-1 text-xs text-red-600">{errors.message}</p>}
             </div>
+
+            <div className="hidden" aria-hidden="true">
+              <label htmlFor="website">Website</label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                value={formData.website}
+                onChange={handleChange}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
+            {turnstileSiteKey && (
+              <>
+                <Script
+                  src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+                  strategy="afterInteractive"
+                  onLoad={() => setTurnstileReady(true)}
+                />
+                <div ref={turnstileContainerRef} />
+              </>
+            )}
 
             {/* Error message */}
             {state === 'error' && !Object.keys(errors).length && (

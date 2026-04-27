@@ -142,6 +142,24 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'formMessengerLabel',
+      title: 'Form: Tel / Messenger Label',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'formMessengerPlaceholder',
+      title: 'Form: Tel / Messenger Placeholder',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'formContactHint',
+      title: 'Form: Contact Method Hint',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'formMessageLabel',
       title: 'Form: Message Label',
       type: 'string',

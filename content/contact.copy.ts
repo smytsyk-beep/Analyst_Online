@@ -20,6 +20,9 @@ export type ContactCopy = {
   formNamePlaceholder: string;
   formEmailLabel: string;
   formEmailPlaceholder: string;
+  formMessengerLabel: string;
+  formMessengerPlaceholder: string;
+  formContactHint: string;
   formMessageLabel: string;
   formMessagePlaceholder: string;
   formSubmit: string;
@@ -65,6 +68,9 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     formNamePlaceholder: 'Как к вам обращаться',
     formEmailLabel: 'Email',
     formEmailPlaceholder: 'your@email.com',
+    formMessengerLabel: 'Tel / Messenger',
+    formMessengerPlaceholder: '+380..., @telegram или WhatsApp',
+    formContactHint: 'Укажите email или Tel / Messenger.',
     formMessageLabel: 'Сообщение',
     formMessagePlaceholder: 'Опишите вашу задачу или вопрос...',
     formSubmit: 'Отправить',
@@ -110,6 +116,9 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     formNamePlaceholder: 'Як до вас звертатися',
     formEmailLabel: 'Email',
     formEmailPlaceholder: 'your@email.com',
+    formMessengerLabel: 'Tel / Messenger',
+    formMessengerPlaceholder: '+380..., @telegram або WhatsApp',
+    formContactHint: 'Вкажіть email або Tel / Messenger.',
     formMessageLabel: 'Повідомлення',
     formMessagePlaceholder: 'Опишіть вашу задачу або питання...',
     formSubmit: 'Надіслати',
@@ -155,6 +164,9 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     formNamePlaceholder: 'Cum să te adresez',
     formEmailLabel: 'Email',
     formEmailPlaceholder: 'your@email.com',
+    formMessengerLabel: 'Tel / Messenger',
+    formMessengerPlaceholder: '+40..., @telegram sau WhatsApp',
+    formContactHint: 'Completează email sau Tel / Messenger.',
     formMessageLabel: 'Mesaj',
     formMessagePlaceholder: 'Descrie sarcina sau întrebarea ta...',
     formSubmit: 'Trimite',
