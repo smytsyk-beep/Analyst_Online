@@ -3,7 +3,6 @@ import { sanityClient } from '../sanity/client';
 import { groq } from 'next-sanity';
 import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
-import { toPlainText } from '@portabletext/react';
 
 interface ExportRow {
   id: string;
@@ -23,13 +22,13 @@ interface ExportRow {
 }
 
 // Helper to convert Portable Text to plain text
-function portableTextToPlain(blocks: any[]): string {
+function portableTextToPlain(blocks: unknown): string {
   if (!blocks || !Array.isArray(blocks)) return '';
   try {
     return blocks
-      .map((block) => {
+      .map((block: { _type?: string; children?: { text?: string }[]; alt?: string }) => {
         if (block._type === 'block') {
-          return block.children?.map((child: any) => child.text).join('') || '';
+          return block.children?.map((child) => child.text).join('') || '';
         }
         if (block._type === 'image') {
           return `[Image: ${block.alt || 'no alt'}]`;
