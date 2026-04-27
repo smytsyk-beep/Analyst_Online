@@ -62,6 +62,7 @@ export default function ContactForm({ lang, formToken, labels }: ContactFormProp
 
   const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [serverError, setServerError] = useState('');
   const [turnstileToken, setTurnstileToken] = useState('');
   const [turnstileReady, setTurnstileReady] = useState(
     () => typeof window !== 'undefined' && Boolean(window.turnstile),
@@ -92,6 +93,7 @@ export default function ContactForm({ lang, formToken, labels }: ContactFormProp
     e.preventDefault();
     setState('loading');
     setErrors({});
+    setServerError('');
 
     const data: ContactFormData = {
       ...formData,
@@ -111,6 +113,7 @@ export default function ContactForm({ lang, formToken, labels }: ContactFormProp
         turnstileWidgetIdRef.current = undefined;
       } else {
         setState('error');
+        setServerError(result.error);
         if (result.fieldErrors) {
           const fieldErrors: Record<string, string> = {};
           Object.entries(result.fieldErrors).forEach(([key, messages]) => {
@@ -123,6 +126,7 @@ export default function ContactForm({ lang, formToken, labels }: ContactFormProp
       }
     } catch {
       setState('error');
+      setServerError('');
     }
   };
 
@@ -299,7 +303,7 @@ export default function ContactForm({ lang, formToken, labels }: ContactFormProp
             {/* Error message */}
             {state === 'error' && !Object.keys(errors).length && (
               <div className="rounded-lg border border-red-500/30 bg-red-50 p-4">
-                <p className="text-sm text-red-700">{labels.errorMessage}</p>
+                <p className="text-sm text-red-700">{serverError || labels.errorMessage}</p>
               </div>
             )}
 
