@@ -45,18 +45,18 @@ const iconMap = {
 
 export default async function ContactPage({ params }: Props) {
   const { lang } = await params;
-  
+
   // Fetch from CMS with fallback
   let t = contactCopy[lang];
-  
+
   if (isSanityConfigured()) {
     try {
       const cmsData = await sanityClient.fetch(
         contactInfoQuery,
         { locale: lang },
-        { next: { tags: ['contactInfo'] } }
+        { next: { tags: ['contactInfo'] } },
       );
-      
+
       if (cmsData) {
         t = {
           pageTitle: cmsData.pageTitle,

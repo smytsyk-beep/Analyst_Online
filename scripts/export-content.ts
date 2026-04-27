@@ -72,7 +72,7 @@ async function exportContent() {
       body,
       seoTitle,
       seoDescription
-    }`
+    }`,
   );
   console.log(`   Found ${pages.length} pages`);
 
@@ -107,7 +107,7 @@ async function exportContent() {
       icon,
       order,
       featured
-    }`
+    }`,
   );
   console.log(`   Found ${services.length} services`);
 
@@ -154,7 +154,7 @@ async function exportContent() {
       tags,
       publishedAt,
       featured
-    }`
+    }`,
   );
   console.log(`   Found ${caseStudies.length} case studies`);
 
@@ -204,7 +204,7 @@ async function exportContent() {
       author,
       seoTitle,
       seoDescription
-    }`
+    }`,
   );
   console.log(`   Found ${blogPosts.length} blog posts`);
 
@@ -245,7 +245,7 @@ async function exportContent() {
       locale,
       category,
       order
-    }`
+    }`,
   );
   console.log(`   Found ${faqs.length} FAQs`);
 
@@ -280,7 +280,7 @@ async function exportContent() {
       locale,
       content,
       order
-    }`
+    }`,
   );
   console.log(`   Found ${omnidashBlocks.length} OmniDash blocks`);
 
@@ -365,7 +365,7 @@ async function exportContent() {
       acc[row.type] = (acc[row.type] || 0) + 1;
       return acc;
     },
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
   Object.entries(summary).forEach(([type, count]) => {
     console.log(`   ${type}: ${count}`);
@@ -377,7 +377,7 @@ async function exportContent() {
       acc[row.locale] = (acc[row.locale] || 0) + 1;
       return acc;
     },
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
   Object.entries(localeSummary).forEach(([locale, count]) => {
     console.log(`   ${locale}: ${count}`);

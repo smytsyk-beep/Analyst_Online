@@ -43,10 +43,9 @@ async function migrateContactInfo() {
 
     try {
       // Check if document already exists
-      const existing = await client.fetch(
-        `*[_type == "contactInfo" && locale == $locale][0]`,
-        { locale }
-      );
+      const existing = await client.fetch(`*[_type == "contactInfo" && locale == $locale][0]`, {
+        locale,
+      });
 
       if (existing) {
         console.log(`⚠️  Contact Info (${locale}) already exists, skipping...`);
