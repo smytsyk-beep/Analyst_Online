@@ -35,6 +35,37 @@ export const contactPageQuery = groq`
   }
 `;
 
+export const contactInfoQuery = groq`
+  *[_type == "contactInfo" && locale == $locale][0] {
+    _id,
+    locale,
+    pageTitle,
+    pageSubtitle,
+    channelsTitle,
+    channels[] {
+      id,
+      label,
+      value,
+      href,
+      description
+    },
+    formTitle,
+    formSubtitle,
+    formNameLabel,
+    formNamePlaceholder,
+    formEmailLabel,
+    formEmailPlaceholder,
+    formMessageLabel,
+    formMessagePlaceholder,
+    formSubmit,
+    formSending,
+    formSuccessTitle,
+    formSuccessMessage,
+    formErrorTitle,
+    formErrorMessage
+  }
+`;
+
 export const casesPageQuery = groq`
   *[_type == "page" && slug.current == "cases" && locale == $locale][0] {
     _id,
