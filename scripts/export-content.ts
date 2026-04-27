@@ -21,6 +21,41 @@ interface ExportRow {
   additionalData: string;
 }
 
+function stringifyForExport(value: unknown): string {
+  if (value === null || value === undefined) return '';
+  if (typeof value === 'string') return value;
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return String(value);
+  }
+}
+
+function normalizeOmnidashContent(content: unknown): string {
+  if (!content || typeof content !== 'object') {
+    return stringifyForExport(content);
+  }
+
+  // Support both formats:
+  // 1) New: content = { title, subtitle, ... }
+  // 2) Legacy: content = { data: "<json>" | "text" }
+  if ('data' in content) {
+    const data = (content as { data?: unknown }).data;
+    if (typeof data === 'string') {
+      const trimmed = data.trim();
+      if (!trimmed) return '';
+      try {
+        return stringifyForExport(JSON.parse(trimmed));
+      } catch {
+        return trimmed;
+      }
+    }
+    return stringifyForExport(data);
+  }
+
+  return stringifyForExport(content);
+}
+
 // Helper to convert Portable Text to plain text
 function portableTextToPlain(blocks: unknown): string {
   if (!blocks || !Array.isArray(blocks)) return '';
@@ -284,7 +319,7 @@ async function exportContent() {
   console.log(`   Found ${omnidashBlocks.length} OmniDash blocks`);
 
   for (const block of omnidashBlocks) {
-    const contentData = block.content?.data || '';
+    const contentData = normalizeOmnidashContent(block.content);
     rows.push({
       id: block._id,
       type: 'omnidashBlock',
@@ -303,6 +338,81 @@ async function exportContent() {
         blockType: block.blockType,
         order: block.order,
       }),
+    });
+  }
+
+  // 7. Export Contact Info
+  console.log('📬 Exporting contact info...');
+  const contactInfos = await sanityClient.fetch(
+    groq`*[_type == "contactInfo"]{
+      _id,
+      locale,
+      pageTitle,
+      pageSubtitle,
+      channelsTitle,
+      channels,
+      formTitle,
+      formSubtitle,
+      formNameLabel,
+      formNamePlaceholder,
+      formEmailLabel,
+      formEmailPlaceholder,
+      formMessageLabel,
+      formMessagePlaceholder,
+      formSubmit,
+      formSending,
+      formSuccessTitle,
+      formSuccessMessage,
+      formErrorTitle,
+      formErrorMessage
+    }`,
+  );
+  console.log(`   Found ${contactInfos.length} contact info documents`);
+
+  for (const info of contactInfos) {
+    const formFields = {
+      formTitle: info.formTitle,
+      formSubtitle: info.formSubtitle,
+      formNameLabel: info.formNameLabel,
+      formNamePlaceholder: info.formNamePlaceholder,
+      formEmailLabel: info.formEmailLabel,
+      formEmailPlaceholder: info.formEmailPlaceholder,
+      formMessageLabel: info.formMessageLabel,
+      formMessagePlaceholder: info.formMessagePlaceholder,
+      formSubmit: info.formSubmit,
+      formSending: info.formSending,
+      formSuccessTitle: info.formSuccessTitle,
+      formSuccessMessage: info.formSuccessMessage,
+      formErrorTitle: info.formErrorTitle,
+      formErrorMessage: info.formErrorMessage,
+    };
+
+    rows.push({
+      id: info._id,
+      type: 'contactInfo',
+      locale: info.locale || '',
+      title: info.pageTitle || '',
+      slug: 'contact',
+      description: info.pageSubtitle || '',
+      body: stringifyForExport({
+        channelsTitle: info.channelsTitle,
+        channels: info.channels,
+        ...formFields,
+      }),
+      seoTitle: '',
+      seoDescription: '',
+      featuredImage: '',
+      featuredImageAlt: '',
+      ctaBlocks: stringifyForExport({
+        channelsTitle: info.channelsTitle,
+        channels: info.channels,
+        formTitle: info.formTitle,
+        formSubtitle: info.formSubtitle,
+        formSubmit: info.formSubmit,
+        formSending: info.formSending,
+      }),
+      ogMetadata: '',
+      additionalData: stringifyForExport(formFields),
     });
   }
 

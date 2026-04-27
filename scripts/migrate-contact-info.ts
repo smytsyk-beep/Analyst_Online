@@ -1,6 +1,7 @@
 // scripts/migrate-contact-info.ts
 import { createClient } from '@sanity/client';
 import { contactCopy } from '../content/contact.copy';
+import { randomUUID } from 'crypto';
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -14,6 +15,7 @@ async function migrateContactInfo() {
   console.log('🚀 Starting Contact Info migration to Sanity...\n');
 
   const locales = ['ru', 'ua', 'ro'] as const;
+  const failedLocales: string[] = [];
 
   for (const locale of locales) {
     const data = contactCopy[locale];
@@ -24,7 +26,10 @@ async function migrateContactInfo() {
       pageTitle: data.pageTitle,
       pageSubtitle: data.pageSubtitle,
       channelsTitle: data.channelsTitle,
-      channels: data.channels,
+      channels: data.channels.map((channel) => ({
+        _key: randomUUID(),
+        ...channel,
+      })),
       formTitle: data.formTitle,
       formSubtitle: data.formSubtitle,
       formNameLabel: data.formNameLabel,
@@ -57,7 +62,14 @@ async function migrateContactInfo() {
       console.log(`✅ Created Contact Info (${locale}): ${result._id}`);
     } catch (error) {
       console.error(`❌ Failed to create Contact Info (${locale}):`, error);
+      failedLocales.push(locale);
     }
+  }
+
+  if (failedLocales.length > 0) {
+    throw new Error(
+      `Contact Info migration completed with errors. Failed locales: ${failedLocales.join(', ')}`,
+    );
   }
 
   console.log('\n✅ Contact Info migration complete!');
