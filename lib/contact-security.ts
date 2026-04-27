@@ -119,8 +119,7 @@ export async function verifyTurnstileToken(
   ip: string,
 ): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  const isRequired =
-    process.env.CONTACT_TURNSTILE_REQUIRED === 'true' || process.env.NODE_ENV === 'production';
+  const isRequired = isTurnstileRequired();
 
   if (!secret) {
     return !isRequired;
@@ -156,6 +155,13 @@ export async function verifyTurnstileToken(
     console.error('Turnstile verification failed:', error);
     return false;
   }
+}
+
+function isTurnstileRequired(): boolean {
+  if (process.env.CONTACT_TURNSTILE_REQUIRED === 'true') return true;
+  if (process.env.CONTACT_TURNSTILE_REQUIRED === 'false') return false;
+
+  return process.env.NODE_ENV === 'production';
 }
 
 async function checkRateLimitRule(rule: RateLimitRule): Promise<RateLimitResult> {
