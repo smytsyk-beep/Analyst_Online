@@ -5,5 +5,6 @@ import caseStudy from './caseStudy';
 import faq from './faq';
 import omnidashBlock from './omnidashBlock';
 import blogPost from './blogPost';
+import contactInfo from './contactInfo';
 
-export const schemaTypes = [page, service, caseStudy, faq, omnidashBlock, blogPost];
+export const schemaTypes = [page, service, caseStudy, faq, omnidashBlock, blogPost, contactInfo];

@@ -7,6 +7,9 @@ import { contactCopy } from '@/content/contact.copy';
 import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
 import ContactForm from '@/components/contact/contact-form';
+import { sanityClient } from '@/sanity/client';
+import { contactInfoQuery } from '@/sanity/queries';
+import { isSanityConfigured } from '@/sanity/config';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
@@ -42,7 +45,44 @@ const iconMap = {
 
 export default async function ContactPage({ params }: Props) {
   const { lang } = await params;
-  const t = contactCopy[lang];
+  
+  // Fetch from CMS with fallback
+  let t = contactCopy[lang];
+  
+  if (isSanityConfigured()) {
+    try {
+      const cmsData = await sanityClient.fetch(
+        contactInfoQuery,
+        { locale: lang },
+        { next: { tags: ['contactInfo'] } }
+      );
+      
+      if (cmsData) {
+        t = {
+          pageTitle: cmsData.pageTitle,
+          pageSubtitle: cmsData.pageSubtitle,
+          channelsTitle: cmsData.channelsTitle,
+          channels: cmsData.channels,
+          formTitle: cmsData.formTitle,
+          formSubtitle: cmsData.formSubtitle,
+          formNameLabel: cmsData.formNameLabel,
+          formNamePlaceholder: cmsData.formNamePlaceholder,
+          formEmailLabel: cmsData.formEmailLabel,
+          formEmailPlaceholder: cmsData.formEmailPlaceholder,
+          formMessageLabel: cmsData.formMessageLabel,
+          formMessagePlaceholder: cmsData.formMessagePlaceholder,
+          formSubmit: cmsData.formSubmit,
+          formSending: cmsData.formSending,
+          formSuccessTitle: cmsData.formSuccessTitle,
+          formSuccessMessage: cmsData.formSuccessMessage,
+          formErrorTitle: cmsData.formErrorTitle,
+          formErrorMessage: cmsData.formErrorMessage,
+        };
+      }
+    } catch (error) {
+      console.error('Failed to fetch contact info from CMS, using fallback:', error);
+    }
+  }
 
   return (
     <div className="page space-y-16 py-12">
