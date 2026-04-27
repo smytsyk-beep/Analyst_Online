@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { label: 'OmniDash', href: '/omnidash' },
   { label: 'Services', href: '/services' },
   { label: 'Cases', href: '/cases' },
-  { label: 'Blog', href: '/blog' },
+  // { label: 'Blog', href: '/blog' }, // Hidden temporarily
   { label: 'Contact', href: '/contact' },
   { label: 'Privacy', href: '/privacy' },
 ];

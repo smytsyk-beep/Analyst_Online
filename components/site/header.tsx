@@ -20,7 +20,7 @@ const NAV = [
   { id: 'omnidash', label: 'OmniDash', href: '/omnidash' },
   { id: 'services', label: 'Services', href: '/services' },
   { id: 'cases', label: 'Cases', href: '/cases' },
-  { id: 'blog', label: 'Blog', href: '/blog' },
+  // { id: 'blog', label: 'Blog', href: '/blog' }, // Hidden temporarily
   { id: 'contact', label: 'Contact', href: '/contact' },
 ];
 
