@@ -1,6 +1,6 @@
 // components/site/footer.tsx
 import Link from 'next/link';
-import { Linkedin, Mail, MessageCircle } from 'lucide-react';
+import { Mail, MessageCircle } from 'lucide-react';
 import type { Locale } from '@/lib/i18n';
 import { CONTACT_LINKS, siteCopy } from '@/content/site.copy';
 
@@ -71,7 +71,6 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
               >
                 <Mail size={18} />
               </a>
-              
             </div>
           </div>
         </div>
