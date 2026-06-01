@@ -122,6 +122,7 @@ export const servicesQuery = groq`
     bullets,
     cta,
     href,
+    highlighted,
     featured,
     order
   }
@@ -138,6 +139,7 @@ export const serviceBySlugQuery = groq`
     bullets,
     cta,
     href,
+    highlighted,
     featured,
     order
   }
