@@ -83,6 +83,13 @@ export default defineType({
       description: 'Show on home page',
       initialValue: false,
     }),
+    defineField({
+      name: 'highlighted',
+      title: 'Highlighted on services page',
+      type: 'boolean',
+      description: 'Visually emphasize this service on the /services index page',
+      initialValue: false,
+    }),
   ],
   orderings: [
     {
