@@ -13,6 +13,7 @@ import { breadcrumbSchema, serviceSchema } from '@/lib/schema';
 import { sanityClient } from '@/sanity/client';
 import { pageByPathQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { siteCopy } from '@/content/site.copy';
 
 type Props = {
   params: Promise<{ lang: Locale; slug: string[] }>;
@@ -23,6 +24,8 @@ type CmsOfferPage = {
   description?: string;
   seoTitle?: string;
   seoDescription?: string;
+  routePath?: string;
+  pageType?: string;
   content?: unknown;
 };
 
@@ -39,9 +42,46 @@ function parseCmsContent(content: unknown): Partial<OfferPageCopy> | undefined {
   return content as Partial<OfferPageCopy>;
 }
 
+function mergePageCopy(
+  lang: Locale,
+  path: string,
+  cmsData: CmsOfferPage | null,
+  fallback: OfferPageCopy | null,
+): OfferPageCopy | null {
+  if (!cmsData && !fallback) return null;
+
+  const cmsContent = parseCmsContent(cmsData?.content);
+  const title = cmsContent?.title ?? cmsData?.title ?? fallback?.title ?? path;
+  const description =
+    cmsContent?.description ??
+    cmsData?.seoDescription ??
+    cmsData?.description ??
+    fallback?.description ??
+    '';
+  const purposes = siteCopy[lang].purposes;
+
+  return {
+    path: cmsContent?.path ?? cmsData?.routePath ?? fallback?.path ?? path,
+    title,
+    metaTitle: cmsContent?.metaTitle ?? cmsData?.seoTitle ?? fallback?.metaTitle ?? title,
+    description,
+    badge: cmsContent?.badge ?? fallback?.badge ?? cmsData?.pageType ?? 'Analyst Online',
+    ctaPrimary: cmsContent?.ctaPrimary ?? fallback?.ctaPrimary ?? purposes.consultation,
+    ctaSecondary: cmsContent?.ctaSecondary ?? fallback?.ctaSecondary ?? purposes.question,
+    intro: cmsContent?.intro ?? fallback?.intro ?? description,
+    includedTitle: cmsContent?.includedTitle ?? fallback?.includedTitle ?? title,
+    included: cmsContent?.included ?? fallback?.included ?? [],
+    whyTitle: cmsContent?.whyTitle ?? fallback?.whyTitle ?? '',
+    why: cmsContent?.why ?? fallback?.why ?? [],
+    processTitle: cmsContent?.processTitle ?? fallback?.processTitle ?? '',
+    process: cmsContent?.process ?? fallback?.process ?? [],
+    faqTitle: cmsContent?.faqTitle ?? fallback?.faqTitle ?? '',
+    faqs: cmsContent?.faqs ?? fallback?.faqs ?? [],
+  };
+}
+
 async function loadPage(lang: Locale, path: string) {
   const fallback = getOfferPage(lang, path);
-  if (!fallback) return null;
 
   if (!isSanityConfigured()) return fallback;
 
@@ -52,15 +92,7 @@ async function loadPage(lang: Locale, path: string) {
       { next: { tags: ['page'] } },
     );
 
-    if (!cmsData) return fallback;
-
-    return {
-      ...fallback,
-      ...parseCmsContent(cmsData.content),
-      title: cmsData.title ?? fallback.title,
-      description: cmsData.seoDescription ?? cmsData.description ?? fallback.description,
-      metaTitle: cmsData.seoTitle ?? fallback.metaTitle,
-    };
+    return mergePageCopy(lang, path, cmsData, fallback);
   } catch (error) {
     console.warn('Failed to fetch offer page from Sanity CMS, using fallback:', error);
     return fallback;

@@ -24,6 +24,9 @@ function purposeFromCta(label: string) {
 
 export default function OfferPage({ t, lang }: Props) {
   const site = siteCopy[lang as Locale];
+  const hasWhy = t.whyTitle || t.why.length > 0;
+  const hasProcess = t.processTitle || t.process.length > 0;
+  const hasFaqs = t.faqTitle || t.faqs.length > 0;
 
   return (
     <div>
@@ -74,54 +77,75 @@ export default function OfferPage({ t, lang }: Props) {
         </div>
       </section>
 
-      <section className="border-y border-border bg-card py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 className="text-3xl font-bold text-foreground">{t.whyTitle}</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {t.why.map((item) => (
-              <div key={item} className="rounded-lg border border-border bg-background p-5">
-                <p className="text-sm leading-relaxed text-foreground/80">{item}</p>
+      {hasWhy ? (
+        <section className="border-y border-border bg-card py-16 md:py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            {t.whyTitle ? (
+              <h2 className="text-3xl font-bold text-foreground">{t.whyTitle}</h2>
+            ) : null}
+            {t.why.length > 0 ? (
+              <div className="mt-8 grid gap-4 md:grid-cols-3">
+                {t.why.map((item) => (
+                  <div key={item} className="rounded-lg border border-border bg-background p-5">
+                    <p className="text-sm leading-relaxed text-foreground/80">{item}</p>
+                  </div>
+                ))}
               </div>
-            ))}
+            ) : null}
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
-      <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 className="text-3xl font-bold text-foreground">{t.processTitle}</h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-4">
-            {t.process.map((step, index) => (
-              <div
-                key={step.title}
-                className="rounded-lg border border-border bg-card p-6 shadow-sm"
-              >
-                <div className="text-sm font-extrabold text-primary">
-                  {String(index + 1).padStart(2, '0')}
-                </div>
-                <h3 className="mt-3 text-lg font-bold text-foreground">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/70">{step.text}</p>
+      {hasProcess ? (
+        <section className="py-16 md:py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            {t.processTitle ? (
+              <h2 className="text-3xl font-bold text-foreground">{t.processTitle}</h2>
+            ) : null}
+            {t.process.length > 0 ? (
+              <div className="mt-8 grid gap-6 md:grid-cols-4">
+                {t.process.map((step, index) => (
+                  <div
+                    key={step.title}
+                    className="rounded-lg border border-border bg-card p-6 shadow-sm"
+                  >
+                    <div className="text-sm font-extrabold text-primary">
+                      {String(index + 1).padStart(2, '0')}
+                    </div>
+                    <h3 className="mt-3 text-lg font-bold text-foreground">{step.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-foreground/70">{step.text}</p>
+                  </div>
+                ))}
               </div>
-            ))}
+            ) : null}
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
-      <section className="border-y border-border bg-card py-16 md:py-24">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6">
-          <h2 className="text-3xl font-bold text-foreground">{t.faqTitle}</h2>
-          <div className="mt-8 space-y-4">
-            {t.faqs.map((faq) => (
-              <Card key={faq.q} className="rounded-lg border border-border bg-background shadow-sm">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-foreground">{faq.q}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/70">{faq.a}</p>
-                </CardContent>
-              </Card>
-            ))}
+      {hasFaqs ? (
+        <section className="border-y border-border bg-card py-16 md:py-24">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6">
+            {t.faqTitle ? (
+              <h2 className="text-3xl font-bold text-foreground">{t.faqTitle}</h2>
+            ) : null}
+            {t.faqs.length > 0 ? (
+              <div className="mt-8 space-y-4">
+                {t.faqs.map((faq) => (
+                  <Card
+                    key={faq.q}
+                    className="rounded-lg border border-border bg-background shadow-sm"
+                  >
+                    <CardContent className="p-6">
+                      <h3 className="font-bold text-foreground">{faq.q}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/70">{faq.a}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : null}
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
