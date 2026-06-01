@@ -1,7 +1,7 @@
 // components/site/header.tsx
 import Link from 'next/link';
 import Image from 'next/image';
-import { Linkedin, Mail, MessageCircle } from 'lucide-react';
+import { Mail, MessageCircle } from 'lucide-react';
 import { LOCALES, type Locale, type I18nPolicy } from '@/lib/i18n';
 import MobileNav from '@/components/site/mobile-nav';
 import LanguageSwitcher from '@/components/site/language-switcher';
@@ -98,16 +98,6 @@ export default function Header({ lang, policy }: HeaderProps) {
               title={t.contact.email}
             >
               <Mail size={17} />
-            </a>
-            <a
-              href={CONTACT_LINKS.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-md p-2 text-foreground/60 transition-colors hover:bg-primary/10 hover:text-primary"
-              aria-label={t.contact.linkedin}
-              title={t.contact.linkedin}
-            >
-              <Linkedin size={17} />
             </a>
           </div>
 

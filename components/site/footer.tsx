@@ -1,6 +1,6 @@
 // components/site/footer.tsx
 import Link from 'next/link';
-import { Linkedin, Mail, MessageCircle } from 'lucide-react';
+import { Mail, MessageCircle } from 'lucide-react';
 import type { Locale } from '@/lib/i18n';
 import { CONTACT_LINKS, siteCopy } from '@/content/site.copy';
 
@@ -70,16 +70,6 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
                 title={t.contact.email}
               >
                 <Mail size={18} />
-              </a>
-              <a
-                href={CONTACT_LINKS.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-md border border-border p-2 text-foreground/60 transition-colors hover:border-primary hover:text-primary"
-                aria-label={t.contact.linkedin}
-                title={t.contact.linkedin}
-              >
-                <Linkedin size={18} />
               </a>
             </div>
           </div>
