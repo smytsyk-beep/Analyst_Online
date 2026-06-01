@@ -83,7 +83,10 @@ export default defineType({
               type: 'url',
               title: 'Link',
               description: 'Full URL (https://t.me/..., mailto:..., https://linkedin.com/...)',
-              validation: (Rule) => Rule.required(),
+              validation: (Rule) =>
+                Rule.required().uri({
+                  scheme: ['http', 'https', 'mailto', 'tel'],
+                }),
             },
             {
               name: 'description',
