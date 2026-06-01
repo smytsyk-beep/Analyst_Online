@@ -11,8 +11,15 @@ export type Service = {
 };
 
 export type ServicesCopy = {
+  heroBadge: string;
   pageTitle: string;
   pageSubtitle: string;
+  heroPrimaryCta: string;
+  heroSecondaryCta: string;
+  primarySectionTitle: string;
+  primarySectionSubtitle: string;
+  supportSectionTitle: string;
+  supportSectionSubtitle: string;
   services: Service[];
   ctaTitle: string;
   ctaSubtitle: string;
@@ -21,9 +28,18 @@ export type ServicesCopy = {
 
 export const servicesCopy: Record<Locale, ServicesCopy> = {
   ru: {
-    pageTitle: 'Услуги',
+    heroBadge: 'Новая версия Analyst Online',
+    pageTitle: 'AI, автоматизация и аналитика для бизнеса',
     pageSubtitle:
       'Команда Analyst Online помогает внедрять AI, автоматизировать отчёты, строить аналитику и закрывать регулярные задачи бизнеса без найма full-time специалиста.',
+    heroPrimaryCta: 'Начать с AI обучения',
+    heroSecondaryCta: 'Посмотреть направления',
+    primarySectionTitle: 'Новые AI SEO направления',
+    primarySectionSubtitle:
+      'Отдельные страницы для обучения, AI-внедрения, автоматизации и работы с Google Sheets / Excel.',
+    supportSectionTitle: 'Поддержка внедрения',
+    supportSectionSubtitle:
+      'Форматы, которые помогают довести AI, аналитику и отчётность до регулярной работы в команде.',
     services: [
       {
         id: 'ai-training',
@@ -143,9 +159,18 @@ export const servicesCopy: Record<Locale, ServicesCopy> = {
   },
 
   ua: {
-    pageTitle: 'Послуги',
+    heroBadge: 'Нова версія Analyst Online',
+    pageTitle: 'AI, автоматизація та аналітика для бізнесу',
     pageSubtitle:
       'Команда Analyst Online допомагає впроваджувати AI, автоматизувати звіти, будувати аналітику й закривати регулярні задачі бізнесу без найму full-time спеціаліста.',
+    heroPrimaryCta: 'Почати з AI навчання',
+    heroSecondaryCta: 'Переглянути напрями',
+    primarySectionTitle: 'Нові AI SEO напрями',
+    primarySectionSubtitle:
+      'Окремі сторінки для навчання, AI-впровадження, автоматизації та роботи з Google Sheets / Excel.',
+    supportSectionTitle: 'Підтримка впровадження',
+    supportSectionSubtitle:
+      'Формати, які допомагають довести AI, аналітику та звітність до регулярної роботи в команді.',
     services: [
       {
         id: 'ai-training',
@@ -265,9 +290,18 @@ export const servicesCopy: Record<Locale, ServicesCopy> = {
   },
 
   ro: {
-    pageTitle: 'Servicii',
+    heroBadge: 'Noua versiune Analyst Online',
+    pageTitle: 'AI, automatizare și analytics pentru business',
     pageSubtitle:
       'Echipa Analyst Online ajută la implementarea AI, automatizarea rapoartelor, construirea analytics-ului și acoperirea sarcinilor recurente fără angajarea unui analist full-time.',
+    heroPrimaryCta: 'Începe cu training AI',
+    heroSecondaryCta: 'Vezi direcțiile',
+    primarySectionTitle: 'Noile direcții AI SEO',
+    primarySectionSubtitle:
+      'Pagini separate pentru training, implementare AI, automatizare și lucru cu Google Sheets / Excel.',
+    supportSectionTitle: 'Suport pentru implementare',
+    supportSectionSubtitle:
+      'Formate care ajută echipa să transforme AI, analytics-ul și raportarea în lucru recurent.',
     services: [
       {
         id: 'ai-training',

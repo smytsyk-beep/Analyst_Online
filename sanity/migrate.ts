@@ -28,18 +28,48 @@ const locales: Locale[] = ['ru', 'ua', 'ro'];
 
 type SluggedDocument = {
   _type: string;
-  slug: { current: string };
+  slug: { _type?: string; current: string };
   locale: string;
+  [key: string]: unknown;
 };
+
+type ServicesPageContent = Omit<(typeof servicesCopy)['ru'], 'services'>;
+
+function getServicesPageContent(locale: Locale): ServicesPageContent {
+  const copy = servicesCopy[locale];
+
+  return {
+    heroBadge: copy.heroBadge,
+    pageTitle: copy.pageTitle,
+    pageSubtitle: copy.pageSubtitle,
+    heroPrimaryCta: copy.heroPrimaryCta,
+    heroSecondaryCta: copy.heroSecondaryCta,
+    primarySectionTitle: copy.primarySectionTitle,
+    primarySectionSubtitle: copy.primarySectionSubtitle,
+    supportSectionTitle: copy.supportSectionTitle,
+    supportSectionSubtitle: copy.supportSectionSubtitle,
+    ctaTitle: copy.ctaTitle,
+    ctaSubtitle: copy.ctaSubtitle,
+    ctaPrimary: copy.ctaPrimary,
+  };
+}
 
 // ============================================================================
 // Helper functions
 // ============================================================================
 
-async function documentExists(type: string, slug: string, locale: string): Promise<boolean> {
+async function findDocumentIdBySlug(
+  type: string,
+  slug: string,
+  locale: string,
+): Promise<string | null> {
   const query = `*[_type == $type && slug.current == $slug && locale == $locale][0]._id`;
   const result = await client.fetch(query, { type, slug, locale });
-  return !!result;
+  return result ?? null;
+}
+
+async function documentExists(type: string, slug: string, locale: string): Promise<boolean> {
+  return Boolean(await findDocumentIdBySlug(type, slug, locale));
 }
 
 async function createOrSkip(doc: SluggedDocument, label: string) {
@@ -50,6 +80,21 @@ async function createOrSkip(doc: SluggedDocument, label: string) {
   }
   await client.create(doc);
   console.log(`✅ Created: ${label}`);
+}
+
+async function upsertBySlug(doc: SluggedDocument, label: string) {
+  const existingId = await findDocumentIdBySlug(doc._type, doc.slug.current, doc.locale);
+
+  if (!existingId) {
+    await client.create(doc);
+    console.log(`✅ Created: ${label}`);
+    return;
+  }
+
+  const patch: Record<string, unknown> = { ...doc };
+  delete patch._type;
+  await client.patch(existingId).set(patch).commit();
+  console.log(`🔁 Updated: ${label}`);
 }
 
 // ============================================================================
@@ -87,6 +132,47 @@ async function migrateHomePage() {
 }
 
 // ============================================================================
+// Migrate Services index page
+// ============================================================================
+
+async function migrateServicesPage() {
+  console.log('\n📄 Migrating Services index page...');
+
+  for (const locale of locales) {
+    const copy = servicesCopy[locale];
+    const pageContent = getServicesPageContent(locale);
+
+    const doc = {
+      _type: 'page',
+      slug: { _type: 'slug', current: 'services' },
+      locale,
+      title: copy.pageTitle,
+      description: copy.pageSubtitle,
+      routePath: 'services',
+      pageType: 'services',
+      status: 'published',
+      seoTitle: `${copy.pageTitle} — Analyst Online`,
+      seoDescription: copy.pageSubtitle,
+      content: { data: JSON.stringify(pageContent, null, 2) },
+      cta: {
+        primary: copy.heroPrimaryCta,
+        secondary: copy.heroSecondaryCta,
+      },
+      body: [
+        {
+          _type: 'block',
+          _key: `services-${locale}-intro`,
+          style: 'normal',
+          children: [{ _type: 'span', text: copy.pageSubtitle }],
+        },
+      ],
+    };
+
+    await upsertBySlug(doc, `Services index (${locale})`);
+  }
+}
+
+// ============================================================================
 // Migrate Services
 // ============================================================================
 
@@ -110,10 +196,11 @@ async function migrateServices() {
         cta: service.cta,
         href: service.href,
         featured: service.highlighted || false,
+        highlighted: service.highlighted || false,
         order: i,
       };
 
-      await createOrSkip(doc, `Service: ${service.id} (${locale})`);
+      await upsertBySlug(doc, `Service: ${service.id} (${locale})`);
     }
   }
 }
@@ -517,6 +604,7 @@ async function migrate() {
 
   try {
     await migrateHomePage();
+    await migrateServicesPage();
     await migrateServices();
     await migrateOfferPages();
     await migrateOmniDashBlocks();
