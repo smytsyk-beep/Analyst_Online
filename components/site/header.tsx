@@ -1,7 +1,7 @@
 // components/site/header.tsx
 import Link from 'next/link';
 import Image from 'next/image';
-import { Linkedin, Mail, MessageCircle } from 'lucide-react';
+import { Mail, MessageCircle } from 'lucide-react';
 import { LOCALES, type Locale, type I18nPolicy } from '@/lib/i18n';
 import MobileNav from '@/components/site/mobile-nav';
 import LanguageSwitcher from '@/components/site/language-switcher';
@@ -99,7 +99,6 @@ export default function Header({ lang, policy }: HeaderProps) {
             >
               <Mail size={17} />
             </a>
-            
           </div>
 
           {/* Переключатель языков */}
