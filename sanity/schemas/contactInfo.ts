@@ -118,6 +118,38 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'formPurposeLabel',
+      title: 'Form: Purpose Label',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'formPurposeOptions',
+      title: 'Form: Purpose Options',
+      type: 'object',
+      fields: [
+        {
+          name: 'price',
+          title: 'Learn Price',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: 'question',
+          title: 'Ask Question',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: 'consultation',
+          title: 'Free Consultation',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'formNameLabel',
       title: 'Form: Name Label',
       type: 'string',
@@ -194,6 +226,12 @@ export default defineType({
       title: 'Form: Success Message',
       type: 'text',
       rows: 2,
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'formAgain',
+      title: 'Form: Send Another Button',
+      type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({

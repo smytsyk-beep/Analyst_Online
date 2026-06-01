@@ -1,11 +1,12 @@
 // components/omnidash/pricing.tsx
 import { Check } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import type { OmniDashCopy } from '@/content/omnidash.copy';
 
-type Props = { t: OmniDashCopy };
+type Props = { t: OmniDashCopy; lang: string };
 
-export default function OmniDashPricing({ t }: Props) {
+export default function OmniDashPricing({ t, lang }: Props) {
   return (
     <section className="py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -60,9 +61,7 @@ export default function OmniDashPricing({ t }: Props) {
                   variant={plan.highlighted ? 'default' : 'outline'}
                   asChild
                 >
-                  <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
-                    {plan.cta}
-                  </a>
+                  <Link href={`/${lang}/contact?purpose=price`}>{plan.cta}</Link>
                 </Button>
               </div>
             </div>

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { submitContactForm, type ContactFormData } from '@/app/actions/contact';
 import type { Locale } from '@/lib/i18n';
+import type { ContactPurpose } from '@/content/site.copy';
 
 declare global {
   interface Window {
@@ -31,6 +32,8 @@ type ContactFormProps = {
   labels: {
     title: string;
     subtitle: string;
+    purposeLabel: string;
+    purposeOptions: Record<ContactPurpose, string>;
     nameLabel: string;
     namePlaceholder: string;
     emailLabel: string;
@@ -44,15 +47,30 @@ type ContactFormProps = {
     sending: string;
     successTitle: string;
     successMessage: string;
+    again: string;
     errorTitle: string;
     errorMessage: string;
   };
+  initialPurpose?: ContactPurpose;
 };
 
 const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
-export default function ContactForm({ lang, formToken, labels }: ContactFormProps) {
-  const [formData, setFormData] = useState({
+export default function ContactForm({
+  lang,
+  formToken,
+  labels,
+  initialPurpose = 'consultation',
+}: ContactFormProps) {
+  const [formData, setFormData] = useState<{
+    purpose: ContactPurpose;
+    name: string;
+    email: string;
+    messenger: string;
+    message: string;
+    website: string;
+  }>({
+    purpose: initialPurpose,
     name: '',
     email: '',
     messenger: '',
@@ -107,7 +125,14 @@ export default function ContactForm({ lang, formToken, labels }: ContactFormProp
 
       if (result.success) {
         setState('success');
-        setFormData({ name: '', email: '', messenger: '', message: '', website: '' });
+        setFormData({
+          purpose: initialPurpose,
+          name: '',
+          email: '',
+          messenger: '',
+          message: '',
+          website: '',
+        });
         setTurnstileToken('');
         window.turnstile?.reset(turnstileWidgetIdRef.current);
         turnstileWidgetIdRef.current = undefined;
@@ -131,7 +156,8 @@ export default function ContactForm({ lang, formToken, labels }: ContactFormProp
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    const name = e.target.name as 'name' | 'email' | 'messenger' | 'message' | 'website';
+    const { value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     // Clear error for this field
     if (errors[name]) {
@@ -145,6 +171,10 @@ export default function ContactForm({ lang, formToken, labels }: ContactFormProp
         return newErrors;
       });
     }
+  };
+
+  const handlePurposeChange = (purpose: ContactPurpose) => {
+    setFormData((prev) => ({ ...prev, purpose }));
   };
 
   if (state === 'success') {
@@ -166,7 +196,7 @@ export default function ContactForm({ lang, formToken, labels }: ContactFormProp
             className="mt-6"
             size="sm"
           >
-            Send another message
+            {labels.again}
           </Button>
         </CardContent>
       </Card>
@@ -181,6 +211,35 @@ export default function ContactForm({ lang, formToken, labels }: ContactFormProp
       <Card className="mt-6 rounded-lg border border-border bg-card shadow-sm">
         <CardContent className="p-6 md:p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <div className="block text-sm font-semibold text-foreground">
+                {labels.purposeLabel}
+              </div>
+              <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                {Object.entries(labels.purposeOptions).map(([purpose, label]) => {
+                  const typedPurpose = purpose as ContactPurpose;
+                  const active = formData.purpose === typedPurpose;
+
+                  return (
+                    <button
+                      key={purpose}
+                      type="button"
+                      onClick={() => handlePurposeChange(typedPurpose)}
+                      disabled={state === 'loading'}
+                      className={`rounded-lg border px-3 py-2 text-left text-sm font-semibold transition-colors ${
+                        active
+                          ? 'border-primary bg-primary text-primary-foreground'
+                          : 'border-border bg-card text-foreground/70 hover:border-primary hover:text-foreground'
+                      } disabled:opacity-50`}
+                      aria-pressed={active}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Name */}
             <div>
               <label htmlFor="name" className="block text-sm font-semibold text-foreground">

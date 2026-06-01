@@ -2,33 +2,36 @@
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import { homeCopy } from '@/content/home.copy';
+import type { HomeCopy } from '@/content/home.copy';
 import { sanityClient } from '@/sanity/client';
 import { homePageQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
 
 import JsonLd from '@/components/seo/json-ld';
 import { organizationSchema } from '@/lib/schema';
-import HomeHero from '@/components/home/hero';
-import HomeFlagship from '@/components/home/flagship';
-import HomeServicesPreview from '@/components/home/services-preview';
-import HomeSocialProof from '@/components/home/social-proof';
-import HomeCtaSection from '@/components/home/cta-section';
-import SectionDivider from '@/components/shared/section-divider';
+import HomeLanding from '@/components/home/landing';
 
 type Props = { params: Promise<{ lang: Locale }> };
+
+function parseCmsContent(content: unknown): Partial<HomeCopy> | undefined {
+  if (!content || typeof content !== 'object') return undefined;
+  if ('data' in content && typeof content.data === 'string' && content.data.trim()) {
+    try {
+      return JSON.parse(content.data) as Partial<HomeCopy>;
+    } catch {
+      return undefined;
+    }
+  }
+
+  return content as Partial<HomeCopy>;
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
   const t = homeCopy[lang];
 
-  const titles: Record<Locale, string> = {
-    ru: 'Analyst Online — Аналитика, дашборды и автоматизация для бизнеса',
-    ua: 'Analyst Online — Аналітика, дашборди та автоматизація для бізнесу',
-    ro: 'Analyst Online — Analytics, dashboard-uri și automatizare pentru business',
-  };
-
   return {
-    title: titles[lang],
+    title: t.metaTitle,
     description: t.heroSubtitle,
     alternates: {
       canonical: `https://analyst-online.com/${lang}`,
@@ -39,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: titles[lang],
+      title: t.metaTitle,
       description: t.heroSubtitle,
       images: [
         {
@@ -58,7 +61,7 @@ export default async function LangHome({ params }: Props) {
   const { lang } = await params;
 
   // Fetch from CMS with fallback to hardcoded copy
-  let cmsData = null;
+  let cmsData: { title?: string; description?: string; content?: unknown } | null = null;
   if (isSanityConfigured()) {
     try {
       cmsData = await sanityClient.fetch(
@@ -73,21 +76,18 @@ export default async function LangHome({ params }: Props) {
 
   // Use CMS data if available, otherwise fallback to .copy.ts
   const t = cmsData
-    ? { ...homeCopy[lang], heroTitle: cmsData.title, heroSubtitle: cmsData.description }
+    ? {
+        ...homeCopy[lang],
+        ...parseCmsContent(cmsData.content),
+        heroTitle: cmsData.title ?? homeCopy[lang].heroTitle,
+        heroSubtitle: cmsData.description ?? homeCopy[lang].heroSubtitle,
+      }
     : homeCopy[lang];
 
   return (
     <div>
       <JsonLd data={organizationSchema()} />
-      <HomeHero t={t} lang={lang} />
-      <SectionDivider />
-      <HomeFlagship t={t} lang={lang} />
-      <SectionDivider />
-      <HomeServicesPreview t={t} lang={lang} />
-      <SectionDivider />
-      <HomeSocialProof t={t} />
-      <SectionDivider />
-      <HomeCtaSection t={t} lang={lang} />
+      <HomeLanding t={t} lang={lang} />
     </div>
   );
 }

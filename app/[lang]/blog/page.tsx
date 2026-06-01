@@ -40,9 +40,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 
   const descriptions: Record<Locale, string> = {
-    ru: 'Статьи об аналитике, дашбордах и автоматизации для бизнеса.',
-    ua: 'Статті про аналітику, дашборди та автоматизацію для бізнесу.',
-    ro: 'Articole despre analytics, dashboard-uri și automatizare pentru business.',
+    ru: 'Статьи об AI, аналитике, автоматизации, отчётах и дашбордах для бизнеса.',
+    ua: 'Статті про AI, аналітику, автоматизацію, звіти й дашборди для бізнесу.',
+    ro: 'Articole despre AI, analytics, automatizare, rapoarte și dashboard-uri pentru business.',
   };
 
   return {
@@ -65,17 +65,18 @@ export default async function BlogPage({ params }: Props) {
   const labels: Record<Locale, { title: string; subtitle: string; empty: string }> = {
     ru: {
       title: 'Блог',
-      subtitle: 'Статьи об аналитике, дашбордах и автоматизации для бизнеса.',
+      subtitle: 'Статьи об AI, аналитике, автоматизации, отчётах и дашбордах для бизнеса.',
       empty: 'Статьи появятся здесь в ближайшее время.',
     },
     ua: {
       title: 'Блог',
-      subtitle: 'Статті про аналітику, дашборди та автоматизацію для бізнесу.',
+      subtitle: 'Статті про AI, аналітику, автоматизацію, звіти й дашборди для бізнесу.',
       empty: "Статті з'являться тут найближчим часом.",
     },
     ro: {
       title: 'Blog',
-      subtitle: 'Articole despre analytics, dashboard-uri și automatizare pentru business.',
+      subtitle:
+        'Articole despre AI, analytics, automatizare, rapoarte și dashboard-uri pentru business.',
       empty: 'Articolele vor apărea aici în curând.',
     },
   };

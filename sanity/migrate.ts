@@ -13,6 +13,7 @@ import { createClient } from '@sanity/client';
 import { homeCopy } from '../content/home.copy';
 import { servicesCopy } from '../content/services.copy';
 import { omniDashCopy } from '../content/omnidash.copy';
+import { offerPages } from '../content/offer-pages.copy';
 import type { Locale } from '../lib/i18n';
 
 const client = createClient({
@@ -67,6 +68,10 @@ async function migrateHomePage() {
       locale,
       title: copy.heroTitle,
       description: copy.heroSubtitle,
+      routePath: '',
+      pageType: 'home',
+      status: 'published',
+      content: { data: JSON.stringify(copy) },
       body: [
         {
           _type: 'block',
@@ -103,11 +108,51 @@ async function migrateServices() {
         icon: '📊', // default icon
         bullets: service.bullets,
         cta: service.cta,
+        href: service.href,
         featured: service.highlighted || false,
         order: i,
       };
 
       await createOrSkip(doc, `Service: ${service.id} (${locale})`);
+    }
+  }
+}
+
+// ============================================================================
+// Migrate Offer pages
+// ============================================================================
+
+async function migrateOfferPages() {
+  console.log('\n🤖 Migrating AI offer pages...');
+
+  for (const locale of locales) {
+    const pages = offerPages[locale];
+
+    for (const page of Object.values(pages)) {
+      const slug = page.path.split('/').at(-1) ?? page.path;
+      const doc = {
+        _type: 'page',
+        slug: { _type: 'slug', current: slug },
+        locale,
+        routePath: page.path,
+        pageType: 'offer',
+        status: 'published',
+        title: page.title,
+        description: page.description,
+        seoTitle: page.metaTitle,
+        seoDescription: page.description,
+        content: { data: JSON.stringify(page) },
+        body: [
+          {
+            _type: 'block',
+            _key: `${slug}-intro`,
+            style: 'normal',
+            children: [{ _type: 'span', text: page.intro }],
+          },
+        ],
+      };
+
+      await createOrSkip(doc, `Offer: ${page.path} (${locale})`);
     }
   }
 }
@@ -345,6 +390,9 @@ async function migratePrivacyPage() {
           : locale === 'ua'
             ? 'Політика обробки персональних даних'
             : 'Politica de prelucrare a datelor personale',
+      routePath: 'privacy',
+      pageType: 'privacy',
+      status: 'published',
       body: [
         {
           _type: 'block',
@@ -383,10 +431,13 @@ async function migrateContactPage() {
       title: locale === 'ru' ? 'Контакты' : locale === 'ua' ? 'Контакти' : 'Contact',
       description:
         locale === 'ru'
-          ? 'Свяжитесь со мной для обсуждения вашей задачи'
+          ? 'Свяжитесь с командой для обсуждения вашей задачи'
           : locale === 'ua'
-            ? "Зв'яжіться зі мною для обговорення вашої задачі"
-            : 'Contactează-mă pentru a discuta sarcina ta',
+            ? "Зв'яжіться з командою для обговорення вашої задачі"
+            : 'Contactează echipa pentru a discuta sarcina ta',
+      routePath: 'contact',
+      pageType: 'contact',
+      status: 'published',
       body: [
         {
           _type: 'block',
@@ -429,6 +480,9 @@ async function migrateCasesPage() {
           : locale === 'ua'
             ? 'Приклади роботи та результати'
             : 'Exemple de lucru și rezultate',
+      routePath: 'cases',
+      pageType: 'cases',
+      status: 'published',
       body: [
         {
           _type: 'block',
@@ -464,6 +518,7 @@ async function migrate() {
   try {
     await migrateHomePage();
     await migrateServices();
+    await migrateOfferPages();
     await migrateOmniDashBlocks();
     await migrateOmniDashFAQ();
     await migratePrivacyPage();

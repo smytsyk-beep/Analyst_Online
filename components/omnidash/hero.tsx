@@ -25,9 +25,7 @@ export default function OmniDashHero({ t, lang }: Props) {
         {/* CTAs */}
         <div className="mt-8 flex flex-wrap gap-3">
           <Button size="lg" className="px-8 font-bold" asChild>
-            <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
-              {t.heroCtaPrimary}
-            </a>
+            <Link href={`/${lang}/contact?purpose=price`}>{t.heroCtaPrimary}</Link>
           </Button>
           <Button size="lg" variant="outline" className="px-8 font-bold" asChild>
             <Link href={`/${lang}/cases`}>{t.heroCtaSecondary}</Link>

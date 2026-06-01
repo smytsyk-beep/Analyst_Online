@@ -11,7 +11,7 @@ export function organizationSchema() {
     name: 'Analyst Online',
     url: BASE_URL,
     logo: `${BASE_URL}/images/logo.png`,
-    description: 'Analytics, dashboards and automation for business. Flagship product: OmniDash.',
+    description: 'AI, analytics and automation services for business.',
     contactPoint: {
       '@type': 'ContactPoint',
       email: 's.mytsyk@gmail.com',
@@ -64,6 +64,33 @@ export function productSchema(lang: Locale) {
         availability: 'https://schema.org/InStock',
       },
     ],
+  };
+}
+
+export function serviceSchema({
+  lang,
+  name,
+  description,
+  path,
+}: {
+  lang: Locale;
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name,
+    description,
+    url: `${BASE_URL}/${lang}/${path}`,
+    provider: {
+      '@type': 'Organization',
+      name: 'Analyst Online',
+      url: BASE_URL,
+    },
+    areaServed: ['Ukraine', 'Moldova', 'Romania'],
+    availableLanguage: ['Russian', 'Ukrainian', 'Romanian'],
   };
 }
 

@@ -1,3 +1,5 @@
+> **ARCHIVED / OUTDATED.** This sprint status reflects the old OmniDash-first strategy. The active positioning is documented in `docs/Analyst_Online_vs_OmniDash_updated.md`.
+
 # Analyst Online + OmniDash — Sprint Status
 
 Дата обновления: 2026-03-22

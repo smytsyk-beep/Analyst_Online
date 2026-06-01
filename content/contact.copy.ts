@@ -1,5 +1,6 @@
 // content/contact.copy.ts
 import type { Locale } from '@/lib/i18n';
+import type { ContactPurpose } from '@/content/site.copy';
 
 export type ContactChannel = {
   id: string;
@@ -16,6 +17,8 @@ export type ContactCopy = {
   channels: ContactChannel[];
   formTitle: string;
   formSubtitle: string;
+  formPurposeLabel: string;
+  formPurposeOptions: Record<ContactPurpose, string>;
   formNameLabel: string;
   formNamePlaceholder: string;
   formEmailLabel: string;
@@ -29,6 +32,7 @@ export type ContactCopy = {
   formSending: string;
   formSuccessTitle: string;
   formSuccessMessage: string;
+  formAgain: string;
   formErrorTitle: string;
   formErrorMessage: string;
 };
@@ -36,7 +40,7 @@ export type ContactCopy = {
 export const contactCopy: Record<Locale, ContactCopy> = {
   ru: {
     pageTitle: 'Контакты',
-    pageSubtitle: 'Напишите — обсудим вашу задачу и найдём решение.',
+    pageSubtitle: 'Напишите — команда разберёт задачу и предложит следующий шаг.',
     channelsTitle: 'Как связаться',
     channels: [
       {
@@ -62,7 +66,13 @@ export const contactCopy: Record<Locale, ContactCopy> = {
       },
     ],
     formTitle: 'Или оставьте сообщение',
-    formSubtitle: 'Опишите задачу — отвечу в течение 24 часов.',
+    formSubtitle: 'Выберите цель обращения и опишите задачу — команда ответит в течение 24 часов.',
+    formPurposeLabel: 'Что нужно сделать',
+    formPurposeOptions: {
+      price: 'Узнать стоимость',
+      question: 'Задать вопрос',
+      consultation: 'Получить бесплатную консультацию',
+    },
 
     formNameLabel: 'Имя',
     formNamePlaceholder: 'Как к вам обращаться',
@@ -76,7 +86,8 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     formSubmit: 'Отправить',
     formSending: 'Отправляю...',
     formSuccessTitle: 'Спасибо!',
-    formSuccessMessage: 'Ваше сообщение отправлено. Отвечу в течение 24 часов.',
+    formSuccessMessage: 'Ваше сообщение отправлено. Команда ответит в течение 24 часов.',
+    formAgain: 'Отправить ещё одно сообщение',
     formErrorTitle: 'Ошибка',
     formErrorMessage:
       'Не удалось отправить сообщение. Попробуйте ещё раз или напишите напрямую в Telegram.',
@@ -84,7 +95,7 @@ export const contactCopy: Record<Locale, ContactCopy> = {
 
   ua: {
     pageTitle: 'Контакти',
-    pageSubtitle: 'Напишіть — обговоримо вашу задачу і знайдемо рішення.',
+    pageSubtitle: 'Напишіть — команда розбере задачу і запропонує наступний крок.',
     channelsTitle: "Як зв'язатися",
     channels: [
       {
@@ -110,7 +121,13 @@ export const contactCopy: Record<Locale, ContactCopy> = {
       },
     ],
     formTitle: 'Або залиште повідомлення',
-    formSubtitle: 'Опишіть задачу — відповім протягом 24 годин.',
+    formSubtitle: 'Оберіть мету звернення й опишіть задачу — команда відповість протягом 24 годин.',
+    formPurposeLabel: 'Що потрібно зробити',
+    formPurposeOptions: {
+      price: 'Дізнатися вартість',
+      question: 'Поставити запитання',
+      consultation: 'Отримати безкоштовну консультацію',
+    },
 
     formNameLabel: "Ім'я",
     formNamePlaceholder: 'Як до вас звертатися',
@@ -124,7 +141,8 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     formSubmit: 'Надіслати',
     formSending: 'Надсилаю...',
     formSuccessTitle: 'Дякую!',
-    formSuccessMessage: 'Ваше повідомлення надіслано. Відповім протягом 24 годин.',
+    formSuccessMessage: 'Ваше повідомлення надіслано. Команда відповість протягом 24 годин.',
+    formAgain: 'Надіслати ще одне повідомлення',
     formErrorTitle: 'Помилка',
     formErrorMessage:
       'Не вдалося надіслати повідомлення. Спробуйте ще раз або напишіть безпосередньо в Telegram.',
@@ -132,7 +150,7 @@ export const contactCopy: Record<Locale, ContactCopy> = {
 
   ro: {
     pageTitle: 'Contact',
-    pageSubtitle: 'Scrie — discutăm sarcina ta și găsim o soluție.',
+    pageSubtitle: 'Scrie — echipa analizează sarcina și propune următorul pas.',
     channelsTitle: 'Cum să iei legătura',
     channels: [
       {
@@ -158,7 +176,13 @@ export const contactCopy: Record<Locale, ContactCopy> = {
       },
     ],
     formTitle: 'Sau lasă un mesaj',
-    formSubtitle: 'Descrie sarcina — răspund în 24 de ore.',
+    formSubtitle: 'Alege scopul mesajului și descrie sarcina — echipa răspunde în 24 de ore.',
+    formPurposeLabel: 'Ce ai nevoie',
+    formPurposeOptions: {
+      price: 'Află costul',
+      question: 'Pune o întrebare',
+      consultation: 'Primește o consultație gratuită',
+    },
 
     formNameLabel: 'Nume',
     formNamePlaceholder: 'Cum să te adresez',
@@ -172,7 +196,8 @@ export const contactCopy: Record<Locale, ContactCopy> = {
     formSubmit: 'Trimite',
     formSending: 'Trimit...',
     formSuccessTitle: 'Mulțumesc!',
-    formSuccessMessage: 'Mesajul tău a fost trimis. Răspund în 24 de ore.',
+    formSuccessMessage: 'Mesajul tău a fost trimis. Echipa răspunde în 24 de ore.',
+    formAgain: 'Trimite încă un mesaj',
     formErrorTitle: 'Eroare',
     formErrorMessage: 'Nu am putut trimite mesajul. Încearcă din nou sau scrie direct pe Telegram.',
   },

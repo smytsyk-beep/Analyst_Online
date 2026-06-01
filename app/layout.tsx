@@ -12,7 +12,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://analyst-online.com'),
   title: 'Analyst Online',
-  description: 'Analytics, automation, dashboards, AI assistants.',
+  description: 'AI, analytics and automation services for business.',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
         url: 'https://analyst-online.vercel.app/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Analyst Online - Analytics, dashboards & automation',
+        alt: 'Analyst Online - AI, analytics and automation for business',
       },
     ],
   },
