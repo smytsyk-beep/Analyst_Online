@@ -99,16 +99,7 @@ export default function Header({ lang, policy }: HeaderProps) {
             >
               <Mail size={17} />
             </a>
-            <a
-              href={CONTACT_LINKS.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-md p-2 text-foreground/60 transition-colors hover:bg-primary/10 hover:text-primary"
-              aria-label={t.contact.linkedin}
-              title={t.contact.linkedin}
-            >
-              <Linkedin size={17} />
-            </a>
+            
           </div>
 
           {/* Переключатель языков */}
