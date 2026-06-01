@@ -21,7 +21,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
       {
         title: '1. Кто мы',
         content:
-          'Analyst Online — это бренд, под которым Павел Мыцык предоставляет услуги аналитики, дашбордов и автоматизации для бизнеса. Основной продукт — OmniDash. Контактный email: s.mytsyk@gmail.com.',
+          'Analyst Online — это бренд и команда, которая предоставляет услуги AI-обучения, аналитики, дашбордов и автоматизации для бизнеса. OmniDash — отдельное направление для e-commerce дашбордов. Контактный email: s.mytsyk@gmail.com.',
       },
       {
         title: '2. Какие данные мы собираем',
@@ -69,7 +69,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
       {
         title: '1. Хто ми',
         content:
-          'Analyst Online — це бренд, під яким Павло Мицик надає послуги аналітики, дашбордів та автоматизації для бізнесу. Основний продукт — OmniDash. Контактний email: s.mytsyk@gmail.com.',
+          'Analyst Online — це бренд і команда, яка надає послуги AI-навчання, аналітики, дашбордів та автоматизації для бізнесу. OmniDash — окремий напрям для e-commerce дашбордів. Контактний email: s.mytsyk@gmail.com.',
       },
       {
         title: '2. Які дані ми збираємо',
@@ -118,7 +118,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
       {
         title: '1. Cine suntem',
         content:
-          'Analyst Online este un brand sub care Pavlo Mytsyk oferă servicii de analytics, dashboard-uri și automatizare pentru business. Produsul principal — OmniDash. Email de contact: s.mytsyk@gmail.com.',
+          'Analyst Online este un brand și o echipă care oferă servicii de training AI, analytics, dashboard-uri și automatizare pentru business. OmniDash este o direcție separată pentru dashboard-uri e-commerce. Email de contact: s.mytsyk@gmail.com.',
       },
       {
         title: '2. Ce date colectăm',

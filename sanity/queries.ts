@@ -10,7 +10,30 @@ export const homePageQuery = groq`
     _id,
     title,
     description,
+    seoTitle,
+    seoDescription,
+    content,
+    sections,
+    cta,
+    faq,
     body,
+    locale
+  }
+`;
+
+export const pageByPathQuery = groq`
+  *[_type == "page" && routePath == $path && locale == $locale && coalesce(status, "published") == "published"][0] {
+    _id,
+    title,
+    description,
+    seoTitle,
+    seoDescription,
+    routePath,
+    pageType,
+    content,
+    sections,
+    cta,
+    faq,
     locale
   }
 `;
@@ -20,6 +43,7 @@ export const privacyPageQuery = groq`
     _id,
     title,
     description,
+    content,
     body,
     locale
   }
@@ -51,6 +75,8 @@ export const contactInfoQuery = groq`
     },
     formTitle,
     formSubtitle,
+    formPurposeLabel,
+    formPurposeOptions,
     formNameLabel,
     formNamePlaceholder,
     formEmailLabel,
@@ -64,6 +90,7 @@ export const contactInfoQuery = groq`
     formSending,
     formSuccessTitle,
     formSuccessMessage,
+    formAgain,
     formErrorTitle,
     formErrorMessage
   }
@@ -74,6 +101,7 @@ export const casesPageQuery = groq`
     _id,
     title,
     description,
+    content,
     body,
     locale
   }
@@ -93,6 +121,7 @@ export const servicesQuery = groq`
     icon,
     bullets,
     cta,
+    href,
     featured,
     order
   }
@@ -108,6 +137,7 @@ export const serviceBySlugQuery = groq`
     icon,
     bullets,
     cta,
+    href,
     featured,
     order
   }
@@ -259,7 +289,9 @@ export const blogPostQuery = groq`
 export const allPagesForSitemapQuery = groq`
   *[_type == "page" && defined(slug)] {
     "slug": slug.current,
+    routePath,
     locale,
+    pageType,
     _updatedAt
   }
 `;

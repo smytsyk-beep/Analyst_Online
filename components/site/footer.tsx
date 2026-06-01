@@ -1,22 +1,28 @@
 // components/site/footer.tsx
 import Link from 'next/link';
+import { Linkedin, Mail, MessageCircle } from 'lucide-react';
 import type { Locale } from '@/lib/i18n';
+import { CONTACT_LINKS, siteCopy } from '@/content/site.copy';
 
 type FooterProps = {
   lang?: Locale;
 };
 
-const NAV_LINKS = [
-  { label: 'OmniDash', href: '/omnidash' },
-  { label: 'Services', href: '/services' },
-  { label: 'Cases', href: '/cases' },
-  // { label: 'Blog', href: '/blog' }, // Hidden temporarily
-  { label: 'Contact', href: '/contact' },
-  { label: 'Privacy', href: '/privacy' },
-];
-
 export default function Footer({ lang = 'ru' }: FooterProps) {
   const year = new Date().getFullYear();
+  const t = siteCopy[lang];
+  const navLinks = [
+    { label: t.nav.services, href: '/services' },
+    {
+      label: t.nav.aiTraining,
+      href: lang === 'ru' ? '/obuchenie-ai' : lang === 'ua' ? '/navchannia-ai' : '/curs-ai',
+    },
+    { label: t.nav.cases, href: '/cases' },
+    { label: t.nav.blog, href: '/blog' },
+    { label: t.nav.contacts, href: '/contact' },
+    { label: t.nav.ecommerceDashboards, href: '/omnidash' },
+    { label: t.nav.privacy, href: '/privacy' },
+  ];
 
   return (
     <footer className="border-t border-border bg-card">
@@ -26,10 +32,10 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
           {/* Navigation */}
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-foreground/50">
-              Navigation
+              {t.footer.navigationTitle}
             </p>
             <nav className="flex flex-wrap gap-x-4 gap-y-2">
-              {NAV_LINKS.map((item) => (
+              {navLinks.map((item) => (
                 <Link
                   key={item.href}
                   href={`/${lang}${item.href}`}
@@ -44,22 +50,36 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
           {/* Contacts */}
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-foreground/50">
-              Contact
+              {t.footer.contactTitle}
             </p>
-            <div className="flex flex-col gap-1.5 text-sm">
+            <div className="flex items-center gap-2">
               <a
-                href="https://t.me/omnidash_ai"
+                href={CONTACT_LINKS.telegram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-foreground/60 transition-colors hover:text-primary"
+                className="rounded-md border border-border p-2 text-foreground/60 transition-colors hover:border-primary hover:text-primary"
+                aria-label={t.contact.telegram}
+                title={t.contact.telegram}
               >
-                Telegram: @omnidash_ai
+                <MessageCircle size={18} />
               </a>
               <a
-                href="mailto:s.mytsyk@gmail.com"
-                className="font-medium text-foreground/60 transition-colors hover:text-primary"
+                href={CONTACT_LINKS.email}
+                className="rounded-md border border-border p-2 text-foreground/60 transition-colors hover:border-primary hover:text-primary"
+                aria-label={t.contact.email}
+                title={t.contact.email}
               >
-                s.mytsyk@gmail.com
+                <Mail size={18} />
+              </a>
+              <a
+                href={CONTACT_LINKS.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-md border border-border p-2 text-foreground/60 transition-colors hover:border-primary hover:text-primary"
+                aria-label={t.contact.linkedin}
+                title={t.contact.linkedin}
+              >
+                <Linkedin size={18} />
               </a>
             </div>
           </div>
@@ -67,8 +87,10 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
 
         {/* Bottom */}
         <div className="mt-8 flex flex-col items-center justify-between gap-2 border-t border-border pt-6 text-xs text-foreground/50 sm:flex-row">
-          <span>© {year} Analyst Online. All rights reserved.</span>
-          <span>Analytics, dashboards & automation for business.</span>
+          <span>
+            © {year} Analyst Online. {t.footer.rights}
+          </span>
+          <span>{t.footer.tagline}</span>
         </div>
       </div>
     </footer>

@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
+import type { ContactPurpose } from '@/content/site.copy';
 
 type Props = { params: Promise<{ lang: Locale }> };
 type CmsService = {
@@ -19,7 +20,20 @@ type CmsService = {
   description: string;
   bullets?: string[];
   cta?: string;
+  href?: string;
   featured?: boolean;
+};
+
+function purposeForService(id: string): ContactPurpose {
+  if (id === 'ai-automation' || id === 'dashboards-reports') return 'price';
+  if (id === 'apps-script') return 'question';
+  return 'consultation';
+}
+
+const priorityLabel: Record<Locale, string> = {
+  ru: 'Приоритет',
+  ua: 'Пріоритет',
+  ro: 'Prioritar',
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -73,6 +87,7 @@ export default async function ServicesPage({ params }: Props) {
           description: s.description,
           bullets: s.bullets || [],
           cta: s.cta || t.ctaPrimary,
+          href: s.href,
           highlighted: s.featured || false,
         }))
       : t.services;
@@ -108,7 +123,7 @@ export default async function ServicesPage({ params }: Props) {
                 <h2 className="text-xl font-semibold">{service.title}</h2>
                 {service.highlighted && (
                   <Badge variant="secondary" className="shrink-0 text-xs">
-                    Flagship
+                    {priorityLabel[lang]}
                   </Badge>
                 )}
               </div>
@@ -122,15 +137,15 @@ export default async function ServicesPage({ params }: Props) {
                 ))}
               </ul>
               <div className="pt-2">
-                {service.id === 'omnidash' ? (
+                {service.href ? (
                   <Button className="font-bold" asChild size="sm">
-                    <Link href={`/${lang}/omnidash`}>{service.cta}</Link>
+                    <Link href={`/${lang}${service.href}`}>{service.cta}</Link>
                   </Button>
                 ) : (
                   <Button className="font-semibold" variant="outline" size="sm" asChild>
-                    <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
+                    <Link href={`/${lang}/contact?purpose=${purposeForService(service.id)}`}>
                       {service.cta}
-                    </a>
+                    </Link>
                   </Button>
                 )}
               </div>
@@ -144,9 +159,7 @@ export default async function ServicesPage({ params }: Props) {
         <h3 className="text-xl font-bold">{t.ctaTitle}</h3>
         <p className="text-foreground/70">{t.ctaSubtitle}</p>
         <Button className="px-8 font-bold" asChild>
-          <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
-            {t.ctaPrimary}
-          </a>
+          <Link href={`/${lang}/contact?purpose=consultation`}>{t.ctaPrimary}</Link>
         </Button>
       </div>
     </div>

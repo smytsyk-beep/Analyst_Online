@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Mail, MessageCircle, Linkedin } from 'lucide-react';
 import type { Locale } from '@/lib/i18n';
 import { contactCopy } from '@/content/contact.copy';
+import { siteCopy, type ContactPurpose } from '@/content/site.copy';
 import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
 import ContactForm from '@/components/contact/contact-form';
@@ -12,7 +13,10 @@ import { contactInfoQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
 import { createContactFormToken } from '@/lib/contact-security';
 
-type Props = { params: Promise<{ lang: Locale }> };
+type Props = {
+  params: Promise<{ lang: Locale }>;
+  searchParams?: Promise<{ purpose?: string }>;
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
@@ -44,8 +48,16 @@ const iconMap = {
   linkedin: Linkedin,
 };
 
-export default async function ContactPage({ params }: Props) {
+function normalizePurpose(value: string | undefined): ContactPurpose {
+  return value === 'price' || value === 'question' || value === 'consultation'
+    ? value
+    : 'consultation';
+}
+
+export default async function ContactPage({ params, searchParams }: Props) {
   const { lang } = await params;
+  const query = searchParams ? await searchParams : {};
+  const initialPurpose = normalizePurpose(query.purpose);
 
   // Fetch from CMS with fallback
   let t = contactCopy[lang];
@@ -66,6 +78,8 @@ export default async function ContactPage({ params }: Props) {
           channels: cmsData.channels,
           formTitle: cmsData.formTitle,
           formSubtitle: cmsData.formSubtitle,
+          formPurposeLabel: cmsData.formPurposeLabel ?? contactCopy[lang].formPurposeLabel,
+          formPurposeOptions: cmsData.formPurposeOptions ?? contactCopy[lang].formPurposeOptions,
           formNameLabel: cmsData.formNameLabel,
           formNamePlaceholder: cmsData.formNamePlaceholder,
           formEmailLabel: cmsData.formEmailLabel,
@@ -80,6 +94,7 @@ export default async function ContactPage({ params }: Props) {
           formSending: cmsData.formSending,
           formSuccessTitle: cmsData.formSuccessTitle,
           formSuccessMessage: cmsData.formSuccessMessage,
+          formAgain: cmsData.formAgain ?? contactCopy[lang].formAgain,
           formErrorTitle: cmsData.formErrorTitle,
           formErrorMessage: cmsData.formErrorMessage,
         };
@@ -110,7 +125,9 @@ export default async function ContactPage({ params }: Props) {
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {t.channels.map((channel) => {
-            const Icon = iconMap[channel.id as keyof typeof iconMap];
+            const Icon = iconMap[channel.id as keyof typeof iconMap] ?? MessageCircle;
+            const contactLabels = siteCopy[lang].contact as Record<string, string>;
+            const iconLabel = contactLabels[channel.id] ?? channel.label;
             return (
               <Card
                 key={channel.id}
@@ -119,10 +136,9 @@ export default async function ContactPage({ params }: Props) {
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background">
-                      <Icon size={18} className="text-primary" />
+                      <Icon size={18} className="text-primary" aria-label={iconLabel} />
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-foreground">{channel.label}</div>
                       <a
                         href={channel.href}
                         target="_blank"
@@ -150,6 +166,8 @@ export default async function ContactPage({ params }: Props) {
         labels={{
           title: t.formTitle,
           subtitle: t.formSubtitle,
+          purposeLabel: t.formPurposeLabel,
+          purposeOptions: t.formPurposeOptions,
           nameLabel: t.formNameLabel,
           namePlaceholder: t.formNamePlaceholder,
           emailLabel: t.formEmailLabel,
@@ -163,9 +181,11 @@ export default async function ContactPage({ params }: Props) {
           sending: t.formSending,
           successTitle: t.formSuccessTitle,
           successMessage: t.formSuccessMessage,
+          again: t.formAgain,
           errorTitle: t.formErrorTitle,
           errorMessage: t.formErrorMessage,
         }}
+        initialPurpose={initialPurpose}
       />
     </div>
   );

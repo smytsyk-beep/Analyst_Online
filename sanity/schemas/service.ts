@@ -44,6 +44,26 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'bullets',
+      title: 'Bullets',
+      type: 'array',
+      of: [{ type: 'string' }],
+      validation: (Rule) => Rule.required().min(1),
+    }),
+    defineField({
+      name: 'cta',
+      title: 'CTA',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'href',
+      title: 'Internal Link',
+      type: 'string',
+      description:
+        'Optional localized path after the locale prefix, e.g. /services/ai-dlya-biznesa',
+    }),
+    defineField({
       name: 'icon',
       title: 'Icon',
       type: 'string',

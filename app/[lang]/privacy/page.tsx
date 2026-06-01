@@ -2,10 +2,27 @@
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import { privacyCopy } from '@/content/privacy.copy';
+import type { PrivacyCopy } from '@/content/privacy.copy';
 import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
+import { sanityClient } from '@/sanity/client';
+import { privacyPageQuery } from '@/sanity/queries';
+import { isSanityConfigured } from '@/sanity/config';
 
 type Props = { params: Promise<{ lang: Locale }> };
+
+function parseCmsContent(content: unknown): Partial<PrivacyCopy> | undefined {
+  if (!content || typeof content !== 'object') return undefined;
+  if ('data' in content && typeof content.data === 'string' && content.data.trim()) {
+    try {
+      return JSON.parse(content.data) as Partial<PrivacyCopy>;
+    } catch {
+      return undefined;
+    }
+  }
+
+  return content as Partial<PrivacyCopy>;
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
@@ -27,7 +44,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PrivacyPage({ params }: Props) {
   const { lang } = await params;
-  const t = privacyCopy[lang];
+  let t = privacyCopy[lang];
+
+  if (isSanityConfigured()) {
+    try {
+      const cmsData = await sanityClient.fetch(
+        privacyPageQuery,
+        { locale: lang },
+        { next: { tags: ['page'] } },
+      );
+
+      if (cmsData) {
+        t = {
+          ...t,
+          ...parseCmsContent(cmsData.content),
+          pageTitle: cmsData.title ?? t.pageTitle,
+          pageSubtitle: cmsData.description ?? t.pageSubtitle,
+        };
+      }
+    } catch (error) {
+      console.warn('Failed to fetch privacy page from Sanity CMS, using fallback:', error);
+    }
+  }
 
   return (
     <div className="page space-y-12 py-12">

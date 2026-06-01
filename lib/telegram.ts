@@ -12,6 +12,7 @@ export type TelegramMessage = {
   email: string;
   messenger: string;
   message: string;
+  purpose: 'price' | 'question' | 'consultation';
   timestamp: string;
   locale: string;
 };
@@ -70,12 +71,19 @@ function formatLeadMessage(data: TelegramMessage): string {
 👤 <b>Имя:</b> ${escapeHtml(data.name)}
 📧 <b>Email:</b> ${escapeHtml(data.email || '-')}
 📱 <b>Tel / Messenger:</b> ${escapeHtml(data.messenger || '-')}
+🎯 <b>Цель:</b> ${escapeHtml(formatPurpose(data.purpose))}
 🌐 <b>Язык:</b> ${data.locale.toUpperCase()}
 🕐 <b>Время:</b> ${data.timestamp}
 
 💬 <b>Сообщение:</b>
 ${escapeHtml(data.message)}
   `.trim();
+}
+
+function formatPurpose(purpose: TelegramMessage['purpose']): string {
+  if (purpose === 'price') return 'Узнать стоимость';
+  if (purpose === 'question') return 'Задать вопрос';
+  return 'Получить бесплатную консультацию';
 }
 
 /**

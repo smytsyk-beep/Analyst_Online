@@ -12,6 +12,7 @@ export type LeadData = {
   email: string;
   messenger: string;
   message: string;
+  purpose: 'price' | 'question' | 'consultation';
   locale: string;
   source: string;
 };
@@ -49,6 +50,7 @@ export async function appendLeadToSheet(data: LeadData): Promise<boolean> {
         data.locale,
         data.source,
         data.messenger,
+        data.purpose,
       ],
     ];
 
@@ -56,7 +58,7 @@ export async function appendLeadToSheet(data: LeadData): Promise<boolean> {
     await withTimeout(
       sheets.spreadsheets.values.append({
         spreadsheetId: sheetId,
-        range: 'Sheet1!A:G', // Adjust sheet name if needed
+        range: 'Sheet1!A:H', // Adjust sheet name if needed
         valueInputOption: 'RAW',
         requestBody: {
           values,
@@ -98,12 +100,12 @@ export async function initializeSheet(): Promise<boolean> {
     // Check if headers already exist
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
-      range: 'Sheet1!A1:G1',
+      range: 'Sheet1!A1:H1',
     });
 
     // Add headers
     const headers = [
-      ['Timestamp', 'Name', 'Email', 'Message', 'Locale', 'Source', 'Tel / Messenger'],
+      ['Timestamp', 'Name', 'Email', 'Message', 'Locale', 'Source', 'Tel / Messenger', 'Purpose'],
     ];
 
     if (response.data.values && response.data.values.length > 0) {
@@ -116,7 +118,7 @@ export async function initializeSheet(): Promise<boolean> {
 
     await sheets.spreadsheets.values.update({
       spreadsheetId: sheetId,
-      range: 'Sheet1!A1:G1',
+      range: 'Sheet1!A1:H1',
       valueInputOption: 'RAW',
       requestBody: {
         values: headers,

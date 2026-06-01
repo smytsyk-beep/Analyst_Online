@@ -2,13 +2,30 @@
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import { casesCopy } from '@/content/cases.copy';
+import type { CasesCopy } from '@/content/cases.copy';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, Mail } from 'lucide-react';
 import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
+import { sanityClient } from '@/sanity/client';
+import { casesPageQuery } from '@/sanity/queries';
+import { isSanityConfigured } from '@/sanity/config';
 
 type Props = { params: Promise<{ lang: Locale }> };
+
+function parseCmsContent(content: unknown): Partial<CasesCopy> | undefined {
+  if (!content || typeof content !== 'object') return undefined;
+  if ('data' in content && typeof content.data === 'string' && content.data.trim()) {
+    try {
+      return JSON.parse(content.data) as Partial<CasesCopy>;
+    } catch {
+      return undefined;
+    }
+  }
+
+  return content as Partial<CasesCopy>;
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
@@ -30,7 +47,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CasesPage({ params }: Props) {
   const { lang } = await params;
-  const t = casesCopy[lang];
+  let t = casesCopy[lang];
+
+  if (isSanityConfigured()) {
+    try {
+      const cmsData = await sanityClient.fetch(
+        casesPageQuery,
+        { locale: lang },
+        { next: { tags: ['page'] } },
+      );
+
+      if (cmsData) {
+        t = {
+          ...t,
+          ...parseCmsContent(cmsData.content),
+          pageTitle: cmsData.title ?? t.pageTitle,
+          pageSubtitle: cmsData.description ?? t.pageSubtitle,
+        };
+      }
+    } catch (error) {
+      console.warn('Failed to fetch cases page from Sanity CMS, using fallback:', error);
+    }
+  }
 
   return (
     <div className="page space-y-16 py-12">
@@ -66,7 +104,7 @@ export default async function CasesPage({ params }: Props) {
         <p className="text-foreground/70">{t.ctaText}</p>
         <div className="flex flex-wrap justify-center gap-3 pt-2">
           <Button className="px-6 font-bold" asChild>
-            <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
+            <a href={`/${lang}/contact?purpose=question`}>
               <MessageCircle size={16} className="mr-2" />
               {t.ctaTelegram}
             </a>

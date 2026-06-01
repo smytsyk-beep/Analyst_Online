@@ -1,10 +1,11 @@
 // components/omnidash/cta-bottom.tsx
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import type { OmniDashCopy } from '@/content/omnidash.copy';
 
-type Props = { t: OmniDashCopy };
+type Props = { t: OmniDashCopy; lang: string };
 
-export default function OmniDashCtaBottom({ t }: Props) {
+export default function OmniDashCtaBottom({ t, lang }: Props) {
   return (
     <section className="py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -14,12 +15,10 @@ export default function OmniDashCtaBottom({ t }: Props) {
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button size="lg" className="px-8 font-bold" asChild>
-              <a href="https://t.me/omnidash_ai" target="_blank" rel="noopener noreferrer">
-                {t.ctaPrimary}
-              </a>
+              <Link href={`/${lang}/contact?purpose=price`}>{t.ctaPrimary}</Link>
             </Button>
             <Button size="lg" variant="outline" className="px-8 font-bold" asChild>
-              <a href="mailto:s.mytsyk@gmail.com">{t.ctaSecondary}</a>
+              <Link href={`/${lang}/contact?purpose=question`}>{t.ctaSecondary}</Link>
             </Button>
           </div>
         </div>

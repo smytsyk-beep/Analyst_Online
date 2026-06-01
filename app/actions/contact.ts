@@ -29,6 +29,7 @@ const contactFormSchema = z
       }),
     messenger: z.string().trim().max(120).optional().default(''),
     message: z.string().trim().min(15, 'Message must be at least 15 characters').max(1000),
+    purpose: z.enum(['price', 'question', 'consultation']).default('consultation'),
     locale: z.enum(['ru', 'ua', 'ro']),
     website: z.string().trim().max(200).optional().default(''),
     formToken: z.string().min(1),
@@ -125,6 +126,7 @@ export async function submitContactForm(data: ContactFormData): Promise<ContactF
       email: validData.email,
       messenger: validData.messenger,
       message: validData.message,
+      purpose: validData.purpose,
       locale: validData.locale,
       timestamp: new Date().toLocaleString('ru-RU', {
         timeZone: 'Europe/Kiev',
@@ -143,6 +145,7 @@ export async function submitContactForm(data: ContactFormData): Promise<ContactF
       email: validData.email,
       messenger: validData.messenger,
       message: validData.message,
+      purpose: validData.purpose,
       locale: validData.locale,
       source: 'website_contact_form',
     });

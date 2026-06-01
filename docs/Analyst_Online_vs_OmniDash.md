@@ -1,3 +1,5 @@
+> **ARCHIVED / OUTDATED.** This document describes the old positioning where OmniDash was treated as the flagship offer. The active rules are now in `docs/Analyst_Online_vs_OmniDash_updated.md`.
+
 # Analyst Online + OmniDash — Core Project Rules
 
 ## 1. Project identity

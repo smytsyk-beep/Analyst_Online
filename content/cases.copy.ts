@@ -21,7 +21,7 @@ export const casesCopy: Record<Locale, CasesCopy> = {
       'Сейчас мы оформляем реальные кейсы с данными и скриншотами. Если хотите увидеть примеры работы до публикации — напишите, покажем в личном сообщении.',
     ctaTitle: 'Хотите увидеть примеры?',
     ctaText: 'Напишите — покажем реальные дашборды и результаты.',
-    ctaTelegram: 'Написать в Telegram',
+    ctaTelegram: 'Задать вопрос',
     ctaEmail: 'Написать на Email',
   },
 
@@ -33,7 +33,7 @@ export const casesCopy: Record<Locale, CasesCopy> = {
       'Зараз ми оформлюємо реальні кейси з даними та скріншотами. Якщо хочете побачити приклади роботи до публікації — напишіть, покажемо в особистому повідомленні.',
     ctaTitle: 'Хочете побачити приклади?',
     ctaText: 'Напишіть — покажемо реальні дашборди та результати.',
-    ctaTelegram: 'Написати в Telegram',
+    ctaTelegram: 'Поставити запитання',
     ctaEmail: 'Написати на Email',
   },
 
@@ -45,7 +45,7 @@ export const casesCopy: Record<Locale, CasesCopy> = {
       'Acum pregătim cazuri reale cu date și screenshot-uri. Dacă vrei să vezi exemple de lucru înainte de publicare — scrie-ne, le arătăm în privat.',
     ctaTitle: 'Vrei să vezi exemple?',
     ctaText: 'Scrie — îți arătăm dashboard-uri și rezultate reale.',
-    ctaTelegram: 'Scrie pe Telegram',
+    ctaTelegram: 'Pune o întrebare',
     ctaEmail: 'Scrie pe Email',
   },
 };

@@ -1,3 +1,5 @@
+> **ARCHIVED / PARTIALLY OUTDATED.** This sprint plan predates the repositioning where Analyst Online became the umbrella brand and OmniDash became a secondary e-commerce dashboard offer. Use `docs/Analyst_Online_vs_OmniDash_updated.md` as the active source of truth.
+
 # Analyst Online + OmniDash — Sprint Plan 6–10
 
 Дата: 2026-03-17  

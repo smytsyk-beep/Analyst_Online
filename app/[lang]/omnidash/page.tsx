@@ -200,9 +200,9 @@ export default async function OmniDashPage({ params }: Props) {
       <OmniDashPainPoints t={t} />
       <OmniDashFeatures t={t} />
       <OmniDashHowItWorks t={t} />
-      <OmniDashPricing t={t} />
+      <OmniDashPricing t={t} lang={lang} />
       <OmniDashFaq t={t} />
-      <OmniDashCtaBottom t={t} />
+      <OmniDashCtaBottom t={t} lang={lang} />
     </div>
   );
 }

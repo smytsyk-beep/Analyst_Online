@@ -32,6 +32,8 @@ async function migrateContactInfo() {
       })),
       formTitle: data.formTitle,
       formSubtitle: data.formSubtitle,
+      formPurposeLabel: data.formPurposeLabel,
+      formPurposeOptions: data.formPurposeOptions,
       formNameLabel: data.formNameLabel,
       formNamePlaceholder: data.formNamePlaceholder,
       formEmailLabel: data.formEmailLabel,
@@ -45,6 +47,7 @@ async function migrateContactInfo() {
       formSending: data.formSending,
       formSuccessTitle: data.formSuccessTitle,
       formSuccessMessage: data.formSuccessMessage,
+      formAgain: data.formAgain,
       formErrorTitle: data.formErrorTitle,
       formErrorMessage: data.formErrorMessage,
     };
