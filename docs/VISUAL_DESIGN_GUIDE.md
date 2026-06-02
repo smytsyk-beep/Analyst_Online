@@ -638,6 +638,7 @@ className = 'transition-opacity duration-300';
 
 - ❌ Анимации длиннее 300ms
 - ❌ Bounce, elastic easing
+- ❌ Анимации при скролле (parallax и т.д.)
 - ❌ Автоматические карусели
 
 ---
@@ -798,7 +799,42 @@ className = 'transition-opacity duration-300';
 
 ---
 
-## 18. Ресурсы
+## 18. Dual Theme, Parallax и Bento Grid
+
+Новая визуальная система Analyst Online поддерживает две темы: `white` и `dark`.
+Первый визит использует системную тему пользователя, ручной выбор хранится в `localStorage`.
+
+### Темы
+
+- `white` — светлая аналитическая база для B2B-читаемости.
+- `dark` — deep navy база с cyan/lime акцентами.
+- Все новые компоненты используют semantic tokens: `bg-background`, `text-foreground`, `bg-card`, `border-border`, `text-primary`.
+- Не добавлять прямые `bg-black`, `text-white`, `border-white` без необходимости. Тёмная тема задаётся через `.dark` tokens.
+
+### Glassmorphism
+
+- Использовать `glass-panel` для крупных поверхностей: header, footer, mobile nav, CTA.
+- Использовать `glass-card` для карточек услуг, кейсов, feature blocks и pricing.
+- Glass-поверхности должны сохранять читаемость в обеих темах: текст поверх картинки или parallax всегда получает отдельный surface.
+
+### Global Parallax
+
+- Parallax разрешён как controlled background layer на всех страницах.
+- Интенсивность зависит от страницы:
+  - Home — сильнее, включая foreground hero scene.
+  - Services / offer pages / OmniDash — средняя.
+  - Blog / privacy / contact — subtle.
+- Обязательно учитывать `prefers-reduced-motion`; при reduced motion фон становится статичным.
+
+### Bento Grid
+
+- Использовать `BentoGrid`, `BentoCard`, `BentoVisual` для услуг, инструментов, возможностей и product features.
+- Не использовать Bento Grid для FAQ, contact form, privacy text и body статей.
+- Desktop может использовать разные размеры карточек (`col-span`, `row-span`), mobile всегда идёт одной колонкой в логичном порядке чтения.
+
+---
+
+## 19. Ресурсы
 
 - **Брендбук**: `docs/OmniDash_logo_favicon_pack_v4/OmniDash_brand_guide.md`
 - **Tailwind config**: `tailwind.config.js`

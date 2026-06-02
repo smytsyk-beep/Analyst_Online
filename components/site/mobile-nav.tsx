@@ -27,14 +27,17 @@ export default function MobileNav({ lang, nav }: MobileNavProps) {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <button
-          className="flex items-center justify-center rounded-md p-2 opacity-80 hover:opacity-100 md:hidden"
+          className="flex items-center justify-center rounded-md border border-border/70 bg-card/70 p-2 text-foreground/75 opacity-80 backdrop-blur-xl hover:text-primary hover:opacity-100 md:hidden"
           aria-label="Open menu"
         >
           <Menu size={20} />
         </button>
       </SheetTrigger>
 
-      <SheetContent side="right" className="w-64 border-l border-border bg-background p-6">
+      <SheetContent
+        side="right"
+        className="w-64 border-l border-border/70 bg-card/95 p-6 backdrop-blur-xl"
+      >
         <SheetHeader>
           <SheetTitle className="text-left text-sm font-semibold tracking-tight">
             Analyst Online
@@ -50,7 +53,7 @@ export default function MobileNav({ lang, nav }: MobileNavProps) {
                 key={item.id}
                 href={href}
                 onClick={() => setOpen(false)}
-                className="text-base font-medium text-foreground/70 hover:text-foreground"
+                className="rounded-md border border-border/70 bg-background/35 px-3 py-2 text-base font-medium text-foreground/70 hover:text-foreground"
               >
                 {item.label}
               </Link>
@@ -63,7 +66,7 @@ export default function MobileNav({ lang, nav }: MobileNavProps) {
             href={CONTACT_LINKS.telegram}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-md border border-border p-2 text-foreground/60 hover:border-primary hover:text-primary"
+            className="rounded-md border border-border/70 bg-background/35 p-2 text-foreground/60 hover:border-primary hover:text-primary"
             aria-label={t.contact.telegram}
             title={t.contact.telegram}
           >
@@ -71,7 +74,7 @@ export default function MobileNav({ lang, nav }: MobileNavProps) {
           </a>
           <a
             href={CONTACT_LINKS.email}
-            className="rounded-md border border-border p-2 text-foreground/60 hover:border-primary hover:text-primary"
+            className="rounded-md border border-border/70 bg-background/35 p-2 text-foreground/60 hover:border-primary hover:text-primary"
             aria-label={t.contact.email}
             title={t.contact.email}
           >
@@ -81,7 +84,7 @@ export default function MobileNav({ lang, nav }: MobileNavProps) {
             href={CONTACT_LINKS.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-md border border-border p-2 text-foreground/60 hover:border-primary hover:text-primary"
+            className="rounded-md border border-border/70 bg-background/35 p-2 text-foreground/60 hover:border-primary hover:text-primary"
             aria-label={t.contact.linkedin}
             title={t.contact.linkedin}
           >

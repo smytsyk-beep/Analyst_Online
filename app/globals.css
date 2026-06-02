@@ -6,6 +6,11 @@
   color-scheme: light;
 }
 
+:root.dark,
+.dark {
+  color-scheme: dark;
+}
+
 html {
   height: 100%;
 }
@@ -27,7 +32,7 @@ body {
   @apply text-lg text-foreground/80;
 }
 
-/* OmniDash brand utilities */
+/* Analyst Online brand utilities */
 .text-gradient {
   @apply bg-clip-text text-transparent;
   background-image: linear-gradient(135deg, #2f6edb 0%, #4ec6d8 100%);
@@ -35,32 +40,33 @@ body {
 
 /* Clean card style */
 .brand-card {
-  background: #ffffff;
-  border: 1px solid #dde6f3;
-  box-shadow: 0 1px 3px rgba(31, 42, 68, 0.04);
+  background: hsl(var(--card) / 0.78);
+  border: 1px solid hsl(var(--border) / 0.9);
+  box-shadow: 0 1px 3px hsl(var(--foreground) / 0.04);
+  backdrop-filter: blur(18px);
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
 
 .brand-card:hover {
-  border-color: #2f6edb;
-  box-shadow: 0 4px 12px rgba(47, 110, 219, 0.08);
+  border-color: hsl(var(--primary) / 0.45);
+  box-shadow: 0 12px 32px hsl(var(--primary) / 0.12);
 }
 
 @layer base {
   :root {
-    /* OmniDash light theme */
-    --background: 214 41% 97%; /* #F3F6FA */
+    /* Analyst Online white theme */
+    --background: 220 50% 98%; /* #F6F8FC */
     --foreground: 222 37% 19%; /* #1F2A44 */
 
-    --card: 0 0% 100%; /* white */
+    --card: 0 0% 100%;
     --card-foreground: 222 37% 19%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 222 37% 19%;
 
-    --primary: 217 73% 53%; /* #2F6EDB Omni Blue */
+    --primary: 217 73% 53%; /* #2F6EDB */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 215 60% 47%; /* #2C5CC5 Royal Blue */
@@ -79,30 +85,40 @@ body {
     --input: 215 35% 92%;
     --ring: 217 73% 53%;
 
+    --chart-1: 217 73% 53%;
+    --chart-2: 187 64% 58%;
+    --chart-3: 84 64% 53%;
+    --chart-4: 215 60% 47%;
+    --chart-5: 205 90% 68%;
+
     --radius: 8px;
   }
 
-  /* Dark mode disabled for OmniDash brand consistency */
   .dark {
-    --background: 214 41% 97%;
-    --foreground: 222 37% 19%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 37% 19%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 37% 19%;
-    --primary: 217 73% 53%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 215 60% 47%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 215 35% 92%;
-    --muted-foreground: 217 15% 45%;
+    --background: 215 63% 7%; /* #07111F */
+    --foreground: 205 100% 96%; /* #EAF4FF */
+    --card: 215 48% 12%;
+    --card-foreground: 205 100% 96%;
+    --popover: 215 50% 10%;
+    --popover-foreground: 205 100% 96%;
+    --primary: 187 64% 58%; /* #4EC6D8 */
+    --primary-foreground: 215 63% 7%;
+    --secondary: 84 64% 53%; /* #A6D63A */
+    --secondary-foreground: 215 63% 7%;
+    --muted: 215 39% 16%;
+    --muted-foreground: 208 28% 74%;
     --accent: 187 64% 58%;
-    --accent-foreground: 222 37% 19%;
+    --accent-foreground: 215 63% 7%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 215 35% 92%;
-    --input: 215 35% 92%;
-    --ring: 217 73% 53%;
+    --border: 195 52% 24%;
+    --input: 195 52% 24%;
+    --ring: 187 64% 58%;
+    --chart-1: 187 64% 58%;
+    --chart-2: 84 64% 53%;
+    --chart-3: 217 73% 63%;
+    --chart-4: 205 90% 68%;
+    --chart-5: 167 68% 54%;
   }
 
   * {
@@ -111,5 +127,102 @@ body {
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .theme-surface {
+    @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(circle at 18% 14%, hsl(var(--primary) / 0.14), transparent 28rem),
+      radial-gradient(circle at 82% 4%, hsl(var(--secondary) / 0.11), transparent 26rem),
+      linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
+  }
+
+  .glass-panel {
+    @apply border border-border/70 bg-card/70 shadow-sm backdrop-blur-xl;
+  }
+
+  .glass-card {
+    @apply rounded-lg border border-border/70 bg-card/70 shadow-sm backdrop-blur-xl transition-all duration-200 hover:border-primary/45 hover:shadow-lg;
+  }
+
+  .neon-ring {
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.18),
+      0 18px 60px hsl(var(--primary) / 0.14);
+  }
+
+  .data-grid-bg {
+    background-image:
+      linear-gradient(to right, hsl(var(--primary) / 0.2) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary) / 0.16) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .dark .data-grid-bg {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.64) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.64) 1px, transparent 1px);
+  }
+
+  .bento-card {
+    @apply glass-card overflow-hidden p-4 md:p-5;
+  }
+
+  .section-reveal {
+    animation: section-reveal 420ms ease-out both;
+  }
+
+  .pulse-dot {
+    animation: pulse-dot 1.8s ease-in-out infinite;
+  }
+
+  .float-soft {
+    animation: float-soft 7s ease-in-out infinite;
+  }
+}
+
+@keyframes section-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }

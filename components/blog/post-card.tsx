@@ -59,7 +59,7 @@ export default function PostCard({ post, lang }: PostCardProps) {
   return (
     <Link
       href={`/${lang}/blog/${post.slug.current}`}
-      className="group block overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-all duration-200 hover:border-primary hover:shadow-md"
+      className="glass-card group block overflow-hidden rounded-lg transition-all duration-200 hover:border-primary"
     >
       {coverImageUrl && (
         <div className="relative aspect-video w-full overflow-hidden">
@@ -73,7 +73,7 @@ export default function PostCard({ post, lang }: PostCardProps) {
         </div>
       )}
 
-      <div className="p-6 space-y-3">
+      <div className="space-y-3 p-6">
         <div className="flex items-center gap-2 text-sm text-foreground/60">
           <time dateTime={post.publishedAt}>{formattedDate}</time>
           {post.tags && post.tags.length > 0 && (

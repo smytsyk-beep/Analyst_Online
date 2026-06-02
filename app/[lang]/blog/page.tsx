@@ -100,7 +100,7 @@ export default async function BlogPage({ params }: Props) {
   const hasPosts = posts.length > 0;
 
   return (
-    <div className="page space-y-12 py-12">
+    <div className="page relative z-10 space-y-12 py-12">
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Analyst Online', href: `/${lang}` },
@@ -122,7 +122,7 @@ export default async function BlogPage({ params }: Props) {
           ))}
         </div>
       ) : (
-        <div className="rounded-lg border border-border bg-card p-12 text-center">
+        <div className="glass-card rounded-lg p-12 text-center">
           <p className="text-lg text-foreground/60">{l.empty}</p>
         </div>
       )}

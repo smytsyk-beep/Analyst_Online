@@ -21,8 +21,8 @@ export default function OmniDashPricing({ t, lang }: Props) {
               key={plan.label}
               className={`relative flex flex-col rounded-lg border p-6 transition-all duration-200 md:p-8 ${
                 plan.highlighted
-                  ? 'border-2 border-primary bg-primary/5 shadow-sm'
-                  : 'border border-border bg-card shadow-sm hover:border-primary hover:shadow-md'
+                  ? 'neon-ring border-2 border-primary bg-primary/10 backdrop-blur-xl'
+                  : 'glass-card hover:border-primary'
               }`}
             >
               {plan.highlighted && (

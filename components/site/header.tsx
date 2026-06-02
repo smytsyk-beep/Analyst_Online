@@ -5,6 +5,7 @@ import { Mail, MessageCircle } from 'lucide-react';
 import { LOCALES, type Locale, type I18nPolicy } from '@/lib/i18n';
 import MobileNav from '@/components/site/mobile-nav';
 import LanguageSwitcher from '@/components/site/language-switcher';
+import ThemeToggle from '@/components/site/theme-toggle';
 import { CONTACT_LINKS, siteCopy } from '@/content/site.copy';
 
 export type HeaderProps = {
@@ -35,7 +36,7 @@ export default function Header({ lang, policy }: HeaderProps) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-card/85 shadow-sm backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-background/38 shadow-sm backdrop-blur-2xl dark:bg-background/52">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 text-sm sm:px-6">
         {/* Логотип / бренд */}
         <Link href={`/${lang}`} className="flex items-center gap-2.5 group">
@@ -59,7 +60,7 @@ export default function Header({ lang, policy }: HeaderProps) {
                 <Link
                   key={item.id}
                   href={`/${lang}`}
-                  className="rounded-md px-3 py-1.5 font-medium text-foreground/70 transition-colors hover:bg-accent/40 hover:text-foreground"
+                  className="rounded-md px-3 py-1.5 font-medium text-foreground/70 transition-colors hover:bg-primary/10 hover:text-foreground"
                 >
                   {item.label}
                 </Link>
@@ -70,7 +71,7 @@ export default function Header({ lang, policy }: HeaderProps) {
               <Link
                 key={item.id}
                 href={`/${lang}${item.href}`}
-                className="rounded-md px-3 py-1.5 font-medium text-foreground/70 transition-colors hover:bg-accent/40 hover:text-foreground"
+                className="rounded-md px-3 py-1.5 font-medium text-foreground/70 transition-colors hover:bg-primary/10 hover:text-foreground"
               >
                 {item.label}
               </Link>
@@ -100,6 +101,8 @@ export default function Header({ lang, policy }: HeaderProps) {
               <Mail size={17} />
             </a>
           </div>
+
+          <ThemeToggle />
 
           {/* Переключатель языков */}
           <LanguageSwitcher currentLang={lang} availableLocales={localesToShow} />

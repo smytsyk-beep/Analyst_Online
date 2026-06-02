@@ -71,7 +71,7 @@ export default async function CasesPage({ params }: Props) {
   }
 
   return (
-    <div className="page space-y-16 py-12">
+    <div className="page relative z-10 space-y-16 py-12">
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Analyst Online', href: `/${lang}` },
@@ -86,10 +86,10 @@ export default async function CasesPage({ params }: Props) {
       </div>
 
       {/* Coming soon */}
-      <Card className="rounded-lg border border-border bg-card">
+      <Card className="glass-card rounded-lg">
         <CardContent className="p-8 text-center md:p-12">
           <div className="mx-auto max-w-lg space-y-4">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg border border-border bg-background">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg border border-border/70 bg-background/40">
               <span className="text-2xl">📊</span>
             </div>
             <h2 className="text-2xl font-bold">{t.comingSoonTitle}</h2>
@@ -99,7 +99,7 @@ export default async function CasesPage({ params }: Props) {
       </Card>
 
       {/* CTA */}
-      <div className="text-center space-y-4">
+      <div className="space-y-4 text-center">
         <h3 className="text-xl font-bold">{t.ctaTitle}</h3>
         <p className="text-foreground/70">{t.ctaText}</p>
         <div className="flex flex-wrap justify-center gap-3 pt-2">

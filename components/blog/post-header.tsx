@@ -72,7 +72,7 @@ export default function PostHeader({
                 {tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-foreground/70"
+                    className="rounded-md border border-border/70 bg-card/60 px-3 py-1 text-xs text-foreground/70 backdrop-blur-xl"
                   >
                     {tag}
                   </span>
@@ -84,13 +84,13 @@ export default function PostHeader({
       </div>
 
       {coverImageUrl && (
-        <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+        <div className="glass-card relative aspect-video w-full overflow-hidden rounded-lg p-2">
           <Image
             src={coverImageUrl}
             alt={coverImage?.alt || title}
             width={1200}
             height={675}
-            className="object-cover"
+            className="h-full w-full rounded-md object-cover"
             priority
           />
         </div>

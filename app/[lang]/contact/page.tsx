@@ -105,7 +105,7 @@ export default async function ContactPage({ params, searchParams }: Props) {
   }
 
   return (
-    <div className="page space-y-16 py-12">
+    <div className="page relative z-10 space-y-16 py-12">
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Analyst Online', href: `/${lang}` },
@@ -131,11 +131,11 @@ export default async function ContactPage({ params, searchParams }: Props) {
             return (
               <Card
                 key={channel.id}
-                className="rounded-lg border border-border bg-card transition-all duration-300 hover:border-primary/30 hover:shadow-sm"
+                className="glass-card rounded-lg transition-all duration-300 hover:border-primary/30 hover:shadow-sm"
               >
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/70 bg-background/40">
                       <Icon size={18} className="text-primary" aria-label={iconLabel} />
                     </div>
                     <div>

@@ -40,14 +40,14 @@ export default function LangNotFound() {
   const t = MESSAGES[lang];
 
   return (
-    <main className="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
+    <main className="relative z-10 flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
       <span className="text-sm font-medium text-muted-foreground">404</span>
       <h1 className="mt-2 text-2xl font-semibold tracking-tight">{t.title}</h1>
       <p className="mt-3 max-w-md text-sm text-muted-foreground">{t.description}</p>
 
       <Link
         href={`/${lang}`}
-        className="mt-6 inline-flex items-center rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium hover:border-primary/30 hover:bg-accent/40 hover:text-foreground"
+        className="glass-card mt-6 inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium hover:border-primary/30 hover:text-foreground"
       >
         ← {t.back}
       </Link>

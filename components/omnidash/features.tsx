@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { CheckCircle2 } from 'lucide-react';
 import type { OmniDashCopy } from '@/content/omnidash.copy';
+import { BentoCard, BentoGrid } from '@/components/shared/bento';
 
 type Props = { t: OmniDashCopy };
 
@@ -16,21 +17,22 @@ export default function OmniDashFeatures({ t }: Props) {
         </div>
 
         {/* Core features grid */}
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {t.features.map((f) => (
-            <div
+        <BentoGrid className="mt-12 lg:grid-cols-3">
+          {t.features.map((f, index) => (
+            <BentoCard
               key={f.title}
-              className="rounded-lg border border-border bg-card p-6 shadow-sm transition-all duration-200 hover:border-growth-green hover:shadow-md"
+              className={index === 0 ? 'sm:col-span-2' : ''}
+              featured={index === 0}
             >
               <CheckCircle2 size={18} className="text-growth-green" />
               <div className="mt-3 font-bold text-foreground">{f.title}</div>
               <p className="mt-2 text-sm leading-relaxed text-foreground/70">{f.text}</p>
-            </div>
+            </BentoCard>
           ))}
-        </div>
+        </BentoGrid>
 
         {/* Second mockup */}
-        <div className="mt-14 overflow-hidden rounded-lg border border-border bg-card p-4">
+        <div className="glass-card mt-14 overflow-hidden rounded-lg p-4">
           <div className="overflow-hidden rounded-md">
             <Image
               src="/images/omnidash/mockup-2.png"
@@ -43,7 +45,7 @@ export default function OmniDashFeatures({ t }: Props) {
         </div>
 
         {/* Advanced features */}
-        <div className="mt-10 rounded-lg border border-border bg-card p-6 shadow-sm md:p-8">
+        <div className="glass-card mt-10 rounded-lg p-6 md:p-8">
           <div className="text-sm font-semibold uppercase tracking-widest text-foreground/50">
             {t.featuresAdvancedTitle}
           </div>

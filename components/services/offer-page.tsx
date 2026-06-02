@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import type { OfferPageCopy } from '@/content/offer-pages.copy';
 import { siteCopy } from '@/content/site.copy';
 import type { Locale } from '@/lib/i18n';
+import { BentoCard, BentoGrid } from '@/components/shared/bento';
 
 type Props = {
   t: OfferPageCopy;
@@ -30,10 +31,10 @@ export default function OfferPage({ t, lang }: Props) {
 
   return (
     <div>
-      <section className="border-b border-border bg-background py-16 md:py-24">
+      <section className="relative isolate border-b border-border/70 bg-background/10 py-16 backdrop-blur-[2px] md:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="max-w-4xl">
-            <div className="inline-flex items-center rounded-md border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-semibold text-primary">
+            <div className="inline-flex items-center rounded-md border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary backdrop-blur-xl">
               {t.badge}
             </div>
             <h1 className="mt-5 text-4xl font-extrabold leading-tight text-foreground md:text-6xl">
@@ -64,33 +65,33 @@ export default function OfferPage({ t, lang }: Props) {
             <h2 className="text-3xl font-bold text-foreground">{t.includedTitle}</h2>
             <p className="mt-3 leading-relaxed text-foreground/70">{t.intro}</p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <BentoGrid className="sm:grid-cols-2 lg:grid-cols-2">
             {t.included.map((item) => (
-              <Card key={item} className="rounded-lg border border-border bg-card shadow-sm">
-                <CardContent className="flex gap-3 p-5">
+              <BentoCard key={item} className="h-full">
+                <div className="flex gap-3">
                   <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-growth-green" />
                   <span className="text-sm leading-relaxed text-foreground/80">{item}</span>
-                </CardContent>
-              </Card>
+                </div>
+              </BentoCard>
             ))}
-          </div>
+          </BentoGrid>
         </div>
       </section>
 
       {hasWhy ? (
-        <section className="border-y border-border bg-card py-16 md:py-24">
+        <section className="border-y border-border/70 bg-muted/20 py-16 md:py-24">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             {t.whyTitle ? (
               <h2 className="text-3xl font-bold text-foreground">{t.whyTitle}</h2>
             ) : null}
             {t.why.length > 0 ? (
-              <div className="mt-8 grid gap-4 md:grid-cols-3">
-                {t.why.map((item) => (
-                  <div key={item} className="rounded-lg border border-border bg-background p-5">
+              <BentoGrid className="mt-8 lg:grid-cols-3">
+                {t.why.map((item, index) => (
+                  <BentoCard key={item} className={index === 0 ? 'md:col-span-2' : ''}>
                     <p className="text-sm leading-relaxed text-foreground/80">{item}</p>
-                  </div>
+                  </BentoCard>
                 ))}
-              </div>
+              </BentoGrid>
             ) : null}
           </div>
         </section>
@@ -105,10 +106,7 @@ export default function OfferPage({ t, lang }: Props) {
             {t.process.length > 0 ? (
               <div className="mt-8 grid gap-6 md:grid-cols-4">
                 {t.process.map((step, index) => (
-                  <div
-                    key={step.title}
-                    className="rounded-lg border border-border bg-card p-6 shadow-sm"
-                  >
+                  <div key={step.title} className="glass-card rounded-lg p-6">
                     <div className="text-sm font-extrabold text-primary">
                       {String(index + 1).padStart(2, '0')}
                     </div>
@@ -123,7 +121,7 @@ export default function OfferPage({ t, lang }: Props) {
       ) : null}
 
       {hasFaqs ? (
-        <section className="border-y border-border bg-card py-16 md:py-24">
+        <section className="border-y border-border/70 bg-muted/20 py-16 md:py-24">
           <div className="mx-auto max-w-4xl px-4 sm:px-6">
             {t.faqTitle ? (
               <h2 className="text-3xl font-bold text-foreground">{t.faqTitle}</h2>
@@ -131,10 +129,7 @@ export default function OfferPage({ t, lang }: Props) {
             {t.faqs.length > 0 ? (
               <div className="mt-8 space-y-4">
                 {t.faqs.map((faq) => (
-                  <Card
-                    key={faq.q}
-                    className="rounded-lg border border-border bg-background shadow-sm"
-                  >
+                  <Card key={faq.q} className="glass-card rounded-lg">
                     <CardContent className="p-6">
                       <h3 className="font-bold text-foreground">{faq.q}</h3>
                       <p className="mt-2 text-sm leading-relaxed text-foreground/70">{faq.a}</p>
@@ -149,7 +144,7 @@ export default function OfferPage({ t, lang }: Props) {
 
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
-          <div className="rounded-lg border border-border bg-card p-8 shadow-sm md:p-12">
+          <div className="glass-card rounded-lg p-8 md:p-12">
             <h2 className="text-3xl font-bold text-foreground">{t.description}</h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Button className="font-bold" asChild>
