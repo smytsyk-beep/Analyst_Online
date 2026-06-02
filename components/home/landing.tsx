@@ -13,6 +13,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import type { HomeCopy } from '@/content/home.copy';
+import AnimatedCounter from '@/components/shared/animated-counter';
+import { BentoCard, BentoGrid, BentoVisual } from '@/components/shared/bento';
+import HomeHeroDataScene from '@/components/home/hero-data-scene';
 
 type Props = {
   t: HomeCopy;
@@ -20,6 +23,40 @@ type Props = {
 };
 
 const serviceIcons = [Bot, Workflow, FileSpreadsheet, BarChart3];
+
+const serviceMedia = [
+  {
+    src: '/images/home/service-ai-training.png',
+    alt: 'AI training workspace preview',
+  },
+  {
+    src: '/images/home/service-ai-automation.png',
+    alt: 'AI automation workflow preview',
+  },
+  {
+    src: '/images/home/service-spreadsheets.png',
+    alt: 'Spreadsheet analytics preview',
+  },
+  {
+    src: '/images/home/service-analyst.png',
+    alt: 'Part-time analyst dashboard preview',
+  },
+];
+
+const exampleMedia = [
+  {
+    src: '/images/home/example-report-notifications.png',
+    alt: 'Automated report notifications preview',
+  },
+  {
+    src: '/images/home/example-document-templates.png',
+    alt: 'Document template automation preview',
+  },
+  {
+    src: '/images/home/example-dashboard-analytics.png',
+    alt: 'Dashboard analytics preview',
+  },
+];
 
 function contactHref(lang: string, purpose: 'price' | 'question' | 'consultation') {
   return `/${lang}/contact?purpose=${purpose}`;
@@ -33,12 +70,11 @@ function trainingHref(lang: string) {
 
 export default function HomeLanding({ t, lang }: Props) {
   return (
-    <div className="overflow-hidden">
-      <section className="relative border-b border-border bg-background py-16 md:py-24">
-        <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:44px_44px] opacity-35" />
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+    <div className="relative z-10 overflow-hidden">
+      <section className="relative isolate border-b border-border/70 bg-background/10 py-16 backdrop-blur-[2px] md:py-24">
+        <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-md border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-semibold text-primary">
+            <div className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary backdrop-blur-xl">
               <Bot size={14} />
               {t.heroBadge}
             </div>
@@ -65,27 +101,14 @@ export default function HomeLanding({ t, lang }: Props) {
           </div>
 
           <div className="grid gap-4">
-            <Card className="rounded-lg border border-border bg-card p-4 shadow-sm">
-              <CardContent className="p-0">
-                <div className="overflow-hidden rounded-md border border-border">
-                  <Image
-                    src="/images/omnidash/mockup-1.png"
-                    alt="Dashboard and analytics preview"
-                    width={1280}
-                    height={720}
-                    className="h-auto w-full object-cover"
-                    priority
-                  />
-                </div>
-              </CardContent>
-            </Card>
+            <HomeHeroDataScene />
             <div className="grid gap-3 sm:grid-cols-3">
               {t.signalCards.map((card) => (
-                <div
-                  key={card.value}
-                  className="rounded-lg border border-border bg-card p-4 shadow-sm"
-                >
-                  <div className="text-lg font-extrabold text-primary">{card.value}</div>
+                <div key={card.value} className="glass-card rounded-lg p-4">
+                  <AnimatedCounter
+                    value={card.value}
+                    className="text-lg font-extrabold text-primary"
+                  />
                   <div className="mt-1 text-xs font-medium leading-relaxed text-foreground/60">
                     {card.label}
                   </div>
@@ -104,10 +127,7 @@ export default function HomeLanding({ t, lang }: Props) {
           </div>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {t.pains.map((pain) => (
-              <Card
-                key={pain.title}
-                className="rounded-lg border border-border bg-card shadow-sm transition-all duration-200 hover:border-primary hover:shadow-md"
-              >
+              <Card key={pain.title} className="glass-card rounded-lg">
                 <CardContent className="p-6">
                   <HelpCircle size={22} className="text-primary" />
                   <h3 className="mt-4 text-xl font-bold text-foreground">{pain.title}</h3>
@@ -119,7 +139,7 @@ export default function HomeLanding({ t, lang }: Props) {
         </div>
       </section>
 
-      <section className="border-y border-border bg-card py-16 md:py-24">
+      <section className="border-y border-border/70 bg-muted/20 py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
@@ -134,34 +154,47 @@ export default function HomeLanding({ t, lang }: Props) {
               <ArrowRight size={16} />
             </Link>
           </div>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <BentoGrid className="mt-8 md:grid-cols-2 lg:grid-cols-2">
             {t.services.map((service, index) => {
               const Icon = serviceIcons[index] ?? BarChart3;
+              const media = serviceMedia[index] ?? serviceMedia[serviceMedia.length - 1];
 
               return (
-                <Card
-                  key={service.title}
-                  className="rounded-lg border border-border bg-background shadow-sm transition-all duration-200 hover:border-primary hover:shadow-md"
-                >
-                  <CardContent className="flex h-full flex-col p-6">
-                    <Icon size={22} className="text-primary" />
-                    <h3 className="mt-4 text-lg font-bold text-foreground">{service.title}</h3>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/70">
-                      {service.description}
-                    </p>
-                    <div className="mt-5">
-                      <Button variant="ghost" size="sm" className="px-0 font-semibold" asChild>
-                        <Link href={service.href ? `/${lang}${service.href}` : `/${lang}/services`}>
-                          <ArrowRight size={16} />
-                          {t.servicesLinkAll}
-                        </Link>
-                      </Button>
+                <BentoCard key={service.title} className="h-full">
+                  <div className="flex h-full flex-col">
+                    <BentoVisual className="aspect-[16/9]">
+                      <Image
+                        src={media.src}
+                        alt={media.alt}
+                        fill
+                        sizes="(min-width: 1024px) 50vw, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover"
+                      />
+                    </BentoVisual>
+                    <div className="mt-5 flex flex-1 flex-col px-1 pb-2">
+                      <div className="flex items-center gap-2">
+                        <Icon size={20} className="shrink-0 text-primary" />
+                        <h3 className="text-lg font-bold text-foreground">{service.title}</h3>
+                      </div>
+                      <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/70">
+                        {service.description}
+                      </p>
+                      <div className="mt-5">
+                        <Button variant="ghost" size="sm" className="px-0 font-semibold" asChild>
+                          <Link
+                            href={service.href ? `/${lang}${service.href}` : `/${lang}/services`}
+                          >
+                            <ArrowRight size={16} />
+                            {t.servicesLinkAll}
+                          </Link>
+                        </Button>
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </BentoCard>
               );
             })}
-          </div>
+          </BentoGrid>
         </div>
       </section>
 
@@ -182,9 +215,18 @@ export default function HomeLanding({ t, lang }: Props) {
               </Button>
             </div>
           </div>
-          <Card className="rounded-lg border border-border bg-card shadow-sm">
-            <CardContent className="p-6 md:p-8">
-              <ul className="space-y-4">
+          <Card className="glass-card rounded-lg p-4">
+            <CardContent className="p-0">
+              <BentoVisual className="aspect-[3/2]">
+                <Image
+                  src="/images/home/training-ai-workshop.png"
+                  alt="Online AI training workspace preview"
+                  fill
+                  sizes="(min-width: 1024px) 55vw, 100vw"
+                  className="object-cover"
+                />
+              </BentoVisual>
+              <ul className="mt-6 space-y-4 px-2 pb-2 md:px-4 md:pb-4">
                 {t.trainingPoints.map((point) => (
                   <li key={point} className="flex gap-3 text-sm leading-relaxed text-foreground/80">
                     <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-growth-green" />
@@ -197,23 +239,39 @@ export default function HomeLanding({ t, lang }: Props) {
         </div>
       </section>
 
-      <section className="border-y border-border bg-card py-16 md:py-24">
+      <section className="border-y border-border/70 bg-muted/20 py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-foreground md:text-4xl">{t.examplesTitle}</h2>
             <p className="mt-3 leading-relaxed text-foreground/70">{t.examplesSubtitle}</p>
           </div>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {t.examples.map((example) => (
-              <Card key={example.title} className="rounded-lg border border-border bg-background">
-                <CardContent className="p-6">
-                  <BarChart3 size={22} className="text-omni-cyan" />
-                  <h3 className="mt-4 text-xl font-bold text-foreground">{example.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/70">{example.text}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <BentoGrid className="mt-8 md:grid-cols-3 lg:grid-cols-3">
+            {t.examples.map((example, index) => {
+              const media = exampleMedia[index] ?? exampleMedia[exampleMedia.length - 1];
+
+              return (
+                <BentoCard key={example.title} className="h-full">
+                  <div className="flex h-full flex-col">
+                    <BentoVisual className="aspect-[16/9]">
+                      <Image
+                        src={media.src}
+                        alt={media.alt}
+                        fill
+                        sizes="(min-width: 768px) 33vw, 100vw"
+                        className="object-cover"
+                      />
+                    </BentoVisual>
+                    <div className="mt-5 px-1 pb-2">
+                      <h3 className="text-xl font-bold text-foreground">{example.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+                        {example.text}
+                      </p>
+                    </div>
+                  </div>
+                </BentoCard>
+              );
+            })}
+          </BentoGrid>
         </div>
       </section>
 
@@ -225,10 +283,7 @@ export default function HomeLanding({ t, lang }: Props) {
           </div>
           <div className="mt-8 grid gap-6 md:grid-cols-4">
             {t.process.map((step) => (
-              <div
-                key={step.step}
-                className="rounded-lg border border-border bg-card p-6 shadow-sm"
-              >
+              <div key={step.step} className="glass-card rounded-lg p-6">
                 <div className="text-sm font-extrabold text-primary">{step.step}</div>
                 <h3 className="mt-3 text-lg font-bold text-foreground">{step.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-foreground/70">{step.text}</p>
@@ -238,14 +293,21 @@ export default function HomeLanding({ t, lang }: Props) {
         </div>
       </section>
 
-      <section className="border-y border-border bg-card py-16 md:py-24">
+      <section className="border-y border-border/70 bg-muted/20 py-16 md:py-24">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:items-start">
           <div>
             <h2 className="text-3xl font-bold text-foreground md:text-4xl">{t.proofTitle}</h2>
             <p className="mt-3 leading-relaxed text-foreground/70">{t.proofSubtitle}</p>
           </div>
-          <div className="rounded-lg border border-lime-accent/30 bg-lime-accent/5 p-6 text-sm leading-relaxed text-foreground/80">
-            {t.proofTodo}
+          <div className="glass-card relative overflow-hidden rounded-lg border-lime-accent/30 p-6">
+            <Image
+              src="/images/home/service-analyst.png"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover opacity-[0.08]"
+            />
+            <div className="relative text-sm leading-relaxed text-foreground/80">{t.proofTodo}</div>
           </div>
         </div>
       </section>
@@ -255,7 +317,7 @@ export default function HomeLanding({ t, lang }: Props) {
           <h2 className="text-3xl font-bold text-foreground md:text-4xl">{t.faqTitle}</h2>
           <div className="mt-8 space-y-4">
             {t.faqs.map((faq) => (
-              <Card key={faq.q} className="rounded-lg border border-border bg-card shadow-sm">
+              <Card key={faq.q} className="glass-card rounded-lg">
                 <CardContent className="p-6">
                   <h3 className="font-bold text-foreground">{faq.q}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-foreground/70">{faq.a}</p>
@@ -268,21 +330,30 @@ export default function HomeLanding({ t, lang }: Props) {
 
       <section className="pb-16 md:pb-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="rounded-lg border border-border bg-card p-8 text-center shadow-sm md:p-12">
-            <h2 className="text-3xl font-bold text-foreground md:text-4xl">{t.finalTitle}</h2>
-            <p className="mx-auto mt-3 max-w-2xl leading-relaxed text-foreground/70">
-              {t.finalSubtitle}
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button className="font-bold" asChild>
-                <Link href={contactHref(lang, 'price')}>{t.ctaPrice}</Link>
-              </Button>
-              <Button variant="outline" className="font-bold" asChild>
-                <Link href={contactHref(lang, 'question')}>{t.ctaQuestion}</Link>
-              </Button>
-              <Button variant="ghost" className="font-semibold" asChild>
-                <Link href={contactHref(lang, 'consultation')}>{t.ctaConsultation}</Link>
-              </Button>
+          <div className="glass-card relative overflow-hidden rounded-lg p-8 text-center md:p-12">
+            <Image
+              src="/images/home/hero-ai-analytics.png"
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover object-right opacity-[0.06]"
+            />
+            <div className="relative">
+              <h2 className="text-3xl font-bold text-foreground md:text-4xl">{t.finalTitle}</h2>
+              <p className="mx-auto mt-3 max-w-2xl leading-relaxed text-foreground/70">
+                {t.finalSubtitle}
+              </p>
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
+                <Button className="font-bold" asChild>
+                  <Link href={contactHref(lang, 'price')}>{t.ctaPrice}</Link>
+                </Button>
+                <Button variant="outline" className="font-bold" asChild>
+                  <Link href={contactHref(lang, 'question')}>{t.ctaQuestion}</Link>
+                </Button>
+                <Button variant="ghost" className="font-semibold" asChild>
+                  <Link href={contactHref(lang, 'consultation')}>{t.ctaConsultation}</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

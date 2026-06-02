@@ -25,7 +25,7 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
   ];
 
   return (
-    <footer className="border-t border-border bg-card">
+    <footer className="relative z-10 border-t border-border/70 bg-card/70 backdrop-blur-xl">
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
         {/* Top: nav + contacts */}
         <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
@@ -57,7 +57,7 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
                 href={CONTACT_LINKS.telegram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-md border border-border p-2 text-foreground/60 transition-colors hover:border-primary hover:text-primary"
+                className="rounded-md border border-border/70 bg-background/30 p-2 text-foreground/60 transition-colors hover:border-primary hover:text-primary"
                 aria-label={t.contact.telegram}
                 title={t.contact.telegram}
               >
@@ -65,7 +65,7 @@ export default function Footer({ lang = 'ru' }: FooterProps) {
               </a>
               <a
                 href={CONTACT_LINKS.email}
-                className="rounded-md border border-border p-2 text-foreground/60 transition-colors hover:border-primary hover:text-primary"
+                className="rounded-md border border-border/70 bg-background/30 p-2 text-foreground/60 transition-colors hover:border-primary hover:text-primary"
                 aria-label={t.contact.email}
                 title={t.contact.email}
               >

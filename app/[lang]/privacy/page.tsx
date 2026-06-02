@@ -68,7 +68,7 @@ export default async function PrivacyPage({ params }: Props) {
   }
 
   return (
-    <div className="page space-y-12 py-12">
+    <div className="page relative z-10 space-y-12 py-12">
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Analyst Online', href: `/${lang}` },
@@ -82,7 +82,7 @@ export default async function PrivacyPage({ params }: Props) {
         <p className="mt-2 text-sm text-muted-foreground">{t.lastUpdated}</p>
       </div>
 
-      <div className="max-w-3xl space-y-8">
+      <div className="glass-card max-w-3xl space-y-8 rounded-lg p-6 md:p-8">
         {t.sections.map((section, i) => (
           <section key={i}>
             <h2 className="text-xl font-semibold">{section.title}</h2>

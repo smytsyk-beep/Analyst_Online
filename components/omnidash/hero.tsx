@@ -11,7 +11,7 @@ export default function OmniDashHero({ t, lang }: Props) {
     <section className="relative overflow-hidden pb-16 pt-16 md:pt-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 rounded-md border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-semibold text-primary">
+        <div className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary backdrop-blur-xl">
           <span className="h-1.5 w-1.5 rounded-full bg-primary" />
           {t.heroBadge}
         </div>
@@ -46,7 +46,7 @@ export default function OmniDashHero({ t, lang }: Props) {
         </div>
 
         {/* Dashboard mockup */}
-        <div className="mt-14 overflow-hidden rounded-lg border border-border bg-card p-4">
+        <div className="glass-card mt-14 overflow-hidden rounded-lg p-4">
           <div className="overflow-hidden rounded-md">
             <Image
               src="/images/omnidash/mockup-1.png"

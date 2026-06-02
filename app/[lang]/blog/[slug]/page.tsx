@@ -208,7 +208,7 @@ export default async function BlogPostPage({ params }: Props) {
   };
 
   return (
-    <div className="page py-12">
+    <div className="page relative z-10 py-12">
       <JsonLd data={articleSchema} />
       <JsonLd
         data={breadcrumbSchema([
@@ -235,11 +235,11 @@ export default async function BlogPostPage({ params }: Props) {
         />
 
         {postBody.length > 0 ? (
-          <article className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-foreground/80 prose-a:text-primary">
+          <article className="glass-card prose prose-lg max-w-none rounded-lg p-6 prose-headings:text-foreground prose-p:text-foreground/80 prose-a:text-primary dark:prose-invert md:p-8">
             <BlogPortableText value={postBody} />
           </article>
         ) : (
-          <div className="rounded-lg border border-border bg-card p-8 text-center">
+          <div className="glass-card rounded-lg p-8 text-center">
             <p className="text-foreground/70">{l.emptyBody}</p>
           </div>
         )}

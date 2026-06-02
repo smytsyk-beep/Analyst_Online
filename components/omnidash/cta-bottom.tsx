@@ -9,7 +9,7 @@ export default function OmniDashCtaBottom({ t, lang }: Props) {
   return (
     <section className="py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="rounded-lg border-2 border-primary bg-primary/5 p-10 text-center shadow-sm md:p-16">
+        <div className="glass-card neon-ring rounded-lg border-2 border-primary/45 bg-primary/10 p-10 text-center md:p-16">
           <h2 className="text-3xl font-bold text-foreground md:text-4xl">{t.ctaTitle}</h2>
           <p className="mx-auto mt-4 max-w-xl text-lg text-foreground/70">{t.ctaSubtitle}</p>
 

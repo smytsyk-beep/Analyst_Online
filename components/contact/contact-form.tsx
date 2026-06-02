@@ -179,7 +179,7 @@ export default function ContactForm({
 
   if (state === 'success') {
     return (
-      <Card className="rounded-lg border border-growth-green/30 bg-growth-green/5">
+      <Card className="glass-card rounded-lg border-growth-green/30 bg-growth-green/10">
         <CardContent className="p-8 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-growth-green/20">
             <span className="text-3xl text-growth-green">✓</span>
@@ -208,7 +208,7 @@ export default function ContactForm({
       <h2 className="text-2xl font-bold text-foreground">{labels.title}</h2>
       <p className="mt-2 text-foreground/70">{labels.subtitle}</p>
 
-      <Card className="mt-6 rounded-lg border border-border bg-card shadow-sm">
+      <Card className="glass-card mt-6 rounded-lg">
         <CardContent className="p-6 md:p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -229,7 +229,7 @@ export default function ContactForm({
                       className={`rounded-lg border px-3 py-2 text-left text-sm font-semibold transition-colors ${
                         active
                           ? 'border-primary bg-primary text-primary-foreground'
-                          : 'border-border bg-card text-foreground/70 hover:border-primary hover:text-foreground'
+                          : 'border-border/70 bg-background/35 text-foreground/70 hover:border-primary hover:text-foreground'
                       } disabled:opacity-50`}
                       aria-pressed={active}
                     >
@@ -255,8 +255,8 @@ export default function ContactForm({
                 disabled={state === 'loading'}
                 className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-foreground transition-colors placeholder:text-foreground/40 ${
                   errors.name
-                    ? 'border-red-500 bg-red-50'
-                    : 'border-border bg-card focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
+                    ? 'border-red-500 bg-red-500/10'
+                    : 'border-border/70 bg-background/35 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
                 } disabled:opacity-50`}
                 required
               />
@@ -278,8 +278,8 @@ export default function ContactForm({
                 disabled={state === 'loading'}
                 className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-foreground transition-colors placeholder:text-foreground/40 ${
                   errors.email || errors.messenger
-                    ? 'border-red-500 bg-red-50'
-                    : 'border-border bg-card focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
+                    ? 'border-red-500 bg-red-500/10'
+                    : 'border-border/70 bg-background/35 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
                 } disabled:opacity-50`}
                 autoComplete="email"
               />
@@ -300,8 +300,8 @@ export default function ContactForm({
                 disabled={state === 'loading'}
                 className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-foreground transition-colors placeholder:text-foreground/40 ${
                   errors.email || errors.messenger
-                    ? 'border-red-500 bg-red-50'
-                    : 'border-border bg-card focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
+                    ? 'border-red-500 bg-red-500/10'
+                    : 'border-border/70 bg-background/35 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
                 } disabled:opacity-50`}
                 autoComplete="tel"
               />
@@ -326,8 +326,8 @@ export default function ContactForm({
                 rows={5}
                 className={`mt-1.5 w-full rounded-md border px-4 py-2.5 text-sm text-foreground transition-colors placeholder:text-foreground/40 ${
                   errors.message
-                    ? 'border-red-500 bg-red-50'
-                    : 'border-border bg-card focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
+                    ? 'border-red-500 bg-red-500/10'
+                    : 'border-border/70 bg-background/35 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
                 } disabled:opacity-50`}
                 required
                 minLength={15}
@@ -361,8 +361,8 @@ export default function ContactForm({
 
             {/* Error message */}
             {state === 'error' && !Object.keys(errors).length && (
-              <div className="rounded-lg border border-red-500/30 bg-red-50 p-4">
-                <p className="text-sm text-red-700">{serverError || labels.errorMessage}</p>
+              <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-4">
+                <p className="text-sm text-red-500">{serverError || labels.errorMessage}</p>
               </div>
             )}
 

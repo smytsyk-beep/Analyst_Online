@@ -11,7 +11,7 @@ export default function OmniDashFaq({ t }: Props) {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="bg-background py-20">
+    <section className="py-20">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <h2 className="text-3xl font-bold text-foreground md:text-4xl">{t.faqTitle}</h2>
 
@@ -19,11 +19,11 @@ export default function OmniDashFaq({ t }: Props) {
           {t.faqs.map((faq, i) => (
             <div
               key={i}
-              className="overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-colors hover:border-primary"
+              className="glass-card overflow-hidden rounded-lg transition-colors hover:border-primary"
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className="flex w-full items-center justify-between px-6 py-4 text-left text-sm font-semibold text-foreground hover:bg-accent/40"
+                className="flex w-full items-center justify-between px-6 py-4 text-left text-sm font-semibold text-foreground hover:bg-primary/10"
               >
                 <span>{faq.q}</span>
                 <ChevronDown
@@ -35,7 +35,7 @@ export default function OmniDashFaq({ t }: Props) {
               </button>
 
               {open === i && (
-                <div className="border-t border-border px-6 py-4 text-sm leading-relaxed text-foreground/70">
+                <div className="border-t border-border/70 px-6 py-4 text-sm leading-relaxed text-foreground/70">
                   {faq.a}
                 </div>
               )}

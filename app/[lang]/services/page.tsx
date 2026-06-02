@@ -14,6 +14,7 @@ import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
 import type { ContactPurpose } from '@/content/site.copy';
 import { cn } from '@/lib/utils';
+import { BentoGrid } from '@/components/shared/bento';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
@@ -180,20 +181,23 @@ function ServiceCard({
   lang,
   service,
   compact = false,
+  className,
 }: {
   lang: Locale;
   service: Service;
   compact?: boolean;
+  className?: string;
 }) {
   const href = hrefForService(lang, service);
 
   return (
     <Card
       className={cn(
-        'h-full rounded-lg border bg-card shadow-sm transition-colors',
+        'glass-card h-full rounded-lg transition-colors',
         service.highlighted
-          ? 'border-primary/30 bg-primary/5'
+          ? 'border-primary/40 bg-primary/10'
           : 'border-border hover:border-primary/25',
+        className,
       )}
     >
       <CardContent className={cn('flex h-full flex-col gap-4 p-6', compact ? 'md:p-6' : 'md:p-8')}>
@@ -270,10 +274,10 @@ export default async function ServicesPage({ params }: Props) {
         ])}
       />
 
-      <section className="border-b border-border bg-background py-16 md:py-24">
+      <section className="relative isolate border-b border-border/70 bg-background/10 py-16 backdrop-blur-[2px] md:py-24">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_0.78fr] lg:items-end">
           <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 rounded-md border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-semibold text-primary">
+            <div className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary backdrop-blur-xl">
               <Sparkles size={14} />
               {pageCopy.heroBadge}
             </div>
@@ -285,14 +289,23 @@ export default async function ServicesPage({ params }: Props) {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               {primaryServices[0] ? (
-                <Button size="lg" className="font-bold" asChild>
+                <Button
+                  size="lg"
+                  className="font-bold hover:bg-primary hover:text-primary-foreground hover:shadow-lg focus-visible:bg-primary focus-visible:text-primary-foreground"
+                  asChild
+                >
                   <Link href={hrefForService(lang, primaryServices[0])}>
                     {pageCopy.heroPrimaryCta}
                     <ArrowRight size={17} />
                   </Link>
                 </Button>
               ) : null}
-              <Button size="lg" variant="outline" className="font-bold" asChild>
+              <Button
+                size="lg"
+                variant="outline"
+                className="font-bold hover:bg-primary hover:text-primary-foreground hover:shadow-lg focus-visible:bg-primary focus-visible:text-primary-foreground"
+                asChild
+              >
                 <Link href="#directions">{pageCopy.heroSecondaryCta}</Link>
               </Button>
             </div>
@@ -303,13 +316,15 @@ export default async function ServicesPage({ params }: Props) {
               <Link
                 key={service.id}
                 href={hrefForService(lang, service)}
-                className="group rounded-lg border border-border bg-card p-4 shadow-sm transition-colors hover:border-primary/30"
+                className="glass-card group rounded-lg p-4 transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground focus-visible:bg-primary focus-visible:text-primary-foreground"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-sm font-bold text-foreground">{service.title}</span>
+                  <span className="text-sm font-bold text-foreground transition-colors group-hover:text-primary-foreground group-focus-visible:text-primary-foreground">
+                    {service.title}
+                  </span>
                   <ArrowRight
                     size={16}
-                    className="shrink-0 text-primary transition-transform group-hover:translate-x-0.5"
+                    className="shrink-0 text-primary transition-all group-hover:translate-x-0.5 group-hover:text-primary-foreground group-focus-visible:text-primary-foreground"
                   />
                 </div>
               </Link>
@@ -329,16 +344,16 @@ export default async function ServicesPage({ params }: Props) {
             </p>
           </div>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
+          <BentoGrid className="mt-8 md:grid-cols-2 lg:grid-cols-2">
             {primaryServices.map((service) => (
               <ServiceCard key={service.id} lang={lang} service={service} />
             ))}
-          </div>
+          </BentoGrid>
         </div>
       </section>
 
       {supportServices.length > 0 ? (
-        <section className="border-y border-border bg-card py-16 md:py-24">
+        <section className="border-y border-border/70 bg-muted/20 py-16 md:py-24">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="max-w-3xl">
               <h2 className="text-3xl font-bold text-foreground md:text-4xl">
