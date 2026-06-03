@@ -118,6 +118,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             ]
           : undefined,
       },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: ogImageUrl ? [ogImageUrl] : undefined,
+      },
     };
   } catch (error) {
     console.error('Failed to generate metadata for blog post:', error);

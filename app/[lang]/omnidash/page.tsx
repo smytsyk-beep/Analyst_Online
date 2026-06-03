@@ -7,6 +7,7 @@ import { sanityClient } from '@/sanity/client';
 import { omnidashBlocksQuery, faqQuery, pageByPathQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
 import type { SanityImageValue } from '@/sanity/image';
+import { socialPreviewMetadata } from '@/lib/seo-metadata';
 
 import JsonLd from '@/components/seo/json-ld';
 import { productSchema, breadcrumbSchema } from '@/lib/schema';
@@ -63,6 +64,7 @@ type CmsOmniDashPage = {
   description?: string;
   seoTitle?: string;
   seoDescription?: string;
+  socialImage?: SanityImageValue;
   heroImage?: SanityImageValue;
   media?: CmsPageMediaItem[];
 };
@@ -156,7 +158,6 @@ function transformOmniDashBlocks(
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
-  const t = omniDashCopy[lang];
   const cmsPage = await loadOmniDashPageDoc(lang);
 
   const titles: Record<Locale, string> = {
@@ -185,19 +186,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ro: '/ro/omnidash',
       },
     },
-    openGraph: {
+    ...socialPreviewMetadata({
       title,
-      description: cmsPage?.description ?? t.heroSubtitle,
-      images: [
-        {
-          url: 'https://analyst-online.vercel.app/og-image.png',
-          width: 1200,
-          height: 630,
-          alt: 'OmniDash - Analytics for e-commerce',
-        },
-      ],
-      locale: lang === 'ua' ? 'uk_UA' : lang === 'ro' ? 'ro_RO' : 'ru_RU',
-    },
+      description,
+      url: `https://analyst-online.com/${lang}/omnidash`,
+      locale: lang,
+      image: cmsPage?.socialImage ?? cmsPage?.heroImage,
+      imageAlt: 'OmniDash',
+    }),
   };
 }
 

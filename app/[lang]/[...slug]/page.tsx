@@ -14,6 +14,8 @@ import { sanityClient } from '@/sanity/client';
 import { pageByPathQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
 import { siteCopy } from '@/content/site.copy';
+import type { SanityImageValue } from '@/sanity/image';
+import { socialPreviewMetadata } from '@/lib/seo-metadata';
 
 type Props = {
   params: Promise<{ lang: Locale; slug: string[] }>;
@@ -24,6 +26,7 @@ type CmsOfferPage = {
   description?: string;
   seoTitle?: string;
   seoDescription?: string;
+  socialImage?: SanityImageValue;
   routePath?: string;
   pageType?: string;
   content?: unknown;
@@ -83,7 +86,7 @@ function mergePageCopy(
 async function loadPage(lang: Locale, path: string) {
   const fallback = getOfferPage(lang, path);
 
-  if (!isSanityConfigured()) return fallback;
+  if (!isSanityConfigured()) return { page: fallback };
 
   try {
     const cmsData = await sanityClient.fetch<CmsOfferPage | null>(
@@ -92,17 +95,20 @@ async function loadPage(lang: Locale, path: string) {
       { next: { tags: ['page'] } },
     );
 
-    return mergePageCopy(lang, path, cmsData, fallback);
+    return {
+      page: mergePageCopy(lang, path, cmsData, fallback),
+      socialImage: cmsData?.socialImage,
+    };
   } catch (error) {
     console.warn('Failed to fetch offer page from Sanity CMS, using fallback:', error);
-    return fallback;
+    return { page: fallback };
   }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang, slug } = await params;
   const path = slug.join('/');
-  const page = await loadPage(lang, path);
+  const { page, socialImage } = await loadPage(lang, path);
 
   if (!page) {
     return {
@@ -125,11 +131,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: `https://analyst-online.com/${lang}/${path}`,
       languages,
     },
-    openGraph: {
+    ...socialPreviewMetadata({
       title: page.metaTitle,
       description: page.description,
-      locale: lang === 'ua' ? 'uk_UA' : lang === 'ro' ? 'ro_RO' : 'ru_RU',
-    },
+      url: `https://analyst-online.com/${lang}/${path}`,
+      locale: lang,
+      image: socialImage,
+      imageAlt: page.title,
+    }),
   };
 }
 
@@ -143,7 +152,7 @@ export function generateStaticParams() {
 export default async function LangCatchAllPage({ params }: Props) {
   const { lang, slug } = await params;
   const path = slug.join('/');
-  const page = await loadPage(lang, path);
+  const { page } = await loadPage(lang, path);
 
   if (!page) notFound();
 
