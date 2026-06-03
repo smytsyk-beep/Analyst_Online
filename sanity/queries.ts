@@ -13,6 +13,24 @@ export const homePageQuery = groq`
     seoTitle,
     seoDescription,
     content,
+    heroImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
+    media[] {
+      key,
+      title,
+      image {
+        asset->{
+          _id,
+          url
+        },
+        alt
+      }
+    },
     sections,
     cta,
     faq,
@@ -31,6 +49,24 @@ export const pageByPathQuery = groq`
     routePath,
     pageType,
     content,
+    heroImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
+    media[] {
+      key,
+      title,
+      image {
+        asset->{
+          _id,
+          url
+        },
+        alt
+      }
+    },
     sections,
     cta,
     faq,

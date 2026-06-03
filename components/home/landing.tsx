@@ -16,47 +16,95 @@ import type { HomeCopy } from '@/content/home.copy';
 import AnimatedCounter from '@/components/shared/animated-counter';
 import { BentoCard, BentoGrid, BentoVisual } from '@/components/shared/bento';
 import HomeHeroDataScene from '@/components/home/hero-data-scene';
+import { sanityImageUrl, type SanityImageValue } from '@/sanity/image';
 
 type Props = {
   t: HomeCopy;
   lang: string;
+  media?: HomeLandingMedia;
+};
+
+type PageMediaItem = {
+  key?: string;
+  image?: SanityImageValue;
+};
+
+type HomeLandingMedia = {
+  heroImage?: SanityImageValue;
+  items?: PageMediaItem[];
+};
+
+type LocalMedia = {
+  key: string;
+  src: string;
+  alt: string;
 };
 
 const serviceIcons = [Bot, Workflow, FileSpreadsheet, BarChart3];
 
-const serviceMedia = [
+const serviceMedia: LocalMedia[] = [
   {
+    key: 'home-service-ai-training',
     src: '/images/home/service-ai-training.png',
     alt: 'AI training workspace preview',
   },
   {
+    key: 'home-service-ai-automation',
     src: '/images/home/service-ai-automation.png',
     alt: 'AI automation workflow preview',
   },
   {
+    key: 'home-service-spreadsheets',
     src: '/images/home/service-spreadsheets.png',
     alt: 'Spreadsheet analytics preview',
   },
   {
+    key: 'home-service-analyst',
     src: '/images/home/service-analyst.png',
     alt: 'Part-time analyst dashboard preview',
   },
 ];
 
-const exampleMedia = [
+const exampleMedia: LocalMedia[] = [
   {
+    key: 'home-example-reports',
     src: '/images/home/example-report-notifications.png',
     alt: 'Automated report notifications preview',
   },
   {
+    key: 'home-example-documents',
     src: '/images/home/example-document-templates.png',
     alt: 'Document template automation preview',
   },
   {
+    key: 'home-example-dashboards',
     src: '/images/home/example-dashboard-analytics.png',
     alt: 'Dashboard analytics preview',
   },
 ];
+
+function cmsMediaByKey(media: HomeLandingMedia | undefined) {
+  return new Map(
+    media?.items
+      ?.filter((item): item is Required<PageMediaItem> => Boolean(item.key && item.image))
+      .map((item) => [item.key, item.image]) ?? [],
+  );
+}
+
+function mediaFor(
+  mediaByKey: Map<string, SanityImageValue>,
+  fallback: LocalMedia,
+  width: number,
+  height: number,
+) {
+  const cmsImage = mediaByKey.get(fallback.key);
+  const cmsSrc = sanityImageUrl(cmsImage, { width, height, fit: 'crop' });
+
+  return {
+    src: cmsSrc ?? fallback.src,
+    alt: cmsImage?.alt || fallback.alt,
+  };
+}
 
 function contactHref(lang: string, purpose: 'price' | 'question' | 'consultation') {
   return `/${lang}/contact?purpose=${purpose}`;
@@ -68,7 +116,39 @@ function trainingHref(lang: string) {
   return `/${lang}/obuchenie-ai`;
 }
 
-export default function HomeLanding({ t, lang }: Props) {
+export default function HomeLanding({ t, lang, media }: Props) {
+  const mediaByKey = cmsMediaByKey(media);
+  const trainingImage = mediaFor(
+    mediaByKey,
+    {
+      key: 'home-training',
+      src: '/images/home/training-ai-workshop.png',
+      alt: 'Online AI training workspace preview',
+    },
+    900,
+    600,
+  );
+  const proofImage = mediaFor(
+    mediaByKey,
+    {
+      key: 'home-proof',
+      src: '/images/home/service-analyst.png',
+      alt: '',
+    },
+    900,
+    506,
+  );
+  const finalImage = mediaFor(
+    mediaByKey,
+    {
+      key: 'home-final',
+      src: '/images/home/hero-ai-analytics.png',
+      alt: '',
+    },
+    1200,
+    630,
+  );
+
   return (
     <div className="relative z-10 overflow-hidden">
       <section className="relative isolate border-b border-border/70 bg-background/10 py-16 backdrop-blur-[2px] md:py-24">
@@ -158,14 +238,15 @@ export default function HomeLanding({ t, lang }: Props) {
             {t.services.map((service, index) => {
               const Icon = serviceIcons[index] ?? BarChart3;
               const media = serviceMedia[index] ?? serviceMedia[serviceMedia.length - 1];
+              const image = mediaFor(mediaByKey, media, 900, 506);
 
               return (
                 <BentoCard key={service.title} className="h-full">
                   <div className="flex h-full flex-col">
                     <BentoVisual className="aspect-[16/9]">
                       <Image
-                        src={media.src}
-                        alt={media.alt}
+                        src={image.src}
+                        alt={image.alt}
                         fill
                         sizes="(min-width: 1024px) 50vw, (min-width: 640px) 50vw, 100vw"
                         className="object-cover"
@@ -219,8 +300,8 @@ export default function HomeLanding({ t, lang }: Props) {
             <CardContent className="p-0">
               <BentoVisual className="aspect-[3/2]">
                 <Image
-                  src="/images/home/training-ai-workshop.png"
-                  alt="Online AI training workspace preview"
+                  src={trainingImage.src}
+                  alt={trainingImage.alt}
                   fill
                   sizes="(min-width: 1024px) 55vw, 100vw"
                   className="object-cover"
@@ -248,14 +329,15 @@ export default function HomeLanding({ t, lang }: Props) {
           <BentoGrid className="mt-8 md:grid-cols-3 lg:grid-cols-3">
             {t.examples.map((example, index) => {
               const media = exampleMedia[index] ?? exampleMedia[exampleMedia.length - 1];
+              const image = mediaFor(mediaByKey, media, 900, 506);
 
               return (
                 <BentoCard key={example.title} className="h-full">
                   <div className="flex h-full flex-col">
                     <BentoVisual className="aspect-[16/9]">
                       <Image
-                        src={media.src}
-                        alt={media.alt}
+                        src={image.src}
+                        alt={image.alt}
                         fill
                         sizes="(min-width: 768px) 33vw, 100vw"
                         className="object-cover"
@@ -301,7 +383,7 @@ export default function HomeLanding({ t, lang }: Props) {
           </div>
           <div className="glass-card relative overflow-hidden rounded-lg border-lime-accent/30 p-6">
             <Image
-              src="/images/home/service-analyst.png"
+              src={proofImage.src}
               alt=""
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -332,7 +414,7 @@ export default function HomeLanding({ t, lang }: Props) {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="glass-card relative overflow-hidden rounded-lg p-8 text-center md:p-12">
             <Image
-              src="/images/home/hero-ai-analytics.png"
+              src={finalImage.src}
               alt=""
               fill
               sizes="100vw"

@@ -21,6 +21,7 @@
     "update-blog-post": "dotenv -e .env.local -- tsx scripts/update-blog-post.ts",
     "export-content": "dotenv -e .env.local -- tsx scripts/export-content.ts",
     "migrate-contact-info": "dotenv -e .env.local -- tsx scripts/migrate-contact-info.ts",
+    "sync-page-registry": "dotenv -e .env.local -- tsx scripts/sync-page-registry.ts",
     "fix-contact-channels": "dotenv -e .env.local -- tsx scripts/fix-contact-channels.ts"
   },
   "dependencies": {

@@ -3,10 +3,20 @@ import Image from 'next/image';
 import { CheckCircle2 } from 'lucide-react';
 import type { OmniDashCopy } from '@/content/omnidash.copy';
 import { BentoCard, BentoGrid } from '@/components/shared/bento';
+import { sanityImageUrl, type SanityImageValue } from '@/sanity/image';
 
-type Props = { t: OmniDashCopy };
+type Props = {
+  t: OmniDashCopy;
+  dashboardImage?: SanityImageValue;
+};
 
-export default function OmniDashFeatures({ t }: Props) {
+export default function OmniDashFeatures({ t, dashboardImage }: Props) {
+  const dashboardImageUrl = sanityImageUrl(dashboardImage, {
+    width: 1200,
+    height: 675,
+    fit: 'crop',
+  });
+
   return (
     <section className="py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -35,8 +45,8 @@ export default function OmniDashFeatures({ t }: Props) {
         <div className="glass-card mt-14 overflow-hidden rounded-lg p-4">
           <div className="overflow-hidden rounded-md">
             <Image
-              src="/images/omnidash/mockup-2.png"
-              alt="OmniDash — Ad Campaign Optimizer"
+              src={dashboardImageUrl ?? '/images/omnidash/mockup-2.png'}
+              alt={dashboardImage?.alt || 'OmniDash - Ad Campaign Optimizer'}
               width={1200}
               height={675}
               className="w-full object-cover"

@@ -4,8 +4,9 @@ import type { Locale } from '@/lib/i18n';
 import { omniDashCopy } from '@/content/omnidash.copy';
 import type { OmniDashCopy } from '@/content/omnidash.copy';
 import { sanityClient } from '@/sanity/client';
-import { omnidashBlocksQuery, faqQuery } from '@/sanity/queries';
+import { omnidashBlocksQuery, faqQuery, pageByPathQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import type { SanityImageValue } from '@/sanity/image';
 
 import JsonLd from '@/components/seo/json-ld';
 import { productSchema, breadcrumbSchema } from '@/lib/schema';
@@ -51,6 +52,43 @@ type CmsFaqItem = {
   question: string;
   answer: string;
 };
+
+type CmsPageMediaItem = {
+  key?: string;
+  image?: SanityImageValue;
+};
+
+type CmsOmniDashPage = {
+  title?: string;
+  description?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  heroImage?: SanityImageValue;
+  media?: CmsPageMediaItem[];
+};
+
+function mediaByKey(media: CmsPageMediaItem[] | undefined) {
+  return new Map(
+    media
+      ?.filter((item): item is Required<CmsPageMediaItem> => Boolean(item.key && item.image))
+      .map((item) => [item.key, item.image]) ?? [],
+  );
+}
+
+async function loadOmniDashPageDoc(lang: Locale) {
+  if (!isSanityConfigured()) return null;
+
+  try {
+    return await sanityClient.fetch<CmsOmniDashPage | null>(
+      pageByPathQuery,
+      { locale: lang, path: 'omnidash' },
+      { next: { tags: ['page'] } },
+    );
+  } catch (error) {
+    console.warn('Failed to fetch OmniDash page from Sanity CMS, using fallback:', error);
+    return null;
+  }
+}
 
 // Transform CMS blocks to component format
 function transformOmniDashBlocks(
@@ -119,6 +157,7 @@ function transformOmniDashBlocks(
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
   const t = omniDashCopy[lang];
+  const cmsPage = await loadOmniDashPageDoc(lang);
 
   const titles: Record<Locale, string> = {
     ru: 'OmniDash — аналитика для e-commerce | Analyst Online',
@@ -132,9 +171,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ro: 'Sistem gata de analytics pentru e-commerce mic. Reclamă, vânzări și cheltuieli într-un singur dashboard. Configurare de la €99, abonament de la €49/lună.',
   };
 
+  const title = cmsPage?.seoTitle ?? cmsPage?.title ?? titles[lang];
+  const description = cmsPage?.seoDescription ?? cmsPage?.description ?? descriptions[lang];
+
   return {
-    title: titles[lang],
-    description: descriptions[lang],
+    title,
+    description,
     alternates: {
       canonical: `https://analyst-online.com/${lang}/omnidash`,
       languages: {
@@ -144,8 +186,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: titles[lang],
-      description: t.heroSubtitle,
+      title,
+      description: cmsPage?.description ?? t.heroSubtitle,
       images: [
         {
           url: 'https://analyst-online.vercel.app/og-image.png',
@@ -165,20 +207,23 @@ export default async function OmniDashPage({ params }: Props) {
   // Fetch OmniDash blocks from CMS
   let cmsBlocks: CmsOmniDashBlock[] | null = null;
   let cmsFaq: CmsFaqItem[] | null = null;
+  let cmsPage: CmsOmniDashPage | null = null;
 
   if (isSanityConfigured()) {
     try {
-      cmsBlocks = await sanityClient.fetch<CmsOmniDashBlock[]>(
-        omnidashBlocksQuery,
-        { locale: lang },
-        { next: { tags: ['omnidashBlock'] } },
-      );
-
-      cmsFaq = await sanityClient.fetch<CmsFaqItem[]>(
-        faqQuery,
-        { locale: lang, category: 'omnidash' },
-        { next: { tags: ['faq'] } },
-      );
+      [cmsBlocks, cmsFaq, cmsPage] = await Promise.all([
+        sanityClient.fetch<CmsOmniDashBlock[]>(
+          omnidashBlocksQuery,
+          { locale: lang },
+          { next: { tags: ['omnidashBlock'] } },
+        ),
+        sanityClient.fetch<CmsFaqItem[]>(
+          faqQuery,
+          { locale: lang, category: 'omnidash' },
+          { next: { tags: ['faq'] } },
+        ),
+        loadOmniDashPageDoc(lang),
+      ]);
     } catch (error) {
       console.warn('Failed to fetch OmniDash content from Sanity CMS, using fallback:', error);
     }
@@ -186,6 +231,7 @@ export default async function OmniDashPage({ params }: Props) {
 
   // Transform CMS blocks to component format
   const t = transformOmniDashBlocks(cmsBlocks, cmsFaq, omniDashCopy[lang]);
+  const media = mediaByKey(cmsPage?.media);
 
   return (
     <div className="relative overflow-hidden">
@@ -196,9 +242,13 @@ export default async function OmniDashPage({ params }: Props) {
           { name: 'OmniDash', href: `/${lang}/omnidash` },
         ])}
       />
-      <OmniDashHero t={t} lang={lang} />
+      <OmniDashHero
+        t={t}
+        lang={lang}
+        dashboardImage={media.get('omnidash-hero-dashboard') ?? cmsPage?.heroImage}
+      />
       <OmniDashPainPoints t={t} />
-      <OmniDashFeatures t={t} />
+      <OmniDashFeatures t={t} dashboardImage={media.get('omnidash-features-dashboard')} />
       <OmniDashHowItWorks t={t} />
       <OmniDashPricing t={t} lang={lang} />
       <OmniDashFaq t={t} />
