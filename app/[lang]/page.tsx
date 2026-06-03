@@ -11,6 +11,7 @@ import JsonLd from '@/components/seo/json-ld';
 import { organizationSchema } from '@/lib/schema';
 import HomeLanding from '@/components/home/landing';
 import type { SanityImageValue } from '@/sanity/image';
+import { socialPreviewMetadata } from '@/lib/seo-metadata';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
@@ -23,7 +24,10 @@ type CmsPageMediaItem = {
 type CmsHomePage = {
   title?: string;
   description?: string;
+  seoTitle?: string;
+  seoDescription?: string;
   content?: unknown;
+  socialImage?: SanityImageValue;
   heroImage?: SanityImageValue;
   media?: CmsPageMediaItem[];
 };
@@ -41,13 +45,31 @@ function parseCmsContent(content: unknown): Partial<HomeCopy> | undefined {
   return content as Partial<HomeCopy>;
 }
 
+async function loadHomePageDoc(lang: Locale) {
+  if (!isSanityConfigured()) return null;
+
+  try {
+    return await sanityClient.fetch<CmsHomePage | null>(
+      homePageQuery,
+      { locale: lang },
+      { next: { tags: ['page'] } },
+    );
+  } catch (error) {
+    console.warn('Failed to fetch home page from Sanity CMS, using fallback:', error);
+    return null;
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
   const t = homeCopy[lang];
+  const cmsData = await loadHomePageDoc(lang);
+  const title = cmsData?.seoTitle ?? t.metaTitle;
+  const description = cmsData?.seoDescription ?? cmsData?.description ?? t.heroSubtitle;
 
   return {
-    title: t.metaTitle,
-    description: t.heroSubtitle,
+    title,
+    description,
     alternates: {
       canonical: `https://analyst-online.com/${lang}`,
       languages: {
@@ -56,19 +78,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ro: '/ro',
       },
     },
-    openGraph: {
-      title: t.metaTitle,
-      description: t.heroSubtitle,
-      images: [
-        {
-          url: 'https://analyst-online.vercel.app/og-image.png',
-          width: 1200,
-          height: 630,
-          alt: 'Analyst Online',
-        },
-      ],
-      locale: lang === 'ua' ? 'uk_UA' : lang === 'ro' ? 'ro_RO' : 'ru_RU',
-    },
+    ...socialPreviewMetadata({
+      title,
+      description,
+      url: `https://analyst-online.com/${lang}`,
+      locale: lang,
+      image: cmsData?.socialImage,
+      imageAlt: 'Analyst Online',
+    }),
   };
 }
 
@@ -76,18 +93,7 @@ export default async function LangHome({ params }: Props) {
   const { lang } = await params;
 
   // Fetch from CMS with fallback to hardcoded copy
-  let cmsData: CmsHomePage | null = null;
-  if (isSanityConfigured()) {
-    try {
-      cmsData = await sanityClient.fetch<CmsHomePage | null>(
-        homePageQuery,
-        { locale: lang },
-        { next: { tags: ['page'] } },
-      );
-    } catch (error) {
-      console.warn('Failed to fetch from Sanity CMS, using fallback:', error);
-    }
-  }
+  const cmsData = await loadHomePageDoc(lang);
 
   // Use CMS data if available, otherwise fallback to .copy.ts
   const t = cmsData

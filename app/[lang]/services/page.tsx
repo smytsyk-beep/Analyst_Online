@@ -15,6 +15,8 @@ import { breadcrumbSchema } from '@/lib/schema';
 import type { ContactPurpose } from '@/content/site.copy';
 import { cn } from '@/lib/utils';
 import { BentoGrid } from '@/components/shared/bento';
+import type { SanityImageValue } from '@/sanity/image';
+import { socialPreviewMetadata } from '@/lib/seo-metadata';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
@@ -34,6 +36,7 @@ type CmsServicesPage = {
   description?: string;
   seoTitle?: string;
   seoDescription?: string;
+  socialImage?: SanityImageValue;
   content?: unknown;
   cta?: {
     primary?: string;
@@ -174,6 +177,7 @@ async function loadServicesPage(lang: Locale) {
     services: mergeCmsServices(cmsServices, pageCopy.services),
     seoTitle: cmsPage?.seoTitle,
     seoDescription: cmsPage?.seoDescription,
+    socialImage: cmsPage?.socialImage,
   };
 }
 
@@ -243,11 +247,13 @@ function ServiceCard({
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
-  const { pageCopy, seoTitle, seoDescription } = await loadServicesPage(lang);
+  const { pageCopy, seoTitle, seoDescription, socialImage } = await loadServicesPage(lang);
+  const title = seoTitle ?? `${pageCopy.pageTitle} — Analyst Online`;
+  const description = seoDescription ?? pageCopy.pageSubtitle;
 
   return {
-    title: seoTitle ?? `${pageCopy.pageTitle} — Analyst Online`,
-    description: seoDescription ?? pageCopy.pageSubtitle,
+    title,
+    description,
     alternates: {
       canonical: `https://analyst-online.com/${lang}/services`,
       languages: {
@@ -256,6 +262,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ro: '/ro/services',
       },
     },
+    ...socialPreviewMetadata({
+      title,
+      description,
+      url: `https://analyst-online.com/${lang}/services`,
+      locale: lang,
+      image: socialImage,
+      imageAlt: pageCopy.pageTitle,
+    }),
   };
 }
 

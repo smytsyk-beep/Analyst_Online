@@ -272,6 +272,21 @@ export default defineType({
       type: 'text',
       rows: 2,
     }),
+    defineField({
+      name: 'socialImage',
+      title: 'Social Preview Image',
+      type: 'image',
+      description:
+        'Image for link previews in messengers and social networks. Recommended size: 1200x630.',
+      options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+        },
+      ],
+    }),
   ],
   preview: {
     select: {
@@ -279,7 +294,7 @@ export default defineType({
       subtitle: 'locale',
       slug: 'slug.current',
       routePath: 'routePath',
-      media: 'heroImage',
+      media: 'socialImage',
     },
     prepare({ title, subtitle, slug, routePath, media }) {
       return {

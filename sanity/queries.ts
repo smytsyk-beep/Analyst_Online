@@ -12,6 +12,13 @@ export const homePageQuery = groq`
     description,
     seoTitle,
     seoDescription,
+    socialImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
     content,
     heroImage {
       asset->{
@@ -46,6 +53,13 @@ export const pageByPathQuery = groq`
     description,
     seoTitle,
     seoDescription,
+    socialImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
     routePath,
     pageType,
     content,
@@ -79,6 +93,15 @@ export const privacyPageQuery = groq`
     _id,
     title,
     description,
+    seoTitle,
+    seoDescription,
+    socialImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
     content,
     body,
     locale
@@ -90,6 +113,15 @@ export const contactPageQuery = groq`
     _id,
     title,
     description,
+    seoTitle,
+    seoDescription,
+    socialImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
     body,
     locale
   }
@@ -137,6 +169,15 @@ export const casesPageQuery = groq`
     _id,
     title,
     description,
+    seoTitle,
+    seoDescription,
+    socialImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
     content,
     body,
     locale

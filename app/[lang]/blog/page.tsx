@@ -7,6 +7,8 @@ import { isSanityConfigured } from '@/sanity/config';
 import PostCard from '@/components/blog/post-card';
 import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
+import type { SanityImageValue } from '@/sanity/image';
+import { socialPreviewMetadata } from '@/lib/seo-metadata';
 
 type Props = { params: Promise<{ lang: Locale }> };
 
@@ -35,6 +37,7 @@ type CmsBlogPage = {
   description?: string;
   seoTitle?: string;
   seoDescription?: string;
+  socialImage?: SanityImageValue;
 };
 
 const blogLabels: Record<Locale, { title: string; subtitle: string; empty: string }> = {
@@ -76,10 +79,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cmsPage = await loadBlogPageDoc(lang);
   const l = blogLabels[lang];
   const title = cmsPage?.title ?? l.title;
+  const metaTitle = cmsPage?.seoTitle ?? `${title} — Analyst Online`;
+  const description = cmsPage?.seoDescription ?? cmsPage?.description ?? l.subtitle;
 
   return {
-    title: cmsPage?.seoTitle ?? `${title} — Analyst Online`,
-    description: cmsPage?.seoDescription ?? cmsPage?.description ?? l.subtitle,
+    title: metaTitle,
+    description,
     alternates: {
       canonical: `https://analyst-online.com/${lang}/blog`,
       languages: {
@@ -88,6 +93,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ro: '/ro/blog',
       },
     },
+    ...socialPreviewMetadata({
+      title: metaTitle,
+      description,
+      url: `https://analyst-online.com/${lang}/blog`,
+      locale: lang,
+      image: cmsPage?.socialImage,
+      imageAlt: title,
+    }),
   };
 }
 

@@ -9,18 +9,29 @@ import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
 import ContactForm from '@/components/contact/contact-form';
 import { sanityClient } from '@/sanity/client';
-import { contactInfoQuery } from '@/sanity/queries';
+import { contactInfoQuery, contactPageQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
 import { createContactFormToken } from '@/lib/contact-security';
+import type { SanityImageValue } from '@/sanity/image';
+import { socialPreviewMetadata } from '@/lib/seo-metadata';
 
 type Props = {
   params: Promise<{ lang: Locale }>;
   searchParams?: Promise<{ purpose?: string }>;
 };
 
+type CmsContactPage = {
+  title?: string;
+  description?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  socialImage?: SanityImageValue;
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
   const t = contactCopy[lang];
+  let cmsPage: CmsContactPage | null = null;
 
   const titles: Record<Locale, string> = {
     ru: 'Контакты — Analyst Online',
@@ -28,9 +39,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ro: 'Contact — Analyst Online',
   };
 
+  if (isSanityConfigured()) {
+    try {
+      cmsPage = await sanityClient.fetch<CmsContactPage | null>(
+        contactPageQuery,
+        { locale: lang },
+        { next: { tags: ['page'] } },
+      );
+    } catch (error) {
+      console.warn('Failed to fetch contact metadata from Sanity CMS, using fallback:', error);
+    }
+  }
+
+  const title = cmsPage?.seoTitle ?? titles[lang];
+  const description = cmsPage?.seoDescription ?? cmsPage?.description ?? t.pageSubtitle;
+
   return {
-    title: titles[lang],
-    description: t.pageSubtitle,
+    title,
+    description,
     alternates: {
       canonical: `https://analyst-online.com/${lang}/contact`,
       languages: {
@@ -39,6 +65,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ro: '/ro/contact',
       },
     },
+    ...socialPreviewMetadata({
+      title,
+      description,
+      url: `https://analyst-online.com/${lang}/contact`,
+      locale: lang,
+      image: cmsPage?.socialImage,
+      imageAlt: cmsPage?.title ?? t.pageTitle,
+    }),
   };
 }
 

@@ -8,8 +8,19 @@ import { breadcrumbSchema } from '@/lib/schema';
 import { sanityClient } from '@/sanity/client';
 import { privacyPageQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import type { SanityImageValue } from '@/sanity/image';
+import { socialPreviewMetadata } from '@/lib/seo-metadata';
 
 type Props = { params: Promise<{ lang: Locale }> };
+
+type CmsPrivacyPage = {
+  title?: string;
+  description?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  socialImage?: SanityImageValue;
+  content?: unknown;
+};
 
 function parseCmsContent(content: unknown): Partial<PrivacyCopy> | undefined {
   if (!content || typeof content !== 'object') return undefined;
@@ -27,10 +38,26 @@ function parseCmsContent(content: unknown): Partial<PrivacyCopy> | undefined {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
   const t = privacyCopy[lang];
+  let cmsData: CmsPrivacyPage | null = null;
+
+  if (isSanityConfigured()) {
+    try {
+      cmsData = await sanityClient.fetch<CmsPrivacyPage | null>(
+        privacyPageQuery,
+        { locale: lang },
+        { next: { tags: ['page'] } },
+      );
+    } catch (error) {
+      console.warn('Failed to fetch privacy metadata from Sanity CMS, using fallback:', error);
+    }
+  }
+
+  const title = cmsData?.seoTitle ?? `${cmsData?.title ?? t.pageTitle} — Analyst Online`;
+  const description = cmsData?.seoDescription ?? cmsData?.description ?? t.pageSubtitle;
 
   return {
-    title: `${t.pageTitle} — Analyst Online`,
-    description: t.pageSubtitle,
+    title,
+    description,
     alternates: {
       canonical: `https://analyst-online.com/${lang}/privacy`,
       languages: {
@@ -39,6 +66,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ro: '/ro/privacy',
       },
     },
+    ...socialPreviewMetadata({
+      title,
+      description,
+      url: `https://analyst-online.com/${lang}/privacy`,
+      locale: lang,
+      image: cmsData?.socialImage,
+      imageAlt: cmsData?.title ?? t.pageTitle,
+    }),
   };
 }
 
@@ -48,7 +83,7 @@ export default async function PrivacyPage({ params }: Props) {
 
   if (isSanityConfigured()) {
     try {
-      const cmsData = await sanityClient.fetch(
+      const cmsData = await sanityClient.fetch<CmsPrivacyPage | null>(
         privacyPageQuery,
         { locale: lang },
         { next: { tags: ['page'] } },
