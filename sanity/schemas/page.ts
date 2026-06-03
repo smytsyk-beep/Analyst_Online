@@ -58,6 +58,8 @@ export default defineType({
           { title: 'Home', value: 'home' },
           { title: 'Service / Offer', value: 'offer' },
           { title: 'Services Index', value: 'services' },
+          { title: 'Blog Index', value: 'blog' },
+          { title: 'OmniDash', value: 'omnidash' },
           { title: 'Contact', value: 'contact' },
           { title: 'Privacy', value: 'privacy' },
           { title: 'Cases', value: 'cases' },
@@ -148,6 +150,91 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'heroImage',
+      title: 'Hero Image',
+      type: 'image',
+      description:
+        'Optional page-level image. Used by pages that support a CMS hero/dashboard image.',
+      options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+        },
+      ],
+    }),
+    defineField({
+      name: 'media',
+      title: 'Page Media',
+      type: 'array',
+      description:
+        'Reusable page images. Pick a key so the frontend knows where to render the image.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'key',
+              title: 'Placement Key',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Home: service AI training', value: 'home-service-ai-training' },
+                  { title: 'Home: service AI automation', value: 'home-service-ai-automation' },
+                  { title: 'Home: service sheets/excel', value: 'home-service-spreadsheets' },
+                  { title: 'Home: service analyst', value: 'home-service-analyst' },
+                  { title: 'Home: training block', value: 'home-training' },
+                  { title: 'Home: example reports', value: 'home-example-reports' },
+                  { title: 'Home: example documents', value: 'home-example-documents' },
+                  { title: 'Home: example dashboards', value: 'home-example-dashboards' },
+                  { title: 'Home: proof background', value: 'home-proof' },
+                  { title: 'Home: final CTA background', value: 'home-final' },
+                  { title: 'OmniDash: hero dashboard', value: 'omnidash-hero-dashboard' },
+                  { title: 'OmniDash: features dashboard', value: 'omnidash-features-dashboard' },
+                ],
+                layout: 'dropdown',
+              },
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'title',
+              title: 'Internal Title',
+              type: 'string',
+            },
+            {
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: { hotspot: true },
+              fields: [
+                {
+                  name: 'alt',
+                  type: 'string',
+                  title: 'Alternative text',
+                },
+              ],
+              validation: (Rule) => Rule.required(),
+            },
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              subtitle: 'key',
+              media: 'image',
+            },
+            prepare({ title, subtitle, media }) {
+              return {
+                title: title || subtitle,
+                subtitle,
+                media,
+              };
+            },
+          },
+        },
+      ],
+    }),
+    defineField({
       name: 'body',
       title: 'Body',
       type: 'array',
@@ -191,11 +278,14 @@ export default defineType({
       title: 'title',
       subtitle: 'locale',
       slug: 'slug.current',
+      routePath: 'routePath',
+      media: 'heroImage',
     },
-    prepare({ title, subtitle, slug }) {
+    prepare({ title, subtitle, slug, routePath, media }) {
       return {
         title: `${title} (${subtitle})`,
-        subtitle: slug,
+        subtitle: routePath || slug,
+        media,
       };
     },
   },

@@ -10,8 +10,23 @@ import { isSanityConfigured } from '@/sanity/config';
 import JsonLd from '@/components/seo/json-ld';
 import { organizationSchema } from '@/lib/schema';
 import HomeLanding from '@/components/home/landing';
+import type { SanityImageValue } from '@/sanity/image';
 
 type Props = { params: Promise<{ lang: Locale }> };
+
+type CmsPageMediaItem = {
+  key?: string;
+  title?: string;
+  image?: SanityImageValue;
+};
+
+type CmsHomePage = {
+  title?: string;
+  description?: string;
+  content?: unknown;
+  heroImage?: SanityImageValue;
+  media?: CmsPageMediaItem[];
+};
 
 function parseCmsContent(content: unknown): Partial<HomeCopy> | undefined {
   if (!content || typeof content !== 'object') return undefined;
@@ -61,10 +76,10 @@ export default async function LangHome({ params }: Props) {
   const { lang } = await params;
 
   // Fetch from CMS with fallback to hardcoded copy
-  let cmsData: { title?: string; description?: string; content?: unknown } | null = null;
+  let cmsData: CmsHomePage | null = null;
   if (isSanityConfigured()) {
     try {
-      cmsData = await sanityClient.fetch(
+      cmsData = await sanityClient.fetch<CmsHomePage | null>(
         homePageQuery,
         { locale: lang },
         { next: { tags: ['page'] } },
@@ -87,7 +102,11 @@ export default async function LangHome({ params }: Props) {
   return (
     <div>
       <JsonLd data={organizationSchema()} />
-      <HomeLanding t={t} lang={lang} />
+      <HomeLanding
+        t={t}
+        lang={lang}
+        media={{ heroImage: cmsData?.heroImage, items: cmsData?.media }}
+      />
     </div>
   );
 }

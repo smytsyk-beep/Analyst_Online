@@ -2,7 +2,7 @@
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import { sanityClient } from '@/sanity/client';
-import { blogListQuery } from '@/sanity/queries';
+import { blogListQuery, pageByPathQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
 import PostCard from '@/components/blog/post-card';
 import JsonLd from '@/components/seo/json-ld';
@@ -30,24 +30,56 @@ type BlogListPost = {
   tags?: string[];
 };
 
+type CmsBlogPage = {
+  title?: string;
+  description?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
+const blogLabels: Record<Locale, { title: string; subtitle: string; empty: string }> = {
+  ru: {
+    title: 'Блог',
+    subtitle: 'Статьи об AI, аналитике, автоматизации, отчётах и дашбордах для бизнеса.',
+    empty: 'Статьи появятся здесь в ближайшее время.',
+  },
+  ua: {
+    title: 'Блог',
+    subtitle: 'Статті про AI, аналітику, автоматизацію, звіти й дашборди для бізнесу.',
+    empty: "Статті з'являться тут найближчим часом.",
+  },
+  ro: {
+    title: 'Blog',
+    subtitle:
+      'Articole despre AI, analytics, automatizare, rapoarte și dashboard-uri pentru business.',
+    empty: 'Articolele vor apărea aici în curând.',
+  },
+};
+
+async function loadBlogPageDoc(lang: Locale) {
+  if (!isSanityConfigured()) return null;
+
+  try {
+    return await sanityClient.fetch<CmsBlogPage | null>(
+      pageByPathQuery,
+      { locale: lang, path: 'blog' },
+      { next: { tags: ['page'] } },
+    );
+  } catch (error) {
+    console.warn('Failed to fetch blog page from Sanity CMS, using fallback:', error);
+    return null;
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
-
-  const titles: Record<Locale, string> = {
-    ru: 'Блог — Analyst Online',
-    ua: 'Блог — Analyst Online',
-    ro: 'Blog — Analyst Online',
-  };
-
-  const descriptions: Record<Locale, string> = {
-    ru: 'Статьи об AI, аналитике, автоматизации, отчётах и дашбордах для бизнеса.',
-    ua: 'Статті про AI, аналітику, автоматизацію, звіти й дашборди для бізнесу.',
-    ro: 'Articole despre AI, analytics, automatizare, rapoarte și dashboard-uri pentru business.',
-  };
+  const cmsPage = await loadBlogPageDoc(lang);
+  const l = blogLabels[lang];
+  const title = cmsPage?.title ?? l.title;
 
   return {
-    title: titles[lang],
-    description: descriptions[lang],
+    title: cmsPage?.seoTitle ?? `${title} — Analyst Online`,
+    description: cmsPage?.seoDescription ?? cmsPage?.description ?? l.subtitle,
     alternates: {
       canonical: `https://analyst-online.com/${lang}/blog`,
       languages: {
@@ -61,27 +93,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPage({ params }: Props) {
   const { lang } = await params;
-
-  const labels: Record<Locale, { title: string; subtitle: string; empty: string }> = {
-    ru: {
-      title: 'Блог',
-      subtitle: 'Статьи об AI, аналитике, автоматизации, отчётах и дашбордах для бизнеса.',
-      empty: 'Статьи появятся здесь в ближайшее время.',
-    },
-    ua: {
-      title: 'Блог',
-      subtitle: 'Статті про AI, аналітику, автоматизацію, звіти й дашборди для бізнесу.',
-      empty: "Статті з'являться тут найближчим часом.",
-    },
-    ro: {
-      title: 'Blog',
-      subtitle:
-        'Articole despre AI, analytics, automatizare, rapoarte și dashboard-uri pentru business.',
-      empty: 'Articolele vor apărea aici în curând.',
-    },
+  const fallbackLabels = blogLabels[lang];
+  const cmsPage = await loadBlogPageDoc(lang);
+  const l = {
+    ...fallbackLabels,
+    title: cmsPage?.title ?? fallbackLabels.title,
+    subtitle: cmsPage?.description ?? fallbackLabels.subtitle,
   };
-
-  const l = labels[lang];
 
   // Fetch blog posts from CMS
   let posts: BlogListPost[] = [];

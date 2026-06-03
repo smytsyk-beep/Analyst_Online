@@ -3,10 +3,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import type { OmniDashCopy } from '@/content/omnidash.copy';
+import { sanityImageUrl, type SanityImageValue } from '@/sanity/image';
 
-type Props = { t: OmniDashCopy; lang: string };
+type Props = {
+  t: OmniDashCopy;
+  lang: string;
+  dashboardImage?: SanityImageValue;
+};
 
-export default function OmniDashHero({ t, lang }: Props) {
+export default function OmniDashHero({ t, lang, dashboardImage }: Props) {
+  const dashboardImageUrl = sanityImageUrl(dashboardImage, {
+    width: 1200,
+    height: 675,
+    fit: 'crop',
+  });
+
   return (
     <section className="relative overflow-hidden pb-16 pt-16 md:pt-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -49,8 +60,8 @@ export default function OmniDashHero({ t, lang }: Props) {
         <div className="glass-card mt-14 overflow-hidden rounded-lg p-4">
           <div className="overflow-hidden rounded-md">
             <Image
-              src="/images/omnidash/mockup-1.png"
-              alt="OmniDash — business analytics dashboard"
+              src={dashboardImageUrl ?? '/images/omnidash/mockup-1.png'}
+              alt={dashboardImage?.alt || 'OmniDash - business analytics dashboard'}
               width={1200}
               height={675}
               className="w-full object-cover"
