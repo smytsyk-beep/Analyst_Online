@@ -1,5 +1,6 @@
 // sanity/schemas/page.ts
 import { defineType, defineField } from 'sanity';
+import { slugIsUniqueByLocale } from './slugIsUniqueByLocale';
 
 export default defineType({
   name: 'page',
@@ -19,6 +20,7 @@ export default defineType({
       options: {
         source: 'title',
         maxLength: 96,
+        isUnique: slugIsUniqueByLocale,
       },
       validation: (Rule) => Rule.required(),
     }),
