@@ -96,6 +96,17 @@ export default defineType({
           type: 'text',
           rows: 12,
           description: 'Optional JSON object for structured sections and CTA/FAQ blocks.',
+          validation: (Rule) =>
+            Rule.custom((value) => {
+              if (!value || typeof value !== 'string' || !value.trim()) return true;
+
+              try {
+                JSON.parse(value);
+                return true;
+              } catch {
+                return 'JSON Data must be valid JSON. Escape quotes inside strings as \\".';
+              }
+            }),
         },
       ],
     }),

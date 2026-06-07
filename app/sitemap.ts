@@ -4,6 +4,7 @@ import { LOCALES } from '@/lib/i18n';
 import { sanityClient } from '@/sanity/client';
 import { allBlogPostsForSitemapQuery, allPagesForSitemapQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { sanityFetchOptions } from '@/sanity/fetch';
 import { getAllOfferPages, getOfferAlternates } from '@/content/offer-pages.copy';
 
 const BASE_URL = 'https://analyst-online.com';
@@ -72,7 +73,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (isSanityConfigured()) {
     try {
       const knownUrls = new Set(entries.map((entry) => entry.url));
-      const pages = await sanityClient.fetch<CmsSitemapPage[]>(allPagesForSitemapQuery);
+      const pages = await sanityClient.fetch<CmsSitemapPage[]>(
+        allPagesForSitemapQuery,
+        {},
+        sanityFetchOptions('page'),
+      );
 
       for (const page of pages) {
         const routePath = page.routePath || (page.slug === 'home' ? '' : page.slug);
@@ -89,7 +94,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         }
       }
 
-      const posts = await sanityClient.fetch<CmsSitemapPost[]>(allBlogPostsForSitemapQuery);
+      const posts = await sanityClient.fetch<CmsSitemapPost[]>(
+        allBlogPostsForSitemapQuery,
+        {},
+        sanityFetchOptions('blogPost'),
+      );
       for (const post of posts) {
         entries.push({
           url: `${BASE_URL}/${post.locale}/blog/${post.slug}`,

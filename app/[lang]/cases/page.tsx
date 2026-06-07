@@ -11,6 +11,7 @@ import { breadcrumbSchema } from '@/lib/schema';
 import { sanityClient } from '@/sanity/client';
 import { casesPageQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { parseJsonPageContent, sanityFetchOptions } from '@/sanity/fetch';
 import type { SanityImageValue } from '@/sanity/image';
 import { socialPreviewMetadata } from '@/lib/seo-metadata';
 
@@ -25,19 +26,6 @@ type CmsCasesPage = {
   content?: unknown;
 };
 
-function parseCmsContent(content: unknown): Partial<CasesCopy> | undefined {
-  if (!content || typeof content !== 'object') return undefined;
-  if ('data' in content && typeof content.data === 'string' && content.data.trim()) {
-    try {
-      return JSON.parse(content.data) as Partial<CasesCopy>;
-    } catch {
-      return undefined;
-    }
-  }
-
-  return content as Partial<CasesCopy>;
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
   const t = casesCopy[lang];
@@ -48,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       cmsData = await sanityClient.fetch<CmsCasesPage | null>(
         casesPageQuery,
         { locale: lang },
-        { next: { tags: ['page'] } },
+        sanityFetchOptions('page'),
       );
     } catch (error) {
       console.warn('Failed to fetch cases metadata from Sanity CMS, using fallback:', error);
@@ -89,13 +77,13 @@ export default async function CasesPage({ params }: Props) {
       const cmsData = await sanityClient.fetch<CmsCasesPage | null>(
         casesPageQuery,
         { locale: lang },
-        { next: { tags: ['page'] } },
+        sanityFetchOptions('page'),
       );
 
       if (cmsData) {
         t = {
           ...t,
-          ...parseCmsContent(cmsData.content),
+          ...parseJsonPageContent<CasesCopy>(cmsData.content, `cases page (${lang})`),
           pageTitle: cmsData.title ?? t.pageTitle,
           pageSubtitle: cmsData.description ?? t.pageSubtitle,
         };

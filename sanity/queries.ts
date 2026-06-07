@@ -6,7 +6,7 @@ import { groq } from 'next-sanity';
 // ============================================================================
 
 export const homePageQuery = groq`
-  *[_type == "page" && slug.current == "home" && locale == $locale][0] {
+  *[_type == "page" && slug.current == "home" && locale == $locale && coalesce(status, "published") == "published"][0] {
     _id,
     title,
     description,
@@ -89,7 +89,7 @@ export const pageByPathQuery = groq`
 `;
 
 export const privacyPageQuery = groq`
-  *[_type == "page" && slug.current == "privacy" && locale == $locale][0] {
+  *[_type == "page" && slug.current == "privacy" && locale == $locale && coalesce(status, "published") == "published"][0] {
     _id,
     title,
     description,
@@ -109,7 +109,7 @@ export const privacyPageQuery = groq`
 `;
 
 export const contactPageQuery = groq`
-  *[_type == "page" && slug.current == "contact" && locale == $locale][0] {
+  *[_type == "page" && slug.current == "contact" && locale == $locale && coalesce(status, "published") == "published"][0] {
     _id,
     title,
     description,
@@ -165,7 +165,7 @@ export const contactInfoQuery = groq`
 `;
 
 export const casesPageQuery = groq`
-  *[_type == "page" && slug.current == "cases" && locale == $locale][0] {
+  *[_type == "page" && slug.current == "cases" && locale == $locale && coalesce(status, "published") == "published"][0] {
     _id,
     title,
     description,
@@ -366,7 +366,7 @@ export const blogPostQuery = groq`
 // ============================================================================
 
 export const allPagesForSitemapQuery = groq`
-  *[_type == "page" && defined(slug)] {
+  *[_type == "page" && defined(slug) && coalesce(status, "published") == "published"] {
     "slug": slug.current,
     routePath,
     locale,

@@ -6,6 +6,7 @@ import type { OmniDashCopy } from '@/content/omnidash.copy';
 import { sanityClient } from '@/sanity/client';
 import { omnidashBlocksQuery, faqQuery, pageByPathQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { sanityFetchOptions } from '@/sanity/fetch';
 import type { SanityImageValue } from '@/sanity/image';
 import { socialPreviewMetadata } from '@/lib/seo-metadata';
 
@@ -84,7 +85,7 @@ async function loadOmniDashPageDoc(lang: Locale) {
     return await sanityClient.fetch<CmsOmniDashPage | null>(
       pageByPathQuery,
       { locale: lang, path: 'omnidash' },
-      { next: { tags: ['page'] } },
+      sanityFetchOptions('page'),
     );
   } catch (error) {
     console.warn('Failed to fetch OmniDash page from Sanity CMS, using fallback:', error);
@@ -211,12 +212,12 @@ export default async function OmniDashPage({ params }: Props) {
         sanityClient.fetch<CmsOmniDashBlock[]>(
           omnidashBlocksQuery,
           { locale: lang },
-          { next: { tags: ['omnidashBlock'] } },
+          sanityFetchOptions('omnidashBlock'),
         ),
         sanityClient.fetch<CmsFaqItem[]>(
           faqQuery,
           { locale: lang, category: 'omnidash' },
-          { next: { tags: ['faq'] } },
+          sanityFetchOptions('faq'),
         ),
         loadOmniDashPageDoc(lang),
       ]);

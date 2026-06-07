@@ -7,6 +7,7 @@ import { servicesCopy, type Service, type ServicesCopy } from '@/content/service
 import { sanityClient } from '@/sanity/client';
 import { pageByPathQuery, servicesQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { parseJsonPageContent, sanityFetchOptions } from '@/sanity/fetch';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -59,23 +60,12 @@ const priorityLabel: Record<Locale, string> = {
   ro: 'Prioritar',
 };
 
-function parseServicesPageContent(content: unknown): ServicesPageContent | undefined {
-  if (!content || typeof content !== 'object') return undefined;
-
-  if ('data' in content && typeof content.data === 'string' && content.data.trim()) {
-    try {
-      return JSON.parse(content.data) as ServicesPageContent;
-    } catch {
-      return undefined;
-    }
-  }
-
-  return content as ServicesPageContent;
-}
-
 function mergeServicesPageCopy(lang: Locale, cmsPage: CmsServicesPage | null): ServicesCopy {
   const fallback = servicesCopy[lang];
-  const content = parseServicesPageContent(cmsPage?.content);
+  const content = parseJsonPageContent<ServicesPageContent>(
+    cmsPage?.content,
+    `services page (${lang})`,
+  );
 
   return {
     ...fallback,
@@ -102,7 +92,7 @@ async function loadServicesPageDoc(lang: Locale) {
     return await sanityClient.fetch<CmsServicesPage | null>(
       pageByPathQuery,
       { locale: lang, path: 'services' },
-      { next: { tags: ['page'] } },
+      sanityFetchOptions('page'),
     );
   } catch (error) {
     console.warn('Failed to fetch services page from Sanity CMS, using fallback:', error);
@@ -117,7 +107,7 @@ async function loadCmsServices(lang: Locale) {
     return await sanityClient.fetch<CmsService[]>(
       servicesQuery,
       { locale: lang },
-      { next: { tags: ['service'] } },
+      sanityFetchOptions('service'),
     );
   } catch (error) {
     console.warn('Failed to fetch services from Sanity CMS, using fallback:', error);

@@ -6,6 +6,7 @@ import type { HomeCopy } from '@/content/home.copy';
 import { sanityClient } from '@/sanity/client';
 import { homePageQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { parseJsonPageContent, sanityFetchOptions } from '@/sanity/fetch';
 
 import JsonLd from '@/components/seo/json-ld';
 import { organizationSchema } from '@/lib/schema';
@@ -32,19 +33,6 @@ type CmsHomePage = {
   media?: CmsPageMediaItem[];
 };
 
-function parseCmsContent(content: unknown): Partial<HomeCopy> | undefined {
-  if (!content || typeof content !== 'object') return undefined;
-  if ('data' in content && typeof content.data === 'string' && content.data.trim()) {
-    try {
-      return JSON.parse(content.data) as Partial<HomeCopy>;
-    } catch {
-      return undefined;
-    }
-  }
-
-  return content as Partial<HomeCopy>;
-}
-
 async function loadHomePageDoc(lang: Locale) {
   if (!isSanityConfigured()) return null;
 
@@ -52,7 +40,7 @@ async function loadHomePageDoc(lang: Locale) {
     return await sanityClient.fetch<CmsHomePage | null>(
       homePageQuery,
       { locale: lang },
-      { next: { tags: ['page'] } },
+      sanityFetchOptions('page'),
     );
   } catch (error) {
     console.warn('Failed to fetch home page from Sanity CMS, using fallback:', error);
@@ -99,7 +87,7 @@ export default async function LangHome({ params }: Props) {
   const t = cmsData
     ? {
         ...homeCopy[lang],
-        ...parseCmsContent(cmsData.content),
+        ...parseJsonPageContent<HomeCopy>(cmsData.content, `home page (${lang})`),
         heroTitle: cmsData.title ?? homeCopy[lang].heroTitle,
         heroSubtitle: cmsData.description ?? homeCopy[lang].heroSubtitle,
       }

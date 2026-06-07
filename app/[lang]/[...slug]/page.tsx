@@ -13,6 +13,7 @@ import { breadcrumbSchema, serviceSchema } from '@/lib/schema';
 import { sanityClient } from '@/sanity/client';
 import { pageByPathQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { parseJsonPageContent, sanityFetchOptions } from '@/sanity/fetch';
 import { siteCopy } from '@/content/site.copy';
 import type { SanityImageValue } from '@/sanity/image';
 import { socialPreviewMetadata } from '@/lib/seo-metadata';
@@ -32,19 +33,6 @@ type CmsOfferPage = {
   content?: unknown;
 };
 
-function parseCmsContent(content: unknown): Partial<OfferPageCopy> | undefined {
-  if (!content || typeof content !== 'object') return undefined;
-  if ('data' in content && typeof content.data === 'string' && content.data.trim()) {
-    try {
-      return JSON.parse(content.data) as Partial<OfferPageCopy>;
-    } catch {
-      return undefined;
-    }
-  }
-
-  return content as Partial<OfferPageCopy>;
-}
-
 function mergePageCopy(
   lang: Locale,
   path: string,
@@ -53,7 +41,7 @@ function mergePageCopy(
 ): OfferPageCopy | null {
   if (!cmsData && !fallback) return null;
 
-  const cmsContent = parseCmsContent(cmsData?.content);
+  const cmsContent = parseJsonPageContent<OfferPageCopy>(cmsData?.content, `offer page ${path}`);
   const title = cmsContent?.title ?? cmsData?.title ?? fallback?.title ?? path;
   const description =
     cmsContent?.description ??
@@ -92,7 +80,7 @@ async function loadPage(lang: Locale, path: string) {
     const cmsData = await sanityClient.fetch<CmsOfferPage | null>(
       pageByPathQuery,
       { locale: lang, path },
-      { next: { tags: ['page'] } },
+      sanityFetchOptions('page'),
     );
 
     return {

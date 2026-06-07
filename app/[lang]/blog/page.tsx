@@ -4,6 +4,7 @@ import type { Locale } from '@/lib/i18n';
 import { sanityClient } from '@/sanity/client';
 import { blogListQuery, pageByPathQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { sanityFetchOptions } from '@/sanity/fetch';
 import PostCard from '@/components/blog/post-card';
 import JsonLd from '@/components/seo/json-ld';
 import { breadcrumbSchema } from '@/lib/schema';
@@ -66,7 +67,7 @@ async function loadBlogPageDoc(lang: Locale) {
     return await sanityClient.fetch<CmsBlogPage | null>(
       pageByPathQuery,
       { locale: lang, path: 'blog' },
-      { next: { tags: ['page'] } },
+      sanityFetchOptions('page'),
     );
   } catch (error) {
     console.warn('Failed to fetch blog page from Sanity CMS, using fallback:', error);
@@ -121,7 +122,7 @@ export default async function BlogPage({ params }: Props) {
       posts = await sanityClient.fetch<BlogListPost[]>(
         blogListQuery,
         { locale: lang },
-        { next: { tags: ['blogPost'] } },
+        sanityFetchOptions('blogPost'),
       );
     } catch (error) {
       console.warn('Failed to fetch blog posts from Sanity CMS:', error);
