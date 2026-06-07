@@ -8,6 +8,7 @@ import { breadcrumbSchema } from '@/lib/schema';
 import { sanityClient } from '@/sanity/client';
 import { privacyPageQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { parseJsonPageContent, sanityFetchOptions } from '@/sanity/fetch';
 import type { SanityImageValue } from '@/sanity/image';
 import { socialPreviewMetadata } from '@/lib/seo-metadata';
 
@@ -22,19 +23,6 @@ type CmsPrivacyPage = {
   content?: unknown;
 };
 
-function parseCmsContent(content: unknown): Partial<PrivacyCopy> | undefined {
-  if (!content || typeof content !== 'object') return undefined;
-  if ('data' in content && typeof content.data === 'string' && content.data.trim()) {
-    try {
-      return JSON.parse(content.data) as Partial<PrivacyCopy>;
-    } catch {
-      return undefined;
-    }
-  }
-
-  return content as Partial<PrivacyCopy>;
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
   const t = privacyCopy[lang];
@@ -45,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       cmsData = await sanityClient.fetch<CmsPrivacyPage | null>(
         privacyPageQuery,
         { locale: lang },
-        { next: { tags: ['page'] } },
+        sanityFetchOptions('page'),
       );
     } catch (error) {
       console.warn('Failed to fetch privacy metadata from Sanity CMS, using fallback:', error);
@@ -86,13 +74,13 @@ export default async function PrivacyPage({ params }: Props) {
       const cmsData = await sanityClient.fetch<CmsPrivacyPage | null>(
         privacyPageQuery,
         { locale: lang },
-        { next: { tags: ['page'] } },
+        sanityFetchOptions('page'),
       );
 
       if (cmsData) {
         t = {
           ...t,
-          ...parseCmsContent(cmsData.content),
+          ...parseJsonPageContent<PrivacyCopy>(cmsData.content, `privacy page (${lang})`),
           pageTitle: cmsData.title ?? t.pageTitle,
           pageSubtitle: cmsData.description ?? t.pageSubtitle,
         };

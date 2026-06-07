@@ -6,6 +6,7 @@ import { sanityClient } from '@/sanity/client';
 import { urlFor } from '@/sanity/image';
 import { blogPostQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { sanityFetchOptions } from '@/sanity/fetch';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import PostHeader from '@/components/blog/post-header';
@@ -78,7 +79,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   try {
-    const post = await sanityClient.fetch<BlogPost | null>(blogPostQuery, { locale: lang, slug });
+    const post = await sanityClient.fetch<BlogPost | null>(
+      blogPostQuery,
+      { locale: lang, slug },
+      sanityFetchOptions('blogPost'),
+    );
 
     if (!post) {
       return {
@@ -181,7 +186,7 @@ export default async function BlogPostPage({ params }: Props) {
     post = await sanityClient.fetch<BlogPost | null>(
       blogPostQuery,
       { locale: lang, slug },
-      { next: { tags: ['blogPost'] } },
+      sanityFetchOptions('blogPost'),
     );
   } catch (error) {
     console.error('Failed to fetch blog post:', error);

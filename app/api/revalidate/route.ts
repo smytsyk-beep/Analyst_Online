@@ -1,7 +1,8 @@
 // app/api/revalidate/route.ts
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from 'next-sanity/webhook';
+import { CMS_CONTENT_TAGS } from '@/sanity/fetch';
 
 type SanityWebhookBody = {
   _type: string;
@@ -30,6 +31,7 @@ export async function POST(req: NextRequest) {
 
     const type = body._type;
     revalidatePath('/', 'layout');
+    CMS_CONTENT_TAGS.forEach((tag) => revalidateTag(tag, { expire: 0 }));
 
     console.log(`Revalidated for type: ${type}`);
 

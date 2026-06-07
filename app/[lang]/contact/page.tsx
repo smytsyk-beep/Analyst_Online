@@ -11,6 +11,7 @@ import ContactForm from '@/components/contact/contact-form';
 import { sanityClient } from '@/sanity/client';
 import { contactInfoQuery, contactPageQuery } from '@/sanity/queries';
 import { isSanityConfigured } from '@/sanity/config';
+import { sanityFetchOptions } from '@/sanity/fetch';
 import { createContactFormToken } from '@/lib/contact-security';
 import type { SanityImageValue } from '@/sanity/image';
 import { socialPreviewMetadata } from '@/lib/seo-metadata';
@@ -44,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       cmsPage = await sanityClient.fetch<CmsContactPage | null>(
         contactPageQuery,
         { locale: lang },
-        { next: { tags: ['page'] } },
+        sanityFetchOptions('page'),
       );
     } catch (error) {
       console.warn('Failed to fetch contact metadata from Sanity CMS, using fallback:', error);
@@ -101,7 +102,7 @@ export default async function ContactPage({ params, searchParams }: Props) {
       const cmsData = await sanityClient.fetch(
         contactInfoQuery,
         { locale: lang },
-        { next: { tags: ['contactInfo'] } },
+        sanityFetchOptions('contactInfo'),
       );
 
       if (cmsData) {
