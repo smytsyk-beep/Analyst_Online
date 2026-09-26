@@ -4,7 +4,7 @@ Multilingual commercial website for AI training, analytics, automation, dashboar
 
 Active positioning and project rules live in [`docs/Analyst_Online_vs_OmniDash_updated.md`](docs/Analyst_Online_vs_OmniDash_updated.md).
 
-Production: https://analyst-online.vercel.app/ru
+Production: https://analyst-online.com/ru
 
 ## Product Model
 
@@ -29,7 +29,7 @@ Equivalent UA/RO routes are implemented for locale parity.
 - **Framework:** Next.js 16 App Router, TypeScript
 - **UI:** Tailwind CSS, shadcn/ui, lucide-react
 - **CMS:** Sanity
-- **Deploy:** Vercel
+- **Deploy:** Docker Compose on Ubuntu VPS behind Cloudflare and Caddy
 - **Lead capture:** contact form, Telegram notification, Google Sheets append
 
 ## Development
@@ -40,6 +40,9 @@ npm run dev
 npm run lint
 npm run build
 ```
+
+Production deployment and DNS setup are documented in
+[`docs/VPS_DEPLOYMENT.md`](docs/VPS_DEPLOYMENT.md).
 
 ## Content Rules
 

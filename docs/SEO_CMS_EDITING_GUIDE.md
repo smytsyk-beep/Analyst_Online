@@ -2,7 +2,7 @@
 
 Этот документ описывает, где в Sanity Studio менять SEO-тексты, preview-картинки и видимый контент для страниц Analyst Online.
 
-Studio: `https://analyst-online.vercel.app/studio`
+Studio: `https://analyst-online.com/studio`
 
 ## Главное правило
 

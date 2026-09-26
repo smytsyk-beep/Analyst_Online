@@ -6,6 +6,13 @@ on:
   push:
     branches: [main, dev]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,10 +24,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: Setup Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
@@ -34,3 +41,130 @@ jobs:
 
       - name: Build Next.js app
         run: npm run build
+
+  publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image_repository: ${{ steps.image.outputs.repository }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate public production configuration
+        env:
+          SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET }}
+          TURNSTILE_SITE_KEY: ${{ vars.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
+        run: |
+          test -n "$SANITY_PROJECT_ID" || { echo "Missing NEXT_PUBLIC_SANITY_PROJECT_ID repository variable"; exit 1; }
+          test -n "$SANITY_DATASET" || { echo "Missing NEXT_PUBLIC_SANITY_DATASET repository variable"; exit 1; }
+          test -n "$TURNSTILE_SITE_KEY" || { echo "Missing NEXT_PUBLIC_TURNSTILE_SITE_KEY repository variable"; exit 1; }
+
+      - name: Resolve image repository
+        id: image
+        env:
+          REPOSITORY: ghcr.io/${{ github.repository }}
+        run: echo "repository=${REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and publish production image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.image.outputs.repository }}:${{ github.sha }}
+            ${{ steps.image.outputs.repository }}:latest
+          build-args: |
+            NEXT_PUBLIC_SITE_URL=https://analyst-online.com
+            NEXT_PUBLIC_SANITY_PROJECT_ID=${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+            NEXT_PUBLIC_SANITY_DATASET=${{ vars.NEXT_PUBLIC_SANITY_DATASET }}
+            NEXT_PUBLIC_TURNSTILE_SITE_KEY=${{ vars.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: true
+          sbom: true
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: publish
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate VPS deployment configuration
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          test -n "$VPS_HOST" || { echo "Missing VPS_HOST secret"; exit 1; }
+          test -n "$VPS_PORT" || { echo "Missing VPS_PORT secret"; exit 1; }
+          test -n "$VPS_USER" || { echo "Missing VPS_USER secret"; exit 1; }
+          test -n "$VPS_SSH_PRIVATE_KEY" || { echo "Missing VPS_SSH_PRIVATE_KEY secret"; exit 1; }
+          test -n "$VPS_KNOWN_HOSTS" || { echo "Missing VPS_KNOWN_HOSTS secret"; exit 1; }
+
+      - name: Configure SSH
+        env:
+          VPS_SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$VPS_SSH_PRIVATE_KEY" > ~/.ssh/analyst-online
+          chmod 600 ~/.ssh/analyst-online
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Upload deployment configuration
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          scp -P "$VPS_PORT" -i ~/.ssh/analyst-online \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            Caddyfile compose.production.yml \
+            "$VPS_USER@$VPS_HOST:/opt/analyst-online/"
+          scp -P "$VPS_PORT" -i ~/.ssh/analyst-online \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            ops/deploy.sh ops/harden-vps.sh ops/restrict-origin-to-cloudflare.sh \
+            "$VPS_USER@$VPS_HOST:/opt/analyst-online/ops/"
+
+      - name: Deploy image and verify health
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          IMAGE_REPOSITORY: ${{ needs.publish.outputs.image_repository }}
+          RELEASE_TAG: ${{ github.sha }}
+        run: |
+          ssh -p "$VPS_PORT" -i ~/.ssh/analyst-online \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            "$VPS_USER@$VPS_HOST" \
+            "chmod 750 /opt/analyst-online/ops/deploy.sh && IMAGE_REPOSITORY='$IMAGE_REPOSITORY' /opt/analyst-online/ops/deploy.sh '$RELEASE_TAG'"
+
+      - name: Run external production smoke test
+        if: vars.PRODUCTION_BASE_URL != ''
+        env:
+          PRODUCTION_BASE_URL: ${{ vars.PRODUCTION_BASE_URL }}
+        run: npm run smoke:production -- "$PRODUCTION_BASE_URL"

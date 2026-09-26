@@ -38,11 +38,11 @@ SANITY_REVALIDATE_SECRET=your_first_random_secret_here
 SANITY_WEBHOOK_SECRET=your_second_random_secret_here
 ```
 
-### Vercel
+### Production VPS
 
-1. Откройте **Project Settings → Environment Variables**
-2. Добавьте обе переменные во все окружения (Production, Preview, Development)
-3. Сохраните и передеплойте проект
+1. Добавьте обе переменные в `/opt/analyst-online/.env.production`
+2. Установите для файла права `600` и владельца `deploy`
+3. Передеплойте приложение через GitHub Actions
 
 ---
 
@@ -55,19 +55,19 @@ SANITY_WEBHOOK_SECRET=your_second_random_secret_here
 
 ### Настройки webhook:
 
-| Поле               | Значение                                                                         |
-| ------------------ | -------------------------------------------------------------------------------- |
-| **Name**           | `Next.js ISR Revalidation`                                                       |
-| **URL**            | `https://analyst-online.vercel.app/api/revalidate?secret=YOUR_REVALIDATE_SECRET` |
-| **Dataset**        | `production`                                                                     |
-| **Trigger on**     | Create, Update, Delete                                                           |
-| **Filter**         | Оставить пустым (или настроить фильтр по типам)                                  |
-| **Projection**     | `{ _type, "slug": slug.current }`                                                |
-| **HTTP method**    | `POST`                                                                           |
-| **API version**    | `v2021-06-07`                                                                    |
-| **Include drafts** | ❌ Unchecked                                                                     |
-| **HTTP Headers**   | Оставить пустым                                                                  |
-| **Secret**         | `YOUR_WEBHOOK_SECRET` (если используете signature validation)                    |
+| Поле               | Значение                                                                  |
+| ------------------ | ------------------------------------------------------------------------- |
+| **Name**           | `Next.js ISR Revalidation`                                                |
+| **URL**            | `https://analyst-online.com/api/revalidate?secret=YOUR_REVALIDATE_SECRET` |
+| **Dataset**        | `production`                                                              |
+| **Trigger on**     | Create, Update, Delete                                                    |
+| **Filter**         | Оставить пустым (или настроить фильтр по типам)                           |
+| **Projection**     | `{ _type, "slug": slug.current }`                                         |
+| **HTTP method**    | `POST`                                                                    |
+| **API version**    | `v2021-06-07`                                                             |
+| **Include drafts** | ❌ Unchecked                                                              |
+| **HTTP Headers**   | Оставить пустым                                                           |
+| **Secret**         | `YOUR_WEBHOOK_SECRET` (если используете signature validation)             |
 
 **Важно:** Замените `YOUR_REVALIDATE_SECRET` на реальное значение из `.env.local`
 
@@ -95,10 +95,10 @@ ngrok http 3000
 
 ### Production тестирование
 
-1. Откройте Sanity Studio: `https://analyst-online.vercel.app/studio`
+1. Откройте Sanity Studio: `https://analyst-online.com/studio`
 2. Измените любой документ (например, FAQ)
 3. Сохраните изменения
-4. Проверьте Vercel Logs → Functions → `/api/revalidate`
+4. Проверьте `docker logs analyst-online-app`
 5. Должен появиться лог: `✅ Revalidated tag: faq`
 6. Обновите страницу — изменения должны появиться через ~5 секунд
 
@@ -109,7 +109,7 @@ ngrok http 3000
 ### Проверка через curl
 
 ```bash
-curl -X POST "https://analyst-online.vercel.app/api/revalidate?secret=YOUR_SECRET" \
+curl -X POST "https://analyst-online.com/api/revalidate?secret=YOUR_SECRET" \
   -H "Content-Type: application/json" \
   -d '{"_type": "page"}'
 ```
@@ -152,17 +152,17 @@ curl -X POST "https://analyst-online.vercel.app/api/revalidate?secret=YOUR_SECRE
 ### Webhook не срабатывает
 
 1. Проверьте URL webhook — должен быть production URL
-2. Проверьте `SANITY_REVALIDATE_SECRET` в Vercel Environment Variables
-3. Проверьте Vercel Logs → Functions → `/api/revalidate`
+2. Проверьте `SANITY_REVALIDATE_SECRET` в `/opt/analyst-online/.env.production`
+3. Проверьте `docker logs analyst-online-app`
 
 ### Webhook возвращает 401 Unauthorized
 
 - Секрет в URL webhook не совпадает с `SANITY_REVALIDATE_SECRET`
-- Проверьте, что переменная добавлена в Vercel
+- Проверьте, что переменная добавлена в production `.env`
 
 ### Webhook возвращает 500 Internal Server Error
 
-- Проверьте Vercel Logs для деталей ошибки
+- Проверьте `docker logs analyst-online-app` для деталей ошибки
 - Возможно, проблема с `parseBody()` — проверьте формат webhook payload
 
 ### Страница не обновляется
