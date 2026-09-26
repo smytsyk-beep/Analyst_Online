@@ -62,7 +62,7 @@ export default function StudioPage() {
               </li>
               <li>Get your Project ID and API Token</li>
               <li>
-                Add environment variables in Vercel:
+                Add the environment variables to the production VPS and GitHub Actions:
                 <ul className="mt-2 list-disc space-y-1 pl-6 text-sm">
                   <li>
                     <code className="rounded bg-white/10 px-2 py-1">
@@ -83,7 +83,7 @@ export default function StudioPage() {
             </ol>
             <p className="pt-4">
               For detailed instructions, see{' '}
-              <code className="rounded bg-white/10 px-2 py-1">docs/DEPLOY_SPRINT6.md</code>
+              <code className="rounded bg-white/10 px-2 py-1">docs/VPS_DEPLOYMENT.md</code>
             </p>
           </div>
         </div>

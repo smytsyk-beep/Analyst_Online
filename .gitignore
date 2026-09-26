@@ -54,6 +54,15 @@ coverage/
 # =========================
 .env*
 !.env.example
+!.env.production.example
+
+# Production deployment state and certificates
+/.release.env
+/certs/
+
+# Local SSH keys must live in the user's ~/.ssh directory, never in the repository
+/analyst-online-admin*
+/analyst-online-deploy*
 
 # =========================
 # Vercel

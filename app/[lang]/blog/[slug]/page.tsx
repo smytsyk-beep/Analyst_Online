@@ -213,7 +213,7 @@ export default async function BlogPostPage({ params }: Props) {
       name: 'Analyst Online',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://analyst-online.vercel.app/logo.svg',
+        url: 'https://analyst-online.com/favicon-512x512.png',
       },
     },
   };

@@ -1,0 +1,65 @@
+name: analyst-online
+
+services:
+  app:
+    image: ${IMAGE_REPOSITORY}:${IMAGE_TAG}
+    container_name: analyst-online-app
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      APP_REVISION: ${IMAGE_TAG}
+      NODE_ENV: production
+      HOSTNAME: 0.0.0.0
+      PORT: 3000
+    expose:
+      - '3000'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3000/api/health').then((response) => { if (!response.ok) process.exit(1) }).catch(() => process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      start_period: 20s
+      retries: 4
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+    networks:
+      - web
+
+  caddy:
+    image: caddy:2.10-alpine
+    container_name: analyst-online-caddy
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./certs:/etc/caddy/certs:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+    networks:
+      - web
+
+networks:
+  web:
+
+volumes:
+  caddy_data:
+  caddy_config:

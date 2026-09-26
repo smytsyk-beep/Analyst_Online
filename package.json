@@ -17,6 +17,7 @@
     "cleanup-blocks": "dotenv -e .env.local -- tsx sanity/cleanup-blocks.ts",
     "test-blog": "dotenv -e .env.local -- tsx scripts/test-blog-fetch.ts",
     "test-blog-post": "dotenv -e .env.local -- tsx scripts/test-blog-post.ts",
+    "smoke:production": "node scripts/smoke-production.mjs",
     "fix-blog-locale": "dotenv -e .env.local -- tsx scripts/fix-blog-locale.ts",
     "update-blog-post": "dotenv -e .env.local -- tsx scripts/update-blog-post.ts",
     "export-content": "dotenv -e .env.local -- tsx scripts/export-content.ts",

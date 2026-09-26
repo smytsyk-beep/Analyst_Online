@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { sanityImageUrl, type SanityImageValue } from '@/sanity/image';
 
-export const defaultSocialImageUrl = 'https://analyst-online.vercel.app/og-image.png';
+export const defaultSocialImageUrl = 'https://analyst-online.com/og-image.png';
 
 type SocialPreviewInput = {
   title: string;
