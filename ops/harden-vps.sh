@@ -29,7 +29,9 @@ fi
 
 ssh_port="${SSH_PORT:-}"
 if [[ -z "${ssh_port}" ]]; then
-  ssh_port="$(sshd -T | awk '$1 == "port" { print $2; exit }')"
+  # Consume the complete sshd output. Exiting awk after the first match sends
+  # SIGPIPE to sshd and, with pipefail enabled, terminates this script here.
+  ssh_port="$(sshd -T | awk '$1 == "port" && !found { print $2; found = 1 }')"
 fi
 
 if [[ ! "${ssh_port}" =~ ^[0-9]+$ ]] || (( ssh_port < 1 || ssh_port > 65535 )); then
