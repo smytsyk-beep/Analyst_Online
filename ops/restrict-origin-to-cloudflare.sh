@@ -12,6 +12,7 @@ readonly IPV4_RANGE_FILE="${RANGE_DIR}/cloudflare-ips-v4"
 readonly IPV6_RANGE_FILE="${RANGE_DIR}/cloudflare-ips-v6"
 readonly DOCKER_CHAIN="AO-CLOUDFLARE"
 readonly SYSTEMD_UNIT="/etc/systemd/system/analyst-online-docker-firewall.service"
+readonly APP_SYSTEMD_UNIT="/etc/systemd/system/analyst-online.service"
 
 public_interface="${PUBLIC_INTERFACE:-}"
 if [[ -z "${public_interface}" ]]; then
@@ -102,6 +103,7 @@ PartOf=docker.service
 
 [Service]
 Type=oneshot
+Environment=PUBLIC_INTERFACE=${public_interface}
 ExecStart=/usr/bin/bash ${APP_DIR}/ops/restrict-origin-to-cloudflare.sh --docker-only
 RemainAfterExit=yes
 
@@ -109,9 +111,37 @@ RemainAfterExit=yes
 WantedBy=multi-user.target
 EOF
 
+cat >"${APP_SYSTEMD_UNIT}" <<EOF
+[Unit]
+Description=Start Analyst Online after its Docker firewall
+After=analyst-online-docker-firewall.service
+Requires=analyst-online-docker-firewall.service
+PartOf=docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=${APP_DIR}
+ExecStart=/usr/bin/docker compose --env-file ${APP_DIR}/.release.env -f ${APP_DIR}/compose.production.yml up -d --remove-orphans
+ExecStop=/usr/bin/docker compose --env-file ${APP_DIR}/.release.env -f ${APP_DIR}/compose.production.yml stop
+RemainAfterExit=yes
+TimeoutStartSec=180
+TimeoutStopSec=120
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+for container_name in analyst-online-app analyst-online-caddy; do
+  if docker container inspect "${container_name}" >/dev/null 2>&1; then
+    docker update --restart=on-failure:5 "${container_name}" >/dev/null
+  fi
+done
+
 systemctl daemon-reload
 systemctl enable analyst-online-docker-firewall.service
 systemctl restart analyst-online-docker-firewall.service
+systemctl enable analyst-online.service
+systemctl start analyst-online.service
 
 ufw status verbose
 

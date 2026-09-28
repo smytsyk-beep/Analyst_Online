@@ -4,7 +4,7 @@ services:
   app:
     image: ${IMAGE_REPOSITORY}:${IMAGE_TAG}
     container_name: analyst-online-app
-    restart: unless-stopped
+    restart: 'on-failure:5'
     env_file:
       - .env.production
     environment:
@@ -37,7 +37,7 @@ services:
   caddy:
     image: caddy:2.10-alpine
     container_name: analyst-online-caddy
-    restart: unless-stopped
+    restart: 'on-failure:5'
     depends_on:
       app:
         condition: service_healthy
